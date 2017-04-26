@@ -1,0 +1,8 @@
+#goal definition
+int 32 task
+---
+#result definition
+bool success
+---
+#feedback definition
+string status

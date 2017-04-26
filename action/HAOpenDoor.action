@@ -1,0 +1,8 @@
+#goal definition
+int32 door
+---
+#result definition
+bool success
+---
+#feedback definition
+string status

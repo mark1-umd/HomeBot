@@ -1,0 +1,44 @@
+Synopsis of the HomeBot system
+
+The HomeBot system provides HomeBot services using service-specific robots, such as:
+ButtleBot - household tasks such as answering the door, communicating via telepresence, receiving packages, delivering objects from one area of the house to another
+TrashBot - takes the trash/recycling to the street for pickup, turns empty containers to house
+FloorBot - cleans floors around the house
+LawnBot - keeps grass well-mowed in the yard
+PoolBot - cleans the pool
+WatchBotAir - patrols the grounds from the air
+WatchBotGround - patrols the grounds from the ground
+
+The HomeBot system interfaces with a Home Automation system to receiving tasking and to request services.  The Home Automation system, not part of the HomeBot system, interfaces separately with various facility systems, such as HVAC, Security, Window Shades, Lighting, and Doors (which may be equipped with automatic openers).
+
+The HomeBot system’s service-specific robots perform tasks upon request, either from a human, or from the Home Automation system.  Task requests may be initiated on demand, by a schedule, or by an event.
+
+A HomeBot service robot may use many different behaviors while performing a task.  The HomeBot tasker for a particular service robot initiates the behaviors required to carry out a particular task.
+
+HomeBot system requirements - task-related requirements
+------------------------------------------
+Each HomeBot service robot shall only carry out one task at a time
+A particular HomeBot service robot can be capable of performing multiple tasks
+A new task may be requested of a given HomeBot service robot before an existing task is complete
+Tasks shall have a simple priority scheme based on integers from 1 to 50 (1 is highest priority, 50 is lowest priority)
+Multiple tasks for a given HomeBot service robot can have the same priority
+A new task request preempts an existing, incomplete task if and only if the newly requested task is a higher priority than the currently executing task
+A new task request shall be rejected, and not preempt an existing, incomplete task if the newly requested task is of a priority equal to or lower than the currently executing task
+Each HomeBot service robot shall maintain a list of tasks that it can perform
+Each HomeBot service robot’s task list shall include priorities for each task that are based on the simply task priority scheme
+
+HomeBot system requirements - Simple Action Server-based tasker requirements
+-----------------------------------------------------------------------
+Each HomeBot service robot in an instance of a HomeBot system shall have its own Simple Action Server-based tasker
+Each HomeBot service robot in an instance of a HomeBot system shall have a HomeBot tasking node that instantiates a HomeBot tasker Simple Action Server
+A HomeBot tasker action server class shall implement a standard approach for all HomeBot service robot taskers
+The HomeBot tasker action server class shall be parameterized with the name of the HomeBot
+The HomeBot tasker action server class shall be parameterized with the task/task priority list
+The HomeBot tasker action server is responsible for determining whether a new task should preempt an existing task based on the priority of a newly requested task and the priority of a currently executing task (if any)
+The HomeBot tasker action server should accept a new task if the new task is a higher priority than the current executing task (if any)
+The HomeBot tasker action server should reject a new task if the new task is a priority equal to or lower than the currently executing task
+The Homebot tasker action server shall communicate the currently requested task through an attribute of the HomeBot service robot instance
+The HomeBot tasking node shall monitor the state of its currently requested task attribute
+If a HomeBot tasking node’s currently requested task attribute is different than the currently executing task attribute, then the tasking node shall a) interrupt/cease the currently executing task, and b) initiate the (new) currently requested task
+The HomeBot tasking node is responsible for any cleanup from a preempted task that must be accomplished before beginning a new task that has been accepted
+
