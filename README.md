@@ -13,6 +13,8 @@ The HomeBot system can include products such as:
 
 The key to the HomeBot system is a ROS node that can interface one or more HomeBot robotic products with a home automation system, allowing them to interact bi-directionally; the robots can make requests of and send notifications to the home automation system, and the home automation system can make requests of and send notifications to the robotic systems.  These communications take place through the ROS Actionlib, a non-blocking service interface well-suited for this type of integration.
 
+SIP process tracking (limited access): https://docs.google.com/spreadsheets/d/1AOjCXkzn5bVNjql5yxMNhNj-ozG26R38qnCTTYffQp0/edit?usp=sharing
+
 ## License
 
 BSD 3-Clause License
