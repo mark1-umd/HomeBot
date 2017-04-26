@@ -114,6 +114,8 @@ include_directories(
 
 ## Declare a cpp executable
 # add_executable(homebot_node src/homebot_node.cpp)
+add_executable(HARequests src/HARequests.cpp)
+add_executable(HAexerciser src/HAexerciser.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -123,6 +125,8 @@ include_directories(
 # target_link_libraries(homebot_node
 #   ${catkin_LIBRARIES}
 # )
+target_link_libraries(HARequests ${catkin_LIBRARIES})
+target_link_libraries(HAexerciser ${catkin_LIBRARIES})
 
 #############
 ## Install ##
