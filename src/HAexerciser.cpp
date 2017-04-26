@@ -50,10 +50,16 @@
 typedef actionlib::SimpleActionClient<homebot::HAOpenDoorAction> Client;
 
 int main(int argc, char** argv) {
+  // Initialize ROS - 3rd argument is ROS node name that will be used for this node (must be unique)
   ros::init(argc, argv, "ha_action_exerciser");
+
+  // Create a simple action client; 1st argument is the action name; second is true for no ros::spin()
   Client client("ha_open_door", true);  // true -> don't need ros::spin()
+
+  // Make sure the server is running
   client.waitForServer();
   homebot::HAOpenDoorGoal goal;
+
   // Fill in goal here
   goal.door = 3;
   client.sendGoal(goal);

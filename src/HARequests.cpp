@@ -51,11 +51,13 @@
 typedef actionlib::SimpleActionServer<homebot::HAOpenDoorAction> ServerType;
 
 void execute(const homebot::HAOpenDoorGoalConstPtr& goal, ServerType* as) {
-  ROS_INFO_STREAM("Home Automation Open Door command sent");
+  ROS_INFO_STREAM(
+      "Home Automation Open Door command to open door " << goal->door << " sent");
   as->setSucceeded();
 }
 
 int main(int argc, char** argv) {
+  // Initialize ROS - 3rd argument is ROS node name that will be used for this node (must be unique)
   ros::init(argc, argv, "ha_requests_server");
   ros::NodeHandle n;
   ServerType server(n, "ha_open_door", boost::bind(&execute, _1, &server),
