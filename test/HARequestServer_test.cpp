@@ -44,6 +44,8 @@
 #include <ros/ros.h>
 #include <gtest/gtest.h>
 #include "homebot/HADoor.h"
+#include "homebot/HAScene.h"
+#include "homebot/HAShade.h"
 
 // Set up the HARequestServer HADoor service test using the GoogleTest macros
 // This test assumes that the HARequestServer has been initialized with 5 doors
@@ -122,10 +124,10 @@ TEST (HARequestServer, HADoorService) {
 
 // Set up the HARequestServer HAScene service test using the GoogleTest macros
 // This test assumes that the HARequestServer has been initialized with 5 scenes
-// (argument -scenes 5)
+// (argument -scenes 15)
 TEST (HARequestServer, HASceneService) {
   // Set the number of scenes in the server to be tested
-  int sceneCount = 5;
+  int sceneCount = 15;
 
   // Set up as a service client
   ros::NodeHandle nh;
@@ -148,7 +150,7 @@ TEST (HARequestServer, HASceneService) {
   success = client.call(srv);
   EXPECT_FALSE(success);
 
-  // The scenes should all initialize to turned off
+  // The scenes should all initialize to off
   srv.request.action = homebot::HASceneRequest::STATUS;
   for (int i = 1; i < (sceneCount + 1); i++) {
     srv.request.sceneNumber = i;
@@ -197,10 +199,10 @@ TEST (HARequestServer, HASceneService) {
 
 // Set up the HARequestServer HAShade service test using the GoogleTest macros
 // This test assumes that the HARequestServer has been initialized with 5 shades
-// (argument -shades 5)
+// (argument -shades 8)
 TEST (HARequestServer, HAShadeService) {
   // Set the number of shades in the server to be tested
-  int shadeCount = 5;
+  int shadeCount = 8;
 
   // Set up as a service client
   ros::NodeHandle nh;
@@ -233,7 +235,7 @@ TEST (HARequestServer, HAShadeService) {
   }
 
   // Should be able to lower all of the shades
-  srv.request.action = homebot::HAShadeRequest::OPEN;
+  srv.request.action = homebot::HAShadeRequest::LOWER;
   for (int i = 1; i < (shadeCount + 1); i++) {
     srv.request.shadeNumber = i;
     success = client.call(srv);
@@ -256,7 +258,7 @@ TEST (HARequestServer, HAShadeService) {
     srv.request.shadeNumber = i;
     success = client.call(srv);
     EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HADoorResponse::RAISED, srv.response.state);
+    EXPECT_EQ(homebot::HAShadeResponse::RAISED, srv.response.state);
   }
 
   // Now all of the shades should be raised
@@ -265,7 +267,7 @@ TEST (HARequestServer, HAShadeService) {
     srv.request.shadeNumber = i;
     success = client.call(srv);
     EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HADoorResponse::RAISED, srv.response.state);
+    EXPECT_EQ(homebot::HAShadeResponse::RAISED, srv.response.state);
   }
 }
 /*******************************************************************************/
