@@ -1,0 +1,10 @@
+int8 TURNOFF=0
+int8 TURNON=1
+int8 STATUS=2
+int8 sceneNumber
+int8 action
+---
+int8 TURNEDOFF=0
+int8 TURNEDON=1 
+int8 sceneNumber
+int8 state

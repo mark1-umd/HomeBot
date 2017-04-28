@@ -60,6 +60,8 @@ find_package(catkin REQUIRED COMPONENTS
 add_service_files(
   FILES
   HADoor.srv
+  HAScene.srv
+  HAShade.srv
 )
 
 ## Generate actions in the 'action' folder
