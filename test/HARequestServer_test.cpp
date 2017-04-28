@@ -49,6 +49,9 @@
 // This test assumes that the HARequestServer has been initialized with 5 doors
 // (argument -doors 5)
 TEST (HARequestServer, HADoorService) {
+  // Set the number of doors in the server to be tested
+  int doorCount = 5;
+
   // Set up as a service client
   ros::NodeHandle nh;
   ros::ServiceClient client = nh.serviceClient<homebot::HADoor>("ha_door");
@@ -61,18 +64,18 @@ TEST (HARequestServer, HADoorService) {
   bool success;
   homebot::HADoor srv;
 
-  // Should not be a door number 0 or a door number 6
+  // Should not be door number 0 or a door greater than doorCount
   srv.request.action = homebot::HADoorRequest::STATUS;
   srv.request.doorNumber = 0;
   success = client.call(srv);
   EXPECT_FALSE(success);
-  srv.request.doorNumber = 6;
+  srv.request.doorNumber = doorCount + 1;
   success = client.call(srv);
   EXPECT_FALSE(success);
 
   // The doors should all initialize to closed
   srv.request.action = homebot::HADoorRequest::STATUS;
-  for (int i = 1; i < 6; i++) {
+  for (int i = 1; i < (doorCount + 1); i++) {
     srv.request.doorNumber = i;
     success = client.call(srv);
     EXPECT_TRUE(success);
@@ -81,7 +84,7 @@ TEST (HARequestServer, HADoorService) {
 
   // Should be able to open all of the doors
   srv.request.action = homebot::HADoorRequest::OPEN;
-  for (int i = 1; i < 6; i++) {
+  for (int i = 1; i < (doorCount + 1); i++) {
     srv.request.doorNumber = i;
     success = client.call(srv);
     EXPECT_TRUE(success);
@@ -90,7 +93,7 @@ TEST (HARequestServer, HADoorService) {
 
   // Now all of the doors should be open
   srv.request.action = homebot::HADoorRequest::STATUS;
-  for (int i = 1; i < 6; i++) {
+  for (int i = 1; i < (doorCount + 1); i++) {
     srv.request.doorNumber = i;
     success = client.call(srv);
     EXPECT_TRUE(success);
@@ -99,7 +102,7 @@ TEST (HARequestServer, HADoorService) {
 
   // Should be able to close all of the doors
   srv.request.action = homebot::HADoorRequest::CLOSE;
-  for (int i = 1; i < 6; i++) {
+  for (int i = 1; i < (doorCount + 1); i++) {
     srv.request.doorNumber = i;
     success = client.call(srv);
     EXPECT_TRUE(success);
@@ -108,13 +111,164 @@ TEST (HARequestServer, HADoorService) {
 
   // Now all of the doors should be closed
   srv.request.action = homebot::HADoorRequest::STATUS;
-  for (int i = 1; i < 6; i++) {
+  for (int i = 1; i < (doorCount + 1); i++) {
     srv.request.doorNumber = i;
     success = client.call(srv);
     EXPECT_TRUE(success);
     EXPECT_EQ(homebot::HADoorResponse::CLOSED, srv.response.state);
   }
 }
+/*******************************************************************************/
+
+// Set up the HARequestServer HAScene service test using the GoogleTest macros
+// This test assumes that the HARequestServer has been initialized with 5 scenes
+// (argument -scenes 5)
+TEST (HARequestServer, HASceneService) {
+  // Set the number of scenes in the server to be tested
+  int sceneCount = 5;
+
+  // Set up as a service client
+  ros::NodeHandle nh;
+  ros::ServiceClient client = nh.serviceClient<homebot::HAScene>("ha_scene");
+
+  // Test the availability of the service
+  bool serviceAvailable(client.waitForExistence(ros::Duration(1)));
+  EXPECT_TRUE(serviceAvailable);
+
+  // Now test service requests and responses
+  bool success;
+  homebot::HAScene srv;
+
+  // Should not be scene number 0 or a scene greater than sceneCount
+  srv.request.action = homebot::HASceneRequest::STATUS;
+  srv.request.sceneNumber = 0;
+  success = client.call(srv);
+  EXPECT_FALSE(success);
+  srv.request.sceneNumber = sceneCount + 1;
+  success = client.call(srv);
+  EXPECT_FALSE(success);
+
+  // The scenes should all initialize to turned off
+  srv.request.action = homebot::HASceneRequest::STATUS;
+  for (int i = 1; i < (sceneCount + 1); i++) {
+    srv.request.sceneNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HASceneResponse::OFF, srv.response.state);
+  }
+
+  // Should be able to turn on all of the scenes
+  srv.request.action = homebot::HASceneRequest::TURNON;
+  for (int i = 1; i < (sceneCount + 1); i++) {
+    srv.request.sceneNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HASceneResponse::ON, srv.response.state);
+  }
+
+  // Now all of the scenes should be on
+  srv.request.action = homebot::HASceneRequest::STATUS;
+  for (int i = 1; i < (sceneCount + 1); i++) {
+    srv.request.sceneNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HASceneResponse::ON, srv.response.state);
+  }
+
+  // Should be able to turn off all of the scenes
+  srv.request.action = homebot::HASceneRequest::TURNOFF;
+  for (int i = 1; i < (sceneCount + 1); i++) {
+    srv.request.sceneNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HASceneResponse::OFF, srv.response.state);
+  }
+
+  // Now all of the scenes should be turned off
+  srv.request.action = homebot::HASceneRequest::STATUS;
+  for (int i = 1; i < (sceneCount + 1); i++) {
+    srv.request.sceneNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HASceneResponse::OFF, srv.response.state);
+  }
+}
+/*******************************************************************************/
+
+// Set up the HARequestServer HAShade service test using the GoogleTest macros
+// This test assumes that the HARequestServer has been initialized with 5 shades
+// (argument -shades 5)
+TEST (HARequestServer, HAShadeService) {
+  // Set the number of shades in the server to be tested
+  int shadeCount = 5;
+
+  // Set up as a service client
+  ros::NodeHandle nh;
+  ros::ServiceClient client = nh.serviceClient<homebot::HAShade>("ha_shade");
+
+  // Test the availability of the service
+  bool serviceAvailable(client.waitForExistence(ros::Duration(1)));
+  EXPECT_TRUE(serviceAvailable);
+
+  // Now test service requests and responses
+  bool success;
+  homebot::HAShade srv;
+
+  // Should not be shade number 0 or a shade greater than shadeCount
+  srv.request.action = homebot::HAShadeRequest::STATUS;
+  srv.request.shadeNumber = 0;
+  success = client.call(srv);
+  EXPECT_FALSE(success);
+  srv.request.shadeNumber = shadeCount + 1;
+  success = client.call(srv);
+  EXPECT_FALSE(success);
+
+  // The shades should all initialize to raised
+  srv.request.action = homebot::HAShadeRequest::STATUS;
+  for (int i = 1; i < (shadeCount + 1); i++) {
+    srv.request.shadeNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HAShadeResponse::RAISED, srv.response.state);
+  }
+
+  // Should be able to lower all of the shades
+  srv.request.action = homebot::HAShadeRequest::OPEN;
+  for (int i = 1; i < (shadeCount + 1); i++) {
+    srv.request.shadeNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HAShadeResponse::LOWERED, srv.response.state);
+  }
+
+  // Now all of the shades should be lowered
+  srv.request.action = homebot::HAShadeRequest::STATUS;
+  for (int i = 1; i < (shadeCount + 1); i++) {
+    srv.request.shadeNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HAShadeResponse::LOWERED, srv.response.state);
+  }
+
+  // Should be able to close all of the shades
+  srv.request.action = homebot::HADoorRequest::CLOSE;
+  for (int i = 1; i < (shadeCount + 1); i++) {
+    srv.request.shadeNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HADoorResponse::RAISED, srv.response.state);
+  }
+
+  // Now all of the shades should be raised
+  srv.request.action = homebot::HADoorRequest::STATUS;
+  for (int i = 1; i < (shadeCount + 1); i++) {
+    srv.request.shadeNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HADoorResponse::RAISED, srv.response.state);
+  }
+}
+/*******************************************************************************/
 
 /*
  * @brief Initialize ROS and run all of the tests defined in the test macros
