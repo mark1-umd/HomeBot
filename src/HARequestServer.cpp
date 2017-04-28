@@ -48,6 +48,8 @@
 
 #include "ros/ros.h"
 #include "HADoorService.hpp"
+#include "HASceneService.hpp"
+#include "HAShadeService.hpp"
 
 /**
  * The main function handles the ROS node lifespan
@@ -57,6 +59,8 @@ int main(int argc, char **argv) {
 
   // Process command line arguments left after ROS strips off remapping arguments
   int doorCount = 0;
+  int sceneCount = 0;
+  int shadeCount = 0;
 
   for (int i = 1; i < argc; i++) {
     if (i + 1 != argc) {
@@ -64,6 +68,16 @@ int main(int argc, char **argv) {
       if (strcmp(argv[i], "-doors") == 0) {
         // Grab the number of doors for the HADoorService; should be an integer
         doorCount = atoi(argv[i + 1]);
+        // Skip the parameter value
+        i++;
+      } else if (strcmp(argv[i], "-scenes") == 0) {
+        // Grab the number of scenes for the HASceneService; should be an integer
+        sceneCount = atoi(argv[i + 1]);
+        // Skip the parameter value
+        i++;
+      } else if (strcmp(argv[i], "-shades") == 0) {
+        // Grab the number of shades for the HAShadeService; should be an integer
+        shadeCount = atoi(argv[i + 1]);
         // Skip the parameter value
         i++;
       }
@@ -77,6 +91,14 @@ int main(int argc, char **argv) {
   // Start the Home Automation Door Service
   HADoorService hADoorServer;
   hADoorServer.init(doorCount);
+
+  // Start the Home Automation Scene Service
+  HASceneService hASceneServer;
+  hASceneServer.init(sceneCount);
+
+  // Start the Home Automation Door Service
+  HAShadeService hAShadeServer;
+  hAShadeServer.init(shadeCount);
 
   // spin so that callbacks for services can be processed
   ros::spin();
