@@ -57,6 +57,10 @@ find_package(catkin REQUIRED COMPONENTS
 #   Service1.srv
 #   Service2.srv
 # )
+add_service_files(
+  FILES
+  HADoor.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -116,6 +120,7 @@ include_directories(
 # add_executable(homebot_node src/homebot_node.cpp)
 add_executable(HARequests src/HARequests.cpp)
 add_executable(HAexerciser src/HAexerciser.cpp)
+add_executable(HARequestServer src/HARequestServer.cpp src/HADoorService.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -127,6 +132,7 @@ add_executable(HAexerciser src/HAexerciser.cpp)
 # )
 target_link_libraries(HARequests ${catkin_LIBRARIES})
 target_link_libraries(HAexerciser ${catkin_LIBRARIES})
+target_link_libraries(HARequestServer ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -175,3 +181,25 @@ target_link_libraries(HAexerciser ${catkin_LIBRARIES})
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+## Add rostest tests
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  
+  add_rostest_gtest(
+  HARequestServer_test
+  test/HARequestServer.test
+  test/HARequestServer_test.cpp
+  )
+  target_link_libraries(
+  HARequestServer_test
+  ${catkin_LIBRARIES}
+  )
+  add_dependencies(
+  HARequestServer_test
+  HARequestServer
+  ${PROJECT_NAME}_generate_messages_cpp
+  ${catkin_EXPORTED_TARGETS}
+  )
+  
+endif()
