@@ -122,7 +122,10 @@ include_directories(
 # add_executable(homebot_node src/homebot_node.cpp)
 add_executable(HARequests src/HARequests.cpp)
 add_executable(HAexerciser src/HAexerciser.cpp)
-add_executable(HARequestServer src/HARequestServer.cpp src/HADoorService.cpp)
+add_executable(HARequestServer src/HARequestServer.cpp
+                               src/HADoorService.cpp
+                               src/HASceneService.cpp
+                               src/HAShadeService.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
