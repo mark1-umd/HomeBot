@@ -1,0 +1,10 @@
+int8 CLOSE=0
+int8 OPEN=1
+int8 STATUS=2
+int8 doorNumber
+int8 action
+---
+int8 CLOSED=0
+int8 OPENED=1 
+int8 doorNumber
+int8 state
