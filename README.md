@@ -83,7 +83,7 @@ To import the project into your catkin workspace, clone or download it into the 
 
 ### HARequestServer
 
-The HARequestServer is a ROS node that manages service requests from ROS nodes representing HomeBot service robots to the integrated Home Automation system.  Integration capability is currently provided for opening/closing doors.  Turning lighting scenes on/off, and raising/lowering window shades to follow soon.
+The HARequestServer is a ROS node that manages service requests from ROS nodes representing HomeBot service robots to the integrated Home Automation system.  Integration capability is currently provided for opening/closing doors,  turning lighting scenes on/off, and and lowering/raising window shades.
 
 ## Testing using rostest
 
