@@ -96,12 +96,16 @@ TEST (HAHvacActionServer, HAHvacAction) {
   client.waitForResult(ros::Duration(5));
   bool isSucceeded = (client.getState()
       == actionlib::SimpleClientGoalState::SUCCEEDED);
+//  if (isSucceeded)
+//    ROS_INFO_STREAM("HAHvacActionServer test: Goal succeeded");
+//  else
+//    ROS_INFO_STREAM("HAHvacActionServer test: Goal not succeeded");
   EXPECT_TRUE(isSucceeded);
 
   // Test that result is within the tolerance
   homebot::HAHvacResultConstPtr result = client.getResult();
   double tempVariance = goal.tempDegF - result->tempDegF;
-  EXPECT_LE(0.2, tempVariance);
+  EXPECT_GE(0.2, tempVariance);
 }
 
 /*******************************************************************************/
