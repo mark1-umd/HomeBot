@@ -127,6 +127,8 @@ add_executable(HARequestServer src/HARequestServer.cpp
                                src/HADoorService.cpp
                                src/HASceneService.cpp
                                src/HAShadeService.cpp)
+add_executable(HAHvacActionServer src/HAHvacActionServer.cpp
+                                  src/HAHvacAction.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -139,6 +141,7 @@ add_executable(HARequestServer src/HARequestServer.cpp
 target_link_libraries(HARequests ${catkin_LIBRARIES})
 target_link_libraries(HAexerciser ${catkin_LIBRARIES})
 target_link_libraries(HARequestServer ${catkin_LIBRARIES})
+target_link_libraries(HAHvacActionServer ${catkin_LIBRARIES})
 
 #############
 ## Install ##

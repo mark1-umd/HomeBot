@@ -1,6 +1,8 @@
 #goal definition
 int8 COOL=0
 int8 HEAT=1
+float32 MINTEMPDEGF = 45.0
+float32 MAXTEMPDEGF = 100.0
 int8 mode
 float32 tempDegF
 ---
