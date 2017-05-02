@@ -3,7 +3,9 @@ int8 COOL=0
 int8 HEAT=1
 int8 mode
 float32 tempDegF
+---
 #result definition
 float32 tempDegF
+---
 #feedback definition
 float32 tempDegF
