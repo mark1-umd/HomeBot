@@ -200,13 +200,31 @@ if(CATKIN_ENABLE_TESTING)
   test/HARequestServer.test
   test/HARequestServer_test.cpp
   )
+  add_rostest_gtest(
+  HAHvacActionServer_test
+  test/HAHvacActionServer.test
+  test/HAHvacActionServer_test.cpp
+  )
+  
   target_link_libraries(
   HARequestServer_test
   ${catkin_LIBRARIES}
   )
+  target_link_libraries(
+  HAHvacActionServer_test
+  ${catkin_LIBRARIES}
+  )
+  
   add_dependencies(
   HARequestServer_test
   HARequestServer
+  ${PROJECT_NAME}_generate_messages_cpp
+  ${catkin_EXPORTED_TARGETS}
+  )
+  
+  add_dependencies(
+  HAHvacActionServer_test
+  HAHvacActionServer
   ${PROJECT_NAME}_generate_messages_cpp
   ${catkin_EXPORTED_TARGETS}
   )

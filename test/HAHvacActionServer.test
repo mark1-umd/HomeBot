@@ -1,0 +1,6 @@
+<launch>
+  <node pkg="homebot" name="HAHvacActionServer" type="HAHvacActionServer" />
+  <test test-name="HAHvacActionServer_test"
+        pkg="homebot"
+        type="HAHvacActionServer_test" />
+</launch>
