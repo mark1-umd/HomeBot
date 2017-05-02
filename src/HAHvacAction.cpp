@@ -69,7 +69,7 @@ void HAHvacAction::actionExecuteCB(const homebot::HAHvacGoalConstPtr &goal) {
     hvacMode = "Heat";
   else {
     ROS_WARN_STREAM(
-        "HAHvac Action: Aborted; invalid goal mode " << goal->mode << " specified");
+        "HAHvac Action: Aborted; invalid goal mode " << int(goal->mode) << " specified");
     result.tempDegF = homeTempDegF;
     as.setAborted(result);
     return;
@@ -87,11 +87,11 @@ void HAHvacAction::actionExecuteCB(const homebot::HAHvacGoalConstPtr &goal) {
 
   // Simulate command to Home Automation system for HVAC temperature change
   ROS_INFO_STREAM(
-      "HAHvac Action: Commanding Home Automation system to set " << hvacMode << " mode at " << " degrees F");
+      "HAHvac Action: Commanding Home Automation system to set " << hvacMode << " mode to " << goal->tempDegF << " degrees F");
 
   // Simulate the temperature changing in home due to Home Automation HVAC command
-  // Establish a ros::rate object to create passing time...  assume deltaTempDegF change every 10 seconds
-  ros::Rate delay(0.1);
+  // Establish a ros::rate object to create simulated time...  make deltaTempDegF change every 1 seconds
+  ros::Rate delay(10);  // Will cycle at 10 Hz, 1/10 second per deltaTempDegF, so 1 degree/second if delta = .1 deg
 
   // Should the temperature be rising or falling?  (Assume it will move in direction of goal)
   double tempAdjustRate;
@@ -110,14 +110,18 @@ void HAHvacAction::actionExecuteCB(const homebot::HAHvacGoalConstPtr &goal) {
       return;
     }
     // Adjust the temperature by the deltaTempDegF in the direction of the goal and publish feedback
-    homeTempDegF = tempAdjustRate;
+    homeTempDegF += tempAdjustRate;
     feedback.tempDegF = homeTempDegF;
+    ROS_INFO_STREAM(
+        "HAHvac Action: Feedback; current temperature is " << feedback.tempDegF << " degrees F");
     as.publishFeedback(feedback);
     delay.sleep();
   }
 
   // Reached the goal, action completed
   result.tempDegF = homeTempDegF;
+  ROS_INFO_STREAM(
+      "HAHvac Action: Success; achieved temperature of " << result.tempDegF << " degrees F");
   as.setSucceeded(result);
   return;
 }

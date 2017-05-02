@@ -49,6 +49,10 @@ int main(int argc, char** argv) {
   ros::init(argc, argv, "ha_hvac_actionserver");
 
   HAHvacAction haHvacAction;
+  // ROS startup happens when first node handle is created; shutdown should occur
+  // automatically when last node handle is destroyed or SIGINT captures Ctrl-C
+  ROS_INFO_STREAM("Home Automation HVAC Action Server has started");
+
   ros::spin();
 
   return 0;
