@@ -71,7 +71,7 @@ TEST (HAHvacActionServer, HAHvacAction) {
   client.waitForResult(ros::Duration(5.0));
   bool isAborted = (client.getState()
       == actionlib::SimpleClientGoalState::ABORTED);
-  EXPECT_TRUE(isAborted);
+  EXPECT_TRUE(isAborted);  // This hack required because == comparison fails inside gtest
 
   // Test temp too low
   goal.mode = homebot::HAHvacGoal::COOL;
@@ -79,7 +79,7 @@ TEST (HAHvacActionServer, HAHvacAction) {
   client.sendGoal(goal);
   client.waitForResult(ros::Duration(5.0));
   isAborted = (client.getState() == actionlib::SimpleClientGoalState::ABORTED);
-  EXPECT_TRUE(isAborted);
+  EXPECT_TRUE(isAborted);  // This hack required because == comparison fails inside gtest
 
   // Test temp too high
   goal.mode = homebot::HAHvacGoal::HEAT;
@@ -87,24 +87,34 @@ TEST (HAHvacActionServer, HAHvacAction) {
   client.sendGoal(goal);
   client.waitForResult(ros::Duration(5.0));
   isAborted = (client.getState() == actionlib::SimpleClientGoalState::ABORTED);
-  EXPECT_TRUE(isAborted);
+  EXPECT_TRUE(isAborted);  // This hack required because == comparison fails inside gtest
 
-  // Test valid setting (based on initial temperature of 70.0 deg F the change should complete in 1 second)
+  // Test valid increased setting (based on initial temperature of 70.0 deg F the change should complete in 1 second)
   goal.mode = homebot::HAHvacGoal::HEAT;
   goal.tempDegF = 71.0;
   client.sendGoal(goal);
-  client.waitForResult(ros::Duration(5));
+  client.waitForResult(ros::Duration(2));
   bool isSucceeded = (client.getState()
       == actionlib::SimpleClientGoalState::SUCCEEDED);
-//  if (isSucceeded)
-//    ROS_INFO_STREAM("HAHvacActionServer test: Goal succeeded");
-//  else
-//    ROS_INFO_STREAM("HAHvacActionServer test: Goal not succeeded");
-  EXPECT_TRUE(isSucceeded);
+  EXPECT_TRUE(isSucceeded);  // This hack required because == comparison fails inside gtest
 
-  // Test that result is within the tolerance
+  // Test that result is within tolerance
   homebot::HAHvacResultConstPtr result = client.getResult();
-  double tempVariance = goal.tempDegF - result->tempDegF;
+  double tempVariance = abs(goal.tempDegF - result->tempDegF);
+  EXPECT_GE(0.2, tempVariance);
+
+  // Test valid decreased setting (based on initial temperature of 71.0 deg F the change should complete in 1 second)
+  goal.mode = homebot::HAHvacGoal::HEAT;
+  goal.tempDegF = 70.0;
+  client.sendGoal(goal);
+  client.waitForResult(ros::Duration(2));
+  isSucceeded = (client.getState()
+      == actionlib::SimpleClientGoalState::SUCCEEDED);
+  EXPECT_TRUE(isSucceeded);  // This hack required because == comparison fails inside gtest
+
+  // Test that result is within tolerance
+  result = client.getResult();
+  tempVariance = abs(goal.tempDegF - result->tempDegF);
   EXPECT_GE(0.2, tempVariance);
 }
 
