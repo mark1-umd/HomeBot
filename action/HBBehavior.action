@@ -1,0 +1,10 @@
+#goal definition
+int8 behavior
+int8 repetitions
+---
+#result definition
+int8 repetitions
+---
+#feedback definition
+int8 repetition
+int8 oprCount

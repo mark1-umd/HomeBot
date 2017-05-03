@@ -74,6 +74,7 @@ add_action_files(
   FILES
   HAOpenDoor.action
   HAHvac.action
+  HBBehavior.action
 )
 
 ## Generate added messages and services with any dependencies listed here
