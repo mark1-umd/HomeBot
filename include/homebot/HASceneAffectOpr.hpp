@@ -1,6 +1,6 @@
 /**
  * @copyright (c) 2017 Mark R. Jenkins.  All rights reserved.
- * @file HASceneAffectOpr.cpp
+ * @file HASceneAffectOpr.hpp
  *
  * @author MJenkins, ENPM 808X Spring 2017
  * @date May 4, 2017 - Creation
@@ -40,24 +40,23 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#ifndef HOMEBOT_INCLUDE_HOMEBOT_HASCENEAFFECTOPR_HPP_
+#define HOMEBOT_INCLUDE_HOMEBOT_HASCENEAFFECTOPR_HPP_
 
-#include "homebot/HASceneAffectOpr.hpp"
+#include "homebot/HBSysOpr.hpp"
+#include "homebot/HAScene.h"
 
-HASceneAffectOpr::HASceneAffectOpr() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
-}
+/** @brief <brief description>
+ */
 
-HASceneAffectOpr::HASceneAffectOpr(std::string pCode, int pSceneNumber,
-                                   int pAction)
-    : HBSysOpr(pCode) {
-  request.sceneNumber = pSceneNumber;
-  request.action = pAction;
-}
+class HASceneAffectOpr : public HBSysOpr {
+ public:
+  HASceneAffectOpr();
+  HASceneAffectOpr(std::string pCode, int pSceneNumber, int pAction);
+  virtual ~HASceneAffectOpr();
+  homebot::HAScene::Request details();
+ private:
+  homebot::HAScene::Request request;
+};
 
-HASceneAffectOpr::~HASceneAffectOpr() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
-}
-
-homebot::HAScene::Request HASceneAffectOpr::details() {
-  return request;
-}
+#endif /* HOMEBOT_INCLUDE_HOMEBOT_HASCENEAFFECTOPR_HPP_ */
