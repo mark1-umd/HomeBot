@@ -5,9 +5,9 @@
  * @author MJenkins, ENPM 808X Spring 2017
  * @date May 2, 2017 - Creation
  *
- * @brief ROS test node for the Home Automation HVAC Action Server
+ * @brief ROS test node for the HomeBot Bot Behavior Components
  *
- * This ROS node is executed under the rostest environment to test the Home Automation HVAC Action Server.
+ * This ROS node is executed under the rostest environment to test the HomeBot Bot Behavior Components
  *
  * *
  * * BSD 3-Clause License
@@ -45,11 +45,11 @@
 #include "gtest/gtest.h"
 #include "ros/ros.h"
 
-#include "homebot/HBSysOpr.hpp"
+#include "homebot/BotAffectHADoorOpr.hpp"
+#include "homebot/BotAffectHASceneOpr.hpp"
+#include "homebot/BotAffectHAShadeOpr.hpp"
+#include "homebot/BotOperation.hpp"
 #include "homebot/BotMoveBaseOpr.hpp"
-#include "homebot/HADoorAffectOpr.hpp"
-#include "homebot/HASceneAffectOpr.hpp"
-#include "homebot/HAShadeAffectOpr.hpp"
 
 
 /*******************************************************************************/
@@ -84,7 +84,7 @@ TEST (HomeBotOperations, BotMoveBase) {
 }
 
 /*******************************************************************************/
-TEST (HomeBotOperations, HADoor) {
+TEST (HomeBotOperations, BotAffectHADoor) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
@@ -94,7 +94,7 @@ TEST (HomeBotOperations, HADoor) {
   int action(2);
 
   // Construct a HADoor operation and determine if the components are as specified
-  HADoorAffectOpr doorOpr(oprCode, doorNumber, action);
+  BotAffectHADoorOpr doorOpr(oprCode, doorNumber, action);
   EXPECT_EQ(oprCode, doorOpr.getCode());
   homebot::HADoorRequest doorReq = doorOpr.details();
   EXPECT_EQ(doorNumber, doorReq.doorNumber);
@@ -102,7 +102,7 @@ TEST (HomeBotOperations, HADoor) {
 }
 
 /*******************************************************************************/
-TEST (HomeBotOperations, HAScene) {
+TEST (HomeBotOperations, BotAffectHAScene) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
@@ -112,7 +112,7 @@ TEST (HomeBotOperations, HAScene) {
   int action(1);
 
   // Construct a HAScene operation and determine if the components are as specified
-  HASceneAffectOpr sceneOpr(oprCode, sceneNumber, action);
+  BotAffectHASceneOpr sceneOpr(oprCode, sceneNumber, action);
   EXPECT_EQ(oprCode, sceneOpr.getCode());
   homebot::HASceneRequest sceneReq = sceneOpr.details();
   EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
@@ -120,7 +120,7 @@ TEST (HomeBotOperations, HAScene) {
 }
 
 /*******************************************************************************/
- TEST (HomeBotOperations, HAShade) {
+TEST (HomeBotOperations, BotAffectHAShade) {
 
  // Create a node handle since we are running as a ROS node
  ros::NodeHandle nh;
@@ -130,7 +130,7 @@ TEST (HomeBotOperations, HAScene) {
  int action(1);
 
  // Construct a HAScene operation and determine if the components are as specified
- HAShadeAffectOpr shadeOpr(oprCode, shadeNumber, action);
+  BotAffectHAShade shadeOpr(oprCode, shadeNumber, action);
  EXPECT_EQ(oprCode, shadeOpr.getCode());
   homebot::HAShade::Request shadeReq = shadeOpr.details();
  EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
@@ -144,7 +144,7 @@ TEST (HomeBotOperations, HAScene) {
  */
 int main(int argc, char **argv) {
   // Initialize ROS
-  ros::init(argc, argv, "HAHvacActionServer_test");
+  ros::init(argc, argv, "BotBehavior_Component_test");
 
   // Run all of the Google Test defined tests
   testing::InitGoogleTest(&argc, argv);
