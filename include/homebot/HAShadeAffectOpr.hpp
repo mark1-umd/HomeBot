@@ -1,6 +1,6 @@
 /**
  * @copyright (c) 2017 Mark R. Jenkins.  All rights reserved.
- * @file HAShadeOpr.cpp
+ * @file HAShadeOpr.hpp
  *
  * @author MJenkins, ENPM 808X Spring 2017
  * @date May 4, 2017 - Creation
@@ -40,24 +40,23 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#ifndef HOMEBOT_INCLUDE_HOMEBOT_HASHADEAFFECTOPR_HPP_
+#define HOMEBOT_INCLUDE_HOMEBOT_HASHADEAFFECTOPR_HPP_
 
-#include "homebot/HAShadeAffectOpr.hpp"
+#include "homebot/HBSysOpr.hpp"
+#include "homebot/HAShade.h"
 
-HAShadeAffectOpr::HAShadeAffectOpr() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
-}
+/** @brief <brief description>
+ */
 
-HAShadeAffectOpr::HAShadeAffectOpr(std::string pCode, int pShadeNumber,
-                                   int pAction)
-    : HBSysOpr(pCode) {
-  request.shadeNumber = pShadeNumber;
-  request.action = pAction;
-}
+class HAShadeAffectOpr : public HBSysOpr {
+ public:
+  HAShadeAffectOpr();
+  HAShadeAffectOpr(std::string pCode, int pShadeNumber, int pAction);
+  virtual ~HAShadeAffectOpr();
+  homebot::HAShade::Request details();
+ private:
+  homebot::HAShade::Request request;
+};
 
-HAShadeAffectOpr::~HAShadeAffectOpr() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
-}
-
-homebot::HAShade::Request HAShadeAffectOpr::details() {
-  return request;
-}
+#endif /* HOMEBOT_INCLUDE_HOMEBOT_HASHADEAFFECTOPR_HPP_ */

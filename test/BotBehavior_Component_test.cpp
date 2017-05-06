@@ -119,7 +119,7 @@ TEST (HomeBotOperations, HAScene) {
   EXPECT_EQ(action, sceneReq.action);
 }
 
-/*******************************************************************************
+/*******************************************************************************/
  TEST (HomeBotOperations, HAShade) {
 
  // Create a node handle since we are running as a ROS node
@@ -132,7 +132,7 @@ TEST (HomeBotOperations, HAScene) {
  // Construct a HAScene operation and determine if the components are as specified
  HAShadeAffectOpr shadeOpr(oprCode, shadeNumber, action);
  EXPECT_EQ(oprCode, shadeOpr.getCode());
- homebot::HAShadeRequest shadeReq = shadeOpr.details();
+  homebot::HAShade::Request shadeReq = shadeOpr.details();
  EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
  EXPECT_EQ(action, shadeReq.action);
 }

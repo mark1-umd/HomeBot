@@ -215,6 +215,7 @@ if(CATKIN_ENABLE_TESTING)
   src/BotMoveBaseOpr.cpp
   src/HADoorAffectOpr.cpp
   src/HASceneAffectOpr.cpp
+  src/HAShadeAffectOpr.cpp
   )
   
   target_link_libraries(
