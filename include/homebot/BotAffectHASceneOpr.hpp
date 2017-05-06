@@ -1,15 +1,15 @@
 /**
  * @copyright (c) 2017 Mark R. Jenkins.  All rights reserved.
- * @file BotMoveBaseOpr.cpp
+ * @file BotAffectHASceneOpr.hpp
  *
  * @author MJenkins, ENPM 808X Spring 2017
  * @date May 4, 2017 - Creation
  *
- * @brief Operation that commands a HomeBot to navigate to a specified location
+ * @brief Operation that commands Home Automation system to turn scenes (primarily lighting) on/off
  *
- * In a HomeBot system, the HomeBot navigation stack is responsible for moving the Bot Base.
- * This operation provides a way for a HomeBot service robot to move to a specified location
- * as part of a HomeBot behavior.
+ * In a HomeBot system, the Home Automation system is responsible for turning scenes on/off.
+ * This operation provides a way for a HomeBot service robot to turn scenes on/off through
+ * the Home Automation system as part of a HomeBot behavior.
  *
  * *
  * * BSD 3-Clause License
@@ -42,33 +42,23 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#ifndef HOMEBOT_INCLUDE_HOMEBOT_BOTAFFECTHASCENEOPR_HPP_
+#define HOMEBOT_INCLUDE_HOMEBOT_BOTAFFECTHASCENEOPR_HPP_
 
-#include "homebot/BotMoveBaseOpr.hpp"
+#include "homebot/HAScene.h"
+#include "BotOperation.hpp"
 
-BotMoveBaseOpr::BotMoveBaseOpr() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
-}
+/** @brief <brief description>
+ */
 
-BotMoveBaseOpr::BotMoveBaseOpr(std::string pCode, std::string pFrame_id,
-                               int pXPos, int pYPos,
-                               int pZPos, int pXOrient, int pYOrient,
-                               int pZOrient, int pWOrient)
-    : BotOperation(pCode) {
-  goal.target_pose.header.frame_id = pFrame_id;
-  goal.target_pose.pose.position.x = pXPos;
-  goal.target_pose.pose.position.y = pYPos;
-  goal.target_pose.pose.position.z = pZPos;
-  goal.target_pose.pose.orientation.x = pXOrient;
-  goal.target_pose.pose.orientation.y = pYOrient;
-  goal.target_pose.pose.orientation.z = pZOrient;
-  goal.target_pose.pose.orientation.w = pWOrient;
-}
+class BotAffectHASceneOpr : public BotOperation {
+ public:
+  BotAffectHASceneOpr();
+  BotAffectHASceneOpr(std::string pCode, int pSceneNumber, int pAction);
+  virtual ~BotAffectHASceneOpr();
+  homebot::HAScene::Request details();
+ private:
+  homebot::HAScene::Request request;
+};
 
-BotMoveBaseOpr::~BotMoveBaseOpr() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
-
-}
-
-move_base_msgs::MoveBaseGoal BotMoveBaseOpr::details() {
-  return goal;
-}
+#endif /* HOMEBOT_INCLUDE_HOMEBOT_BOTAFFECTHASCENEOPR_HPP_ */

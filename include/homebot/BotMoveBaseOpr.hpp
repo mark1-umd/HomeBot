@@ -5,9 +5,11 @@
  * @author MJenkins, ENPM 808X Spring 2017
  * @date May 4, 2017 - Creation
  *
- * @brief <brief description>
+ * @brief Operation that commands a HomeBot to navigate to a specified location
  *
- * <details>
+ * In a HomeBot system, the HomeBot navigation stack is responsible for moving the Bot Base.
+ * This operation provides a way for a HomeBot service robot to move to a specified location
+ * as part of a HomeBot behavior.
  *
  * *
  * * BSD 3-Clause License
@@ -45,12 +47,12 @@
 
 #include "move_base_msgs/MoveBaseAction.h"
 
-#include "../include/homebot/HBSysOpr.hpp"
+#include "BotOperation.hpp"
 
 /** @brief <brief description>
  */
 
-class BotMoveBaseOpr : public HBSysOpr {
+class BotMoveBaseOpr : public BotOperation {
  public:
   BotMoveBaseOpr();
   BotMoveBaseOpr(std::string pCode, std::string pFrame_id, int pXPos, int pYPos,

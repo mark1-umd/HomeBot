@@ -1,15 +1,13 @@
 /**
  * @copyright (c) 2017 Mark R. Jenkins.  All rights reserved.
- * @file BotMoveBaseOpr.cpp
+ * @file BotBehavior.hpp
  *
  * @author MJenkins, ENPM 808X Spring 2017
  * @date May 4, 2017 - Creation
  *
- * @brief Operation that commands a HomeBot to navigate to a specified location
+ * @brief <brief description>
  *
- * In a HomeBot system, the HomeBot navigation stack is responsible for moving the Bot Base.
- * This operation provides a way for a HomeBot service robot to move to a specified location
- * as part of a HomeBot behavior.
+ * <details>
  *
  * *
  * * BSD 3-Clause License
@@ -42,33 +40,41 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#ifndef HOMEBOT_INCLUDE_HOMEBOT_BOTBEHAVIOR_HPP_
+#define HOMEBOT_INCLUDE_HOMEBOT_BOTBEHAVIOR_HPP_
 
-#include "homebot/BotMoveBaseOpr.hpp"
+#include <vector>
+#include <string>
+#include "ros/ros.h"
+#include "actionlib/client/simple_action_client.h";
+#include "move_base_msgs/MoveBaseAction.h"
+#include "homebot/HADoor.h"
+#include "homebot/HAScene.h"
+#include "homebot/HAShade.h"
+#include "homebot/HBBehaviorAction.h"
 
-BotMoveBaseOpr::BotMoveBaseOpr() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
-}
+/** @brief A HomeBot task robot behavior is a set of operations that when executed create a behavior
+ */
 
-BotMoveBaseOpr::BotMoveBaseOpr(std::string pCode, std::string pFrame_id,
-                               int pXPos, int pYPos,
-                               int pZPos, int pXOrient, int pYOrient,
-                               int pZOrient, int pWOrient)
-    : BotOperation(pCode) {
-  goal.target_pose.header.frame_id = pFrame_id;
-  goal.target_pose.pose.position.x = pXPos;
-  goal.target_pose.pose.position.y = pYPos;
-  goal.target_pose.pose.position.z = pZPos;
-  goal.target_pose.pose.orientation.x = pXOrient;
-  goal.target_pose.pose.orientation.y = pYOrient;
-  goal.target_pose.pose.orientation.z = pZOrient;
-  goal.target_pose.pose.orientation.w = pWOrient;
-}
+class BotBehavior {
+ public:
+  BotBehavior();
+  virtual ~BotBehavior();
+  void setACBotMoveBase(
+      actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction>& pACBotMoveBase);
+  void setSCHADoorAffect(ros::ServiceClient& pSCHADoorAffect);
+  void setSCHASceneAffect(ros::ServiceClient& pSCHASceneAffect);
+  void setSCHAShadeAffect(ros::ServiceClient& pSCHAShadeAffect);
+  std::string getName();
+ private:
+  actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> acBotMoveBase;
+  ros::ServiceClient scHADoorAffect;
+  ros::ServiceClient scHASceneAffect;
+  ros::ServiceClient scHAShadeAffect;
+  std::string name;
+  std::vector<HBSysOpr> beginning;
+  std::vector<HBSysOpr> main;
+  std::vector<HBSysOpr> finishing;
+};
 
-BotMoveBaseOpr::~BotMoveBaseOpr() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
-
-}
-
-move_base_msgs::MoveBaseGoal BotMoveBaseOpr::details() {
-  return goal;
-}
+#endif /* HOMEBOT_INCLUDE_HOMEBOT_BOTBEHAVIOR_HPP_ */

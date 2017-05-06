@@ -1,15 +1,15 @@
 /**
  * @copyright (c) 2017 Mark R. Jenkins.  All rights reserved.
- * @file BotMoveBaseOpr.cpp
+ * @file BotOperation.cpp
  *
  * @author MJenkins, ENPM 808X Spring 2017
  * @date May 4, 2017 - Creation
  *
- * @brief Operation that commands a HomeBot to navigate to a specified location
+ * @brief This is a base class for all Bot Operations, the things a HomeBot can do using service/actions
  *
- * In a HomeBot system, the HomeBot navigation stack is responsible for moving the Bot Base.
- * This operation provides a way for a HomeBot service robot to move to a specified location
- * as part of a HomeBot behavior.
+ * Bot Operations represent a kind of an instructions for a HomeBot, where the instructions includes not
+ * only the OpCode, but the data for the operation as well.  A series of operations strung together forms
+ * a behavior, and the set of behaviors for a given HomeBot type is that type's repertoire of behaviors.
  *
  * *
  * * BSD 3-Clause License
@@ -42,33 +42,20 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#include "homebot/BotOperation.hpp"
 
-#include "homebot/BotMoveBaseOpr.hpp"
-
-BotMoveBaseOpr::BotMoveBaseOpr() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
+BotOperation::BotOperation() {
 }
 
-BotMoveBaseOpr::BotMoveBaseOpr(std::string pCode, std::string pFrame_id,
-                               int pXPos, int pYPos,
-                               int pZPos, int pXOrient, int pYOrient,
-                               int pZOrient, int pWOrient)
-    : BotOperation(pCode) {
-  goal.target_pose.header.frame_id = pFrame_id;
-  goal.target_pose.pose.position.x = pXPos;
-  goal.target_pose.pose.position.y = pYPos;
-  goal.target_pose.pose.position.z = pZPos;
-  goal.target_pose.pose.orientation.x = pXOrient;
-  goal.target_pose.pose.orientation.y = pYOrient;
-  goal.target_pose.pose.orientation.z = pZOrient;
-  goal.target_pose.pose.orientation.w = pWOrient;
+BotOperation::BotOperation(std::string pCode)
+    : code(pCode) {
 }
 
-BotMoveBaseOpr::~BotMoveBaseOpr() {
+BotOperation::~BotOperation() {
   // TODO(Mark Jenkins): Auto-generated destructor stub
 
 }
 
-move_base_msgs::MoveBaseGoal BotMoveBaseOpr::details() {
-  return goal;
+std::string BotOperation::getCode() {
+  return code;
 }
