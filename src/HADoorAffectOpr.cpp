@@ -46,17 +46,17 @@ HADoorAffectOpr::HADoorAffectOpr() {
   // TODO(Mark Jenkins): Auto-generated constructor stub
 }
 
-HADoorAffectOpr::HADoorAffectOpr(std::string pCode, int pDoor, int pAction)
+HADoorAffectOpr::HADoorAffectOpr(std::string pCode, int pDoorNumber,
+                                 int pAction)
     : HBSysOpr(pCode) {
-  req.doorNumber = pDoor;
-  req.action = pAction;
+  request.doorNumber = pDoorNumber;
+  request.action = pAction;
 }
 
 HADoorAffectOpr::~HADoorAffectOpr() {
   // TODO(Mark Jenkins): Auto-generated destructor stub
-
 }
 
 homebot::HADoor::Request HADoorAffectOpr::details() {
-  return req;
+  return request;
 }

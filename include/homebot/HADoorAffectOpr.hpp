@@ -53,11 +53,11 @@
 class HADoorAffectOpr : public HBSysOpr {
  public:
   HADoorAffectOpr();
-  HADoorAffectOpr(std::string pCode, int pDoor, int pAction);
+  HADoorAffectOpr(std::string pCode, int pDoorNumber, int pAction);
   virtual ~HADoorAffectOpr();
   homebot::HADoor::Request details();
  private:
-  homebot::HADoor::Request req;
+  homebot::HADoor::Request request;
 };
 
 #endif /* HOMEBOT_INCLUDE_HOMEBOT_HADOORAFFECTOPR_HPP_ */
