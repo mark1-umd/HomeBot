@@ -214,6 +214,7 @@ if(CATKIN_ENABLE_TESTING)
   src/HBSysOpr.cpp
   src/BotMoveBaseOpr.cpp
   src/HADoorAffectOpr.cpp
+  src/HASceneAffectOpr.cpp
   )
   
   target_link_libraries(

@@ -48,14 +48,12 @@
 #include "homebot/HBSysOpr.hpp"
 #include "homebot/BotMoveBaseOpr.hpp"
 #include "homebot/HADoorAffectOpr.hpp"
-
-//#include "homebot/src/HASceneAffectOpr.hpp"
-//#include "homebot/src/HAShadeAffectOpr.hpp"
+#include "homebot/HASceneAffectOpr.hpp"
+#include "homebot/HAShadeAffectOpr.hpp"
 
 
 /*******************************************************************************/
-// Set up the HAHvacActionServer  action test using the GoogleTest macros
-TEST (HomeBotOperations, Constructors) {
+TEST (HomeBotOperations, BotMoveBase) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
@@ -70,6 +68,7 @@ TEST (HomeBotOperations, Constructors) {
   int zOrient(5);
   int wOrient(1);
 
+  // Construct a BotMoveBase operation and determine if the components are as specified
   BotMoveBaseOpr mbOpr(oprCode, frame_id, xPos, yPos, zPos, xOrient, yOrient,
                        zOrient, wOrient);
   EXPECT_EQ(oprCode, mbOpr.getCode());
@@ -82,17 +81,60 @@ TEST (HomeBotOperations, Constructors) {
   EXPECT_EQ(yOrient, goal.target_pose.pose.orientation.y);
   EXPECT_EQ(zOrient, goal.target_pose.pose.orientation.z);
   EXPECT_EQ(wOrient, goal.target_pose.pose.orientation.w);
+}
 
-  oprCode = "HADoor";
+/*******************************************************************************/
+TEST (HomeBotOperations, HADoor) {
+
+  // Create a node handle since we are running as a ROS node
+  ros::NodeHandle nh;
+
+  std::string oprCode = "HADoor";
   int doorNumber(1);
-  int action(0);
+  int action(2);
 
+  // Construct a HADoor operation and determine if the components are as specified
   HADoorAffectOpr doorOpr(oprCode, doorNumber, action);
   EXPECT_EQ(oprCode, doorOpr.getCode());
   homebot::HADoorRequest doorReq = doorOpr.details();
   EXPECT_EQ(doorNumber, doorReq.doorNumber);
   EXPECT_EQ(action, doorReq.action);
+}
 
+/*******************************************************************************/
+TEST (HomeBotOperations, HAScene) {
+
+  // Create a node handle since we are running as a ROS node
+  ros::NodeHandle nh;
+
+  std::string oprCode = "HAScene";
+  int sceneNumber(3);
+  int action(1);
+
+  // Construct a HAScene operation and determine if the components are as specified
+  HASceneAffectOpr sceneOpr(oprCode, sceneNumber, action);
+  EXPECT_EQ(oprCode, sceneOpr.getCode());
+  homebot::HASceneRequest sceneReq = sceneOpr.details();
+  EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
+  EXPECT_EQ(action, sceneReq.action);
+}
+
+/*******************************************************************************
+ TEST (HomeBotOperations, HAShade) {
+
+ // Create a node handle since we are running as a ROS node
+ ros::NodeHandle nh;
+
+ std::string oprCode = "HAShade";
+ int shadeNumber(5);
+ int action(1);
+
+ // Construct a HAScene operation and determine if the components are as specified
+ HAShadeAffectOpr shadeOpr(oprCode, shadeNumber, action);
+ EXPECT_EQ(oprCode, shadeOpr.getCode());
+ homebot::HAShadeRequest shadeReq = shadeOpr.details();
+ EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
+ EXPECT_EQ(action, shadeReq.action);
 }
 
 /*******************************************************************************/
