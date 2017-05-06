@@ -1,0 +1,5 @@
+<launch>
+  <test test-name="BotBehavior_Component_test"
+        pkg="homebot"
+        type="BotBehavior_Component_test" />
+</launch>

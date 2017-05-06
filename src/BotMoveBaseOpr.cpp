@@ -11,10 +11,10 @@
  *
  * *
  * * BSD 3-Clause License
- * 
+ *
  * Copyright (c) 2017, Mark Jenkins
  *  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *
@@ -40,11 +40,25 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "BotMoveBaseOpr.hpp"
+#include "../include/homebot/BotMoveBaseOpr.hpp"
 
 BotMoveBaseOpr::BotMoveBaseOpr() {
   // TODO(Mark Jenkins): Auto-generated constructor stub
+}
 
+BotMoveBaseOpr::BotMoveBaseOpr(std::string pCode, std::string pFrame_id,
+                               int pXPos, int pYPos,
+                               int pZPos, int pXOrient, int pYOrient,
+                               int pZOrient, int pWOrient)
+    : HBSysOpr(pCode) {
+  goal.target_pose.header.frame_id = pFrame_id;
+  goal.target_pose.pose.position.x = pXPos;
+  goal.target_pose.pose.position.y = pYPos;
+  goal.target_pose.pose.position.z = pZPos;
+  goal.target_pose.pose.orientation.x = pXOrient;
+  goal.target_pose.pose.orientation.y = pYOrient;
+  goal.target_pose.pose.orientation.z = pZOrient;
+  goal.target_pose.pose.orientation.w = pWOrient;
 }
 
 BotMoveBaseOpr::~BotMoveBaseOpr() {
@@ -52,3 +66,6 @@ BotMoveBaseOpr::~BotMoveBaseOpr() {
 
 }
 
+move_base_msgs::MoveBaseGoal BotMoveBaseOpr::details() {
+  return goal;
+}

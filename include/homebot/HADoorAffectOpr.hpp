@@ -1,6 +1,6 @@
 /**
  * @copyright (c) 2017 Mark R. Jenkins.  All rights reserved.
- * @file HADoorAffectOpr.cpp
+ * @file HADoorAffectOpr.hpp
  *
  * @author MJenkins, ENPM 808X Spring 2017
  * @date May 4, 2017 - Creation
@@ -40,23 +40,24 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "../include/homebot/HADoorAffectOpr.hpp"
+#ifndef HOMEBOT_INCLUDE_HOMEBOT_HADOORAFFECTOPR_HPP_
+#define HOMEBOT_INCLUDE_HOMEBOT_HADOORAFFECTOPR_HPP_
 
-HADoorAffectOpr::HADoorAffectOpr() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
-}
+#include "homebot/HADoor.h"
 
-HADoorAffectOpr::HADoorAffectOpr(std::string pCode, int pDoor, int pAction)
-    : HBSysOpr(pCode) {
-  req.doorNumber = pDoor;
-  req.action = pAction;
-}
+#include "../include/homebot/HBSysOpr.hpp"
 
-HADoorAffectOpr::~HADoorAffectOpr() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
+/** @brief <brief description>
+ */
 
-}
+class HADoorAffectOpr : public HBSysOpr {
+ public:
+  HADoorAffectOpr();
+  HADoorAffectOpr(std::string pCode, int pDoor, int pAction);
+  virtual ~HADoorAffectOpr();
+  homebot::HADoor::Request details();
+ private:
+  homebot::HADoor::Request req;
+};
 
-homebot::HADoor::Request HADoorAffectOpr::details() {
-  return req;
-}
+#endif /* HOMEBOT_INCLUDE_HOMEBOT_HADOORAFFECTOPR_HPP_ */

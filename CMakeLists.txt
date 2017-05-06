@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   roscpp
   std_msgs
+  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -98,7 +99,7 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
+  INCLUDE_DIRS include
 #  LIBRARIES homebot
 #  CATKIN_DEPENDS actionlib message_generation roscpp std_msgs
 #  DEPENDS system_lib
@@ -111,7 +112,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
-include_directories(
+include_directories(include
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -206,6 +207,14 @@ if(CATKIN_ENABLE_TESTING)
   test/HAHvacActionServer.test
   test/HAHvacActionServer_test.cpp
   )
+  add_rostest_gtest(
+  BotBehavior_Component_test
+  test/BotBehavior_Component.test
+  test/BotBehavior_Component_test.cpp
+  src/HBSysOpr.cpp
+  src/BotMoveBaseOpr.cpp
+  src/HADoorAffectOpr.cpp
+  )
   
   target_link_libraries(
   HARequestServer_test
@@ -215,7 +224,10 @@ if(CATKIN_ENABLE_TESTING)
   HAHvacActionServer_test
   ${catkin_LIBRARIES}
   )
-  
+  target_link_libraries(
+  BotBehavior_Component_test
+  ${catkin_LIBRARIES}
+  )
   add_dependencies(
   HARequestServer_test
   HARequestServer
@@ -227,6 +239,12 @@ if(CATKIN_ENABLE_TESTING)
   HAHvacActionServer_test
   HAHvacActionServer
   ${PROJECT_NAME}_generate_messages_cpp
+  ${catkin_EXPORTED_TARGETS}
+  )
+  
+  add_dependencies(
+  BotBehavior_Component_test
+  ${PROJECT_NAME}_generate_messages.cpp
   ${catkin_EXPORTED_TARGETS}
   )
   
