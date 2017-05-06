@@ -43,9 +43,8 @@
 #ifndef HOMEBOT_INCLUDE_HOMEBOT_HADOORAFFECTOPR_HPP_
 #define HOMEBOT_INCLUDE_HOMEBOT_HADOORAFFECTOPR_HPP_
 
+#include "homebot/HBSysOpr.hpp"
 #include "homebot/HADoor.h"
-
-#include "../include/homebot/HBSysOpr.hpp"
 
 /** @brief <brief description>
  */

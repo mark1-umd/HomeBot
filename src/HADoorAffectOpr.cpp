@@ -40,7 +40,8 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "../include/homebot/HADoorAffectOpr.hpp"
+
+#include "homebot/HADoorAffectOpr.hpp"
 
 HADoorAffectOpr::HADoorAffectOpr() {
   // TODO(Mark Jenkins): Auto-generated constructor stub
