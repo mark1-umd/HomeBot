@@ -54,7 +54,20 @@
 
 
 /*******************************************************************************/
-TEST (HomeBotBehavior, BotMoveBase) {
+
+TEST (BotBehaviorOprClients, StartUp) {
+
+  // Instantiate the BotOprClients object;
+
+  BotOprClients botOprClients;
+
+  // The clients should be reported as not available if they are not all started
+  // (and the move_base server is not currently being started)
+  EXPECT_FALSE(botOprClients.allStarted());
+}
+/*******************************************************************************/
+
+TEST (BotBehaviorMoveBase, Construction) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
@@ -90,9 +103,9 @@ TEST (HomeBotBehavior, BotMoveBase) {
   // And this should fail, too
   EXPECT_FALSE(mbOpr.execute(botOprClients));
 }
-
 /*******************************************************************************/
-TEST (HomeBotBehavior, BotAffectHADoorConstruction) {
+
+TEST (BotBehaviorAffectHADoor, Construction) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
@@ -108,12 +121,11 @@ TEST (HomeBotBehavior, BotAffectHADoorConstruction) {
   EXPECT_EQ(doorNumber, doorReq.doorNumber);
   EXPECT_EQ(action, doorReq.action);
 }
-
 /*******************************************************************************/
-// Set up the HARequestServer HADoor service test using the GoogleTest macros
+
 // This test assumes that the HARequestServer has been initialized with 5 doors
 // (argument -doors 5)
-TEST (HomeBotBehavior, HADoorService) {
+TEST (BotBehaviorAffectHADoor, Service) {
   // Set the number of doors in the server to be tested
   int doorCount = 5;
 
@@ -183,9 +195,9 @@ TEST (HomeBotBehavior, HADoorService) {
     EXPECT_EQ(homebot::HADoorResponse::CLOSED, srv.response.state);
   }
 }
-
 /*******************************************************************************/
-TEST (HomeBotBehavior, BotAffectHADoorExecution) {
+
+TEST (BotBehaviorAffectHADoor, Execution) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
@@ -258,14 +270,14 @@ TEST (HomeBotBehavior, BotAffectHADoorExecution) {
     EXPECT_EQ(doorNumber, doorReq.doorNumber);
     EXPECT_EQ(action, doorReq.action);
 
-    // This should work if we have a server running...
+    // This should fail even if we have a server running...
     EXPECT_FALSE(doorOpr.execute(botOprClients));
   }
 
 }
-
 /*******************************************************************************/
-TEST (HomeBotBehavior, BotAffectHAScene) {
+
+TEST (BotBehaviorAffectHAScene, Construction) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
@@ -281,36 +293,328 @@ TEST (HomeBotBehavior, BotAffectHAScene) {
   EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
   EXPECT_EQ(action, sceneReq.action);
 }
-
 /*******************************************************************************/
-TEST (HomeBotBehavior, BotAffectHAShade) {
 
- // Create a node handle since we are running as a ROS node
- ros::NodeHandle nh;
+// This test assumes that the HARequestServer has been initialized with 15 scenes
+// (argument -scenes 15)
+TEST (BotBehaviorAffectHAScene, Service) {
+  // Set the number of scenes in the server to be tested
+  int sceneCount = 15;
 
- std::string oprCode = "HAShade";
- int shadeNumber(5);
- int action(1);
+  // Set up as a service client
+  ros::NodeHandle nh;
+  ros::ServiceClient client = nh.serviceClient<homebot::HAScene>("ha_scene");
 
- // Construct a HAScene operation and determine if the components are as specified
-  BotAffectHAShade shadeOpr(oprCode, shadeNumber, action);
- EXPECT_EQ(oprCode, shadeOpr.getCode());
+  // Test the availability of the service
+  bool serviceAvailable(client.waitForExistence(ros::Duration(1)));
+  EXPECT_TRUE(serviceAvailable);
+
+  // Now test service requests and responses
+  bool success;
+  homebot::HAScene srv;
+
+  // Should not be scene number 0 or a scene greater than sceneCount
+  srv.request.action = homebot::HASceneRequest::STATUS;
+  srv.request.sceneNumber = 0;
+  success = client.call(srv);
+  EXPECT_FALSE(success);
+  srv.request.sceneNumber = sceneCount + 1;
+  success = client.call(srv);
+  EXPECT_FALSE(success);
+
+  // The scenes should all initialize to off
+  srv.request.action = homebot::HASceneRequest::STATUS;
+  for (int i = 1; i < (sceneCount + 1); i++) {
+    srv.request.sceneNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HASceneResponse::OFF, srv.response.state);
+  }
+
+  // Should be able to turn on all of the scenes
+  srv.request.action = homebot::HASceneRequest::TURNON;
+  for (int i = 1; i < (sceneCount + 1); i++) {
+    srv.request.sceneNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HASceneResponse::ON, srv.response.state);
+  }
+
+  // Now all of the scenes should be on
+  srv.request.action = homebot::HASceneRequest::STATUS;
+  for (int i = 1; i < (sceneCount + 1); i++) {
+    srv.request.sceneNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HASceneResponse::ON, srv.response.state);
+  }
+
+  // Should be able to turn off all of the scenes
+  srv.request.action = homebot::HASceneRequest::TURNOFF;
+  for (int i = 1; i < (sceneCount + 1); i++) {
+    srv.request.sceneNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HASceneResponse::OFF, srv.response.state);
+  }
+
+  // Now all of the scenes should be turned off
+  srv.request.action = homebot::HASceneRequest::STATUS;
+  for (int i = 1; i < (sceneCount + 1); i++) {
+    srv.request.sceneNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HASceneResponse::OFF, srv.response.state);
+  }
+}
+/*******************************************************************************/
+
+TEST (BotBehaviorAffectHAScene, Execution) {
+
+  // Create a node handle since we are running as a ROS node
+  ros::NodeHandle nh;
+
+  std::string oprCode = "HAScene";
+  int sceneNumber(3);
+  int action(homebot::HASceneRequest::STATUS);
+
+  // Test HAScene execution for status
+  {
+    BotAffectHASceneOpr sceneOpr(oprCode, sceneNumber, action);
+    EXPECT_EQ(oprCode, sceneOpr.getCode());
+    homebot::HASceneRequest sceneReq = sceneOpr.details();
+    EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
+    EXPECT_EQ(action, sceneReq.action);
+
+    // This should work if we have a server running...
+    EXPECT_TRUE(sceneOpr.execute(botOprClients));
+  }
+
+  // Test HAScene execution for turn off
+  action = homebot::HASceneRequest::TURNOFF;
+  {
+    BotAffectHASceneOpr sceneOpr(oprCode, sceneNumber, action);
+    EXPECT_EQ(oprCode, sceneOpr.getCode());
+    homebot::HASceneRequest sceneReq = sceneOpr.details();
+    EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
+    EXPECT_EQ(action, sceneReq.action);
+
+    // This should work if we have a server running...
+    EXPECT_TRUE(sceneOpr.execute(botOprClients));
+  }
+
+  // Test HAScene execution for turn on
+  action = homebot::HASceneRequest::TURNON;
+  {
+    BotAffectHASceneOpr sceneOpr(oprCode, sceneNumber, action);
+    EXPECT_EQ(oprCode, sceneOpr.getCode());
+    homebot::HASceneRequest sceneReq = sceneOpr.details();
+    EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
+    EXPECT_EQ(action, sceneReq.action);
+
+    // This should work if we have a server running...
+    EXPECT_TRUE(sceneOpr.execute(botOprClients));
+  }
+
+  // Test HAScene execution for invalid action
+  action = 5;
+  {
+    BotAffectHASceneOpr sceneOpr(oprCode, sceneNumber, action);
+    EXPECT_EQ(oprCode, sceneOpr.getCode());
+    homebot::HASceneRequest sceneReq = sceneOpr.details();
+    EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
+    EXPECT_EQ(action, sceneReq.action);
+
+    // This should work if we have a server running...
+    EXPECT_TRUE(sceneOpr.execute(botOprClients));
+  }
+
+  // Test HAScene execution for invalid scene number
+  // (assumes server was started with only 15 scenes)
+  action = homebot::HASceneRequest::TURNON;
+  sceneNumber = 99;
+  {
+    BotAffectHASceneOpr sceneOpr(oprCode, sceneNumber, action);
+    EXPECT_EQ(oprCode, sceneOpr.getCode());
+    homebot::HASceneRequest sceneReq = sceneOpr.details();
+    EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
+    EXPECT_EQ(action, sceneReq.action);
+
+    // This should work if we have a server running...
+    EXPECT_FALSE(sceneOpr.execute(botOprClients));
+  }
+
+}
+/*******************************************************************************/
+
+TEST (BotBehaviorAffectHAShade, Construction) {
+
+  // Create a node handle since we are running as a ROS node
+  ros::NodeHandle nh;
+
+  std::string oprCode = "HAShade";
+  int shadeNumber(5);
+  int action(1);
+
+  // Construct a HAScene operation and determine if the components are as specified
+  BotAffectHAShadeOpr shadeOpr(oprCode, shadeNumber, action);
+  EXPECT_EQ(oprCode, shadeOpr.getCode());
   homebot::HAShade::Request shadeReq = shadeOpr.details();
- EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
- EXPECT_EQ(action, shadeReq.action);
+  EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
+  EXPECT_EQ(action, shadeReq.action);
 }
-
 /*******************************************************************************/
-TEST (HomeBotBehavior, BotOprClients) {
 
-  // Instantiate the BotOprClients object; NO SERVERS SHOULD BE RUNNING FOR THIS TEST
+// This test assumes that the HARequestServer has been initialized with 8 shades
+// (argument -shades 8)
+TEST (BotBehaviorAffectHAShade, Service) {
+  // Set the number of shades in the server to be tested
+  int shadeCount = 8;
 
-  BotOprClients botOprClients;
+  // Set up as a service client
+  ros::NodeHandle nh;
+  ros::ServiceClient client = nh.serviceClient<homebot::HAShade>("ha_shade");
 
-// The clients should be reported as not available
-  EXPECT_FALSE(botOprClients.allStarted());
+  // Test the availability of the service
+  bool serviceAvailable(client.waitForExistence(ros::Duration(1)));
+  EXPECT_TRUE(serviceAvailable);
+
+  // Now test service requests and responses
+  bool success;
+  homebot::HAShade srv;
+
+  // Should not be shade number 0 or a shade greater than shadeCount
+  srv.request.action = homebot::HAShadeRequest::STATUS;
+  srv.request.shadeNumber = 0;
+  success = client.call(srv);
+  EXPECT_FALSE(success);
+  srv.request.shadeNumber = shadeCount + 1;
+  success = client.call(srv);
+  EXPECT_FALSE(success);
+
+  // The shades should all initialize to raised
+  srv.request.action = homebot::HAShadeRequest::STATUS;
+  for (int i = 1; i < (shadeCount + 1); i++) {
+    srv.request.shadeNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HAShadeResponse::RAISED, srv.response.state);
+  }
+
+  // Should be able to lower all of the shades
+  srv.request.action = homebot::HAShadeRequest::LOWER;
+  for (int i = 1; i < (shadeCount + 1); i++) {
+    srv.request.shadeNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HAShadeResponse::LOWERED, srv.response.state);
+  }
+
+  // Now all of the shades should be lowered
+  srv.request.action = homebot::HAShadeRequest::STATUS;
+  for (int i = 1; i < (shadeCount + 1); i++) {
+    srv.request.shadeNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HAShadeResponse::LOWERED, srv.response.state);
+  }
+
+  // Should be able to close all of the shades
+  srv.request.action = homebot::HADoorRequest::CLOSE;
+  for (int i = 1; i < (shadeCount + 1); i++) {
+    srv.request.shadeNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HAShadeResponse::RAISED, srv.response.state);
+  }
+
+  // Now all of the shades should be raised
+  srv.request.action = homebot::HADoorRequest::STATUS;
+  for (int i = 1; i < (shadeCount + 1); i++) {
+    srv.request.shadeNumber = i;
+    success = client.call(srv);
+    EXPECT_TRUE(success);
+    EXPECT_EQ(homebot::HAShadeResponse::RAISED, srv.response.state);
+  }
 }
+/*******************************************************************************/
 
+TEST (BotBehaviorAffectHAShade, Execution) {
+
+  // Create a node handle since we are running as a ROS node
+  ros::NodeHandle nh;
+
+  std::string oprCode = "HAShade";
+  int shadeNumber(3);
+  int action(homebot::HAShadeRequest::STATUS);
+
+  // Test HAShade execution for status
+  {
+    BotAffectHAShadeOpr shadeOpr(oprCode, shadeNumber, action);
+    EXPECT_EQ(oprCode, shadeOpr.getCode());
+    homebot::HAShadeRequest shadeReq = shadeOpr.details();
+    EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
+    EXPECT_EQ(action, shadeReq.action);
+
+    // This should work if we have a server running...
+    EXPECT_TRUE(shadeOpr.execute(botOprClients));
+  }
+
+  // Test HAShade execution for raise
+  action = homebot::HAShadeRequest::RAISE;
+  {
+    BotAffectHAShadeOpr shadeOpr(oprCode, shadeNumber, action);
+    EXPECT_EQ(oprCode, shadeOpr.getCode());
+    homebot::HAShadeRequest shadeReq = shadeOpr.details();
+    EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
+    EXPECT_EQ(action, shadeReq.action);
+
+    // This should work if we have a server running...
+    EXPECT_TRUE(shadeOpr.execute(botOprClients));
+  }
+
+  // Test HAShade execution for lower
+  action = homebot::HAShadeRequest::LOWER;
+  {
+    BotAffectHAShadeOpr shadeOpr(oprCode, shadeNumber, action);
+    EXPECT_EQ(oprCode, shadeOpr.getCode());
+    homebot::HAShadeRequest shadeReq = shadeOpr.details();
+    EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
+    EXPECT_EQ(action, shadeReq.action);
+
+    // This should work if we have a server running...
+    EXPECT_TRUE(shadeOpr.execute(botOprClients));
+  }
+
+  // Test HAShade execution for invalid action
+  action = 5;
+  {
+    BotAffectHAShadeOpr shadeOpr(oprCode, shadeNumber, action);
+    EXPECT_EQ(oprCode, shadeOpr.getCode());
+    homebot::HAShadeRequest shadeReq = shadeOpr.details();
+    EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
+    EXPECT_EQ(action, shadeReq.action);
+
+    // This should fail even if we have a server running...
+    EXPECT_FALSE(shadeOpr.execute(botOprClients));
+  }
+
+  // Test HAShade execution for invalid hade number
+  // (assumes server was started with only 8 shades)
+  action = homebot::HAShadeRequest::LOWER;
+  shadeNumber = 99;
+  {
+    BotAffectHAShadeOpr shadeOpr(oprCode, shadeNumber, action);
+    EXPECT_EQ(oprCode, shadeOpr.getCode());
+    homebot::HAShadeRequest shadeReq = shadeOpr.details();
+    EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
+    EXPECT_EQ(action, shadeReq.action);
+
+    // This should not work even if we have a server running...
+    EXPECT_FALSE(shadeOpr.execute(botOprClients));
+  }
+
+}
 /*******************************************************************************/
 
 /*
