@@ -50,6 +50,7 @@
 #include "homebot/BotAffectHAShadeOpr.hpp"
 #include "homebot/BotOperation.hpp"
 #include "homebot/BotMoveBaseOpr.hpp"
+#include "homebot/BotOprClients.hpp"
 
 
 /*******************************************************************************/
@@ -135,6 +136,17 @@ TEST (HomeBotOperations, BotAffectHAShade) {
   homebot::HAShade::Request shadeReq = shadeOpr.details();
  EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
  EXPECT_EQ(action, shadeReq.action);
+}
+
+/*******************************************************************************/
+TEST (HomeBotOperations, BotOprClients) {
+
+  // Instantiate the BotOprClients object; NO SERVERS SHOULD BE RUNNING FOR THIS TEST
+
+  BotOprClients botOprClients;
+
+// The clients should be reported as not available
+  EXPECT_FALSE(botOprClients.allStarted());
 }
 
 /*******************************************************************************/

@@ -211,11 +211,12 @@ if(CATKIN_ENABLE_TESTING)
   BotBehavior_Component_test
   test/BotBehavior_Component.test
   test/BotBehavior_Component_test.cpp
-  src/HBSysOpr.cpp
+  src/BotOperation.cpp
   src/BotMoveBaseOpr.cpp
-  src/HADoorAffectOpr.cpp
-  src/HASceneAffectOpr.cpp
-  src/HAShadeAffectOpr.cpp
+  src/BotAffectHADoorOpr.cpp
+  src/BotAffectHASceneOpr.cpp
+  src/BotAffectHAShadeOpr.cpp
+  src/BotOprClients.cpp
   )
   
   target_link_libraries(
