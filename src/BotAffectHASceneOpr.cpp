@@ -63,3 +63,50 @@ BotAffectHASceneOpr::~BotAffectHASceneOpr() {
 homebot::HAScene::Request BotAffectHASceneOpr::details() {
   return request;
 }
+
+bool BotAffectHASceneOpr::execute(BotOprClients& clients) {
+  // Check whether the service is still available
+  if (!clients.scHAScene.exists()) {
+    ROS_ERROR_STREAM(
+        "HAScene service does not exist when trying to execute action " << request.action << " on " << request.sceneNumber);
+    return false;
+  }
+  // Call for service  using the stored request object and a newly created response object
+  homebot::HASceneResponse response;
+  clients.scHAScene.call(request, response);
+
+  // See if we got a response for the scene that we requested
+  if (response.sceneNumber != request.sceneNumber) {
+    ROS_WARN_STREAM(
+        "HAScene service response was for scene " << response.sceneNumber << " when scene " << request.sceneNumber << " was requested");
+    return false;
+  }
+
+  // If we checked status, any status is good
+  if (request.action == homebot::HASceneRequest::STATUS) {
+    ROS_INFO_STREAM(
+        "Request for status of scene " << request.sceneNumber << " returned " << response.state);
+    return true;
+  }
+
+  // If we asked to turn on the scene, it should be turned on
+  if ((request.action == homebot::HASceneRequest::TURNON)
+      && (response.state == homebot::HASceneResponse::ON)) {
+    ROS_INFO_STREAM(
+        "Request to turn on scene " << request.sceneNumber << " succeeded");
+    return true;
+  }
+
+  // if we asked to close the scene, it should be closed
+  if ((request.action == homebot::HASceneRequest::TURNOFF)
+      && (response.state == homebot::HASceneResponse::OFF)) {
+    ROS_INFO_STREAM(
+        "Request to turn off scene " << request.sceneNumber << " succeeded");
+    return true;
+  }
+
+  // We didn't get what we wanted
+  ROS_INFO_STREAM(
+      "Request for action " << request.action << " on scene number " << request.sceneNumber << " returned a state of " << response.state);
+  return false;
+}

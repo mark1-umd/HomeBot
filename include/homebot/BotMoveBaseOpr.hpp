@@ -45,9 +45,10 @@
 #ifndef HOMEBOT_INCLUDE_HOMEBOT_BOTMOVEBASEOPR_HPP_
 #define HOMEBOT_INCLUDE_HOMEBOT_BOTMOVEBASEOPR_HPP_
 
+#include "ros/ros.h"
 #include "move_base_msgs/MoveBaseAction.h"
-
-#include "BotOperation.hpp"
+#include "homebot/BotOperation.hpp"
+#include "homebot/BotOprClients.hpp"
 
 /** @brief <brief description>
  */

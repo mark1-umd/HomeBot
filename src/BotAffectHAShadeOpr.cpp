@@ -45,21 +45,68 @@
 
 #include "homebot/BotAffectHAShadeOpr.hpp"
 
-BotAffectHAShade::BotAffectHAShade() {
+BotAffectHAShadeOpr::BotAffectHAShadeOpr() {
   // TODO(Mark Jenkins): Auto-generated constructor stub
 }
 
-BotAffectHAShade::BotAffectHAShade(std::string pCode, int pShadeNumber,
+BotAffectHAShadeOpr::BotAffectHAShadeOpr(std::string pCode, int pShadeNumber,
                                    int pAction)
     : BotOperation(pCode) {
   request.shadeNumber = pShadeNumber;
   request.action = pAction;
 }
 
-BotAffectHAShade::~BotAffectHAShade() {
+BotAffectHAShadeOpr::~BotAffectHAShadeOpr() {
   // TODO(Mark Jenkins): Auto-generated destructor stub
 }
 
-homebot::HAShade::Request BotAffectHAShade::details() {
+homebot::HAShade::Request BotAffectHAShadeOpr::details() {
   return request;
+}
+
+bool BotAffectHAShadeOpr::execute(BotOprClients& clients) {
+  // Check whether the service is still available
+  if (!clients.scHAShade.exists()) {
+    ROS_ERROR_STREAM(
+        "HAShade service does not exist when trying to execute action " << request.action << " on " << request.shadeNumber);
+    return false;
+  }
+  // Call for service  using the stored request object and a newly created response object
+  homebot::HAShadeResponse response;
+  clients.scHAShade.call(request, response);
+
+  // See if we got a response for the shade that we requested
+  if (response.shadeNumber != request.shadeNumber) {
+    ROS_WARN_STREAM(
+        "HAShade service response was for shade " << response.shadeNumber << " when shade " << request.shadeNumber << " was requested");
+    return false;
+  }
+
+  // If we checked status, any status is good
+  if (request.action == homebot::HAShadeRequest::STATUS) {
+    ROS_INFO_STREAM(
+        "Request for status of shade " << request.shadeNumber << " returned " << response.state);
+    return true;
+  }
+
+  // If we asked to turn on the shade, it should be turned on
+  if ((request.action == homebot::HAShadeRequest::LOWER)
+      && (response.state == homebot::HAShadeResponse::LOWERED)) {
+    ROS_INFO_STREAM(
+        "Request to lower shade " << request.shadeNumber << " succeeded");
+    return true;
+  }
+
+  // if we asked to close the shade, it should be closed
+  if ((request.action == homebot::HAShadeRequest::RAISE)
+      && (response.state == homebot::HAShadeResponse::RAISED)) {
+    ROS_INFO_STREAM(
+        "Request to raise shade " << request.shadeNumber << " succeeded");
+    return true;
+  }
+
+  // We didn't get what we wanted
+  ROS_INFO_STREAM(
+      "Request for action " << request.action << " on shade number " << request.shadeNumber << " returned a state of " << response.state);
+  return false;
 }

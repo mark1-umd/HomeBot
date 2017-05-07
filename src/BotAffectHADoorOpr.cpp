@@ -90,7 +90,7 @@ bool BotAffectHADoorOpr::execute(BotOprClients& clients) {
 
   // If we asked to open the door, it should be opened
   if ((request.action == homebot::HADoorRequest::OPEN)
-      && (response.state == homebot::HADoorRequest::OPEN)) {
+      && (response.state == homebot::HADoorResponse::OPENED)) {
     ROS_INFO_STREAM(
         "Request to open door " << request.doorNumber << " succeeded");
     return true;

@@ -45,18 +45,21 @@
 #ifndef HOMEBOT_INCLUDE_HOMEBOT_BOTAFFECTHASHADEOPR_HPP_
 #define HOMEBOT_INCLUDE_HOMEBOT_BOTAFFECTHASHADEOPR_HPP_
 
+#include "ros/ros.h"
 #include "homebot/HAShade.h"
-#include "BotOperation.hpp"
+#include "homebot/BotOperation.hpp"
+#include "homebot/BotOprClients.hpp"
 
 /** @brief <brief description>
  */
 
-class BotAffectHAShade : public BotOperation {
+class BotAffectHAShadeOpr : public BotOperation {
  public:
-  BotAffectHAShade();
-  BotAffectHAShade(std::string pCode, int pShadeNumber, int pAction);
-  virtual ~BotAffectHAShade();
+  BotAffectHAShadeOpr();
+  BotAffectHAShadeOpr(std::string pCode, int pShadeNumber, int pAction);
+  virtual ~BotAffectHAShadeOpr();
   homebot::HAShade::Request details();
+  bool execute(BotOprClients& clients);
  private:
   homebot::HAShade::Request request;
 };
