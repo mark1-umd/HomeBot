@@ -63,3 +63,49 @@ BotAffectHADoorOpr::~BotAffectHADoorOpr() {
 homebot::HADoor::Request BotAffectHADoorOpr::details() {
   return request;
 }
+
+bool BotAffectHADoorOpr::execute(BotOprClients& clients) {
+  // Check whether the service is still available
+  if (!clients.scHADoor.exists()) {
+    ROS_ERROR_STREAM(
+        "HADoor service does not exist when trying to execute action " << request.action << " on " << request.doorNumber);
+    return false;
+  }
+  // Call for service  using the stored request object and a newly created response object
+  homebot::HADoorResponse response;
+  clients.scHADoor.call(request, response);
+
+  // See if we got a response for the door that we requested
+  if (response.doorNumber != request.doorNumber) {
+    ROS_WARN_STREAM(
+        "HADoor service response was for door " << response.doorNumber << " when door " << request.doorNumber << " was requested");
+    return false;
+  }
+
+  // If we checked status, any status is good
+  if (request.action == homebot::HADoorRequest::STATUS) {
+    ROS_INFO_STREAM("Request for status of door " << request.doorNumber << " returned " << response.state);
+    return true;
+  }
+
+  // If we asked to open the door, it should be opened
+  if ((request.action == homebot::HADoorRequest::OPEN)
+      && (response.state == homebot::HADoorRequest::OPEN)) {
+    ROS_INFO_STREAM(
+        "Request to open door " << request.doorNumber << " succeeded");
+    return true;
+  }
+
+  // if we asked to close the door, it should be closed
+  if ((request.action == homebot::HADoorRequest::CLOSE)
+      && (response.state == homebot::HADoorResponse::CLOSED)) {
+    ROS_INFO_STREAM(
+        "Request to close door " << request.doorNumber << " succeeded");
+    return true;
+  }
+
+  // We didn't get what we wanted
+  ROS_INFO_STREAM(
+      "Request for action " << request.action << " on door number " << request.doorNumber << " returned a state of " << response.state);
+  return false;
+}

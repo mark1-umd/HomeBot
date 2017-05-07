@@ -7,7 +7,7 @@
  *
  * @brief This is a base class for all Bot Operations, the things a HomeBot can do using service/actions
  *
- * Bot Operations represent a kind of an instructions for a HomeBot, where the instructions includes not
+ * Bot Operation represent a kind of an instruction for a HomeBot, where the instruction includes not
  * only the OpCode, but the data for the operation as well.  A series of operations strung together forms
  * a behavior, and the set of behaviors for a given HomeBot type is that type's repertoire of behaviors.
  *
@@ -46,6 +46,8 @@
 #define HOMEBOT_INCLUDE_HOMEBOT_BOTOPERATION_HPP_
 
 #include <string>
+#include "ros/ros.h"
+#include "homebot/BotOprClients.hpp"
 
 /** @brief <brief description>
  */
@@ -56,6 +58,7 @@ class BotOperation {
   BotOperation(std::string pCode);
   virtual ~BotOperation();
   std::string getCode();
+  virtual bool execute(BotOprClients& clients);
 
  protected:
   std::string code;

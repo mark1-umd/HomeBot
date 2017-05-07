@@ -62,6 +62,10 @@
  */
 
 class BotOprClients {
+  friend class BotAffectHADoorOpr;
+  friend class BotAffectHASceneOpr;
+  friend class BotAffectHAShadeOpr;
+  friend class BotMoveBaseOpr;
  public:
   BotOprClients();
   virtual ~BotOprClients();

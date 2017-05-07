@@ -45,8 +45,10 @@
 #ifndef HOMEBOT_INCLUDE_HOMEBOT_BOTAFFECTHADOOROPR_HPP_
 #define HOMEBOT_INCLUDE_HOMEBOT_BOTAFFECTHADOOROPR_HPP_
 
+#include "ros/ros.h"
 #include "homebot/HADoor.h"
-#include "BotOperation.hpp"
+#include "homebot/BotOperation.hpp"
+#include "homebot/BotOprClients.hpp"
 
 /** @brief <brief description>
  */
@@ -57,6 +59,7 @@ class BotAffectHADoorOpr : public BotOperation {
   BotAffectHADoorOpr(std::string pCode, int pDoorNumber, int pAction);
   virtual ~BotAffectHADoorOpr();
   homebot::HADoor::Request details();
+  bool execute(BotOprClients& clients);
  private:
   homebot::HADoor::Request request;
 };

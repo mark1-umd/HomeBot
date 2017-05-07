@@ -83,8 +83,9 @@ BotOprClients::BotOprClients()
 BotOprClients::~BotOprClients() {
 }
 
-/*
+/**
  * @brief Provide status as to whether all of the clients are started (based on whether the services are available)
+ * @return boolean indication of whether all clients are started (based on whether services are available)
  */
 bool BotOprClients::allStarted() {
   return (clientsStarted == totalClients);
