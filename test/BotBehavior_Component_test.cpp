@@ -44,7 +44,6 @@
 #include <string>
 #include "gtest/gtest.h"
 #include "ros/ros.h"
-
 #include "homebot/BotAffectHADoorOpr.hpp"
 #include "homebot/BotAffectHASceneOpr.hpp"
 #include "homebot/BotAffectHAShadeOpr.hpp"
@@ -373,6 +372,8 @@ TEST (BotBehaviorAffectHAScene, Execution) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
+  // Spin up some clients
+  BotOprClients botOprClients;
 
   std::string oprCode = "HAScene";
   int sceneNumber(3);
@@ -425,8 +426,8 @@ TEST (BotBehaviorAffectHAScene, Execution) {
     EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
     EXPECT_EQ(action, sceneReq.action);
 
-    // This should work if we have a server running...
-    EXPECT_TRUE(sceneOpr.execute(botOprClients));
+    // This should not work even if we have a server running...
+    EXPECT_FALSE(sceneOpr.execute(botOprClients));
   }
 
   // Test HAScene execution for invalid scene number
@@ -543,6 +544,8 @@ TEST (BotBehaviorAffectHAShade, Execution) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
+  // Spin up some clients
+  BotOprClients botOprClients;
 
   std::string oprCode = "HAShade";
   int shadeNumber(3);
