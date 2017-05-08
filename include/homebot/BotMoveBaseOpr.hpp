@@ -45,9 +45,11 @@
 #ifndef HOMEBOT_INCLUDE_HOMEBOT_BOTMOVEBASEOPR_HPP_
 #define HOMEBOT_INCLUDE_HOMEBOT_BOTMOVEBASEOPR_HPP_
 
+#include <string>
 #include "ros/ros.h"
 #include "move_base_msgs/MoveBaseAction.h"
 #include "homebot/BotOperation.hpp"
+#include "homebot/OperationParameters.hpp"
 #include "homebot/BotOprClients.hpp"
 
 /** @brief <brief description>
@@ -56,11 +58,13 @@
 class BotMoveBaseOpr : public BotOperation {
  public:
   BotMoveBaseOpr();
-  BotMoveBaseOpr(std::string pCode, std::string pFrame_id, int pXPos, int pYPos,
-                 int pZPos, int pXOrient, int pYOrient, int pZOrient,
-                 int pWOrient);
+  BotMoveBaseOpr(const std::string pCode, const std::string pFrame_id,
+                 const int pXPos, const int pYPos, const int pZPos,
+                 const int pXOrient, const int pYOrient, const int pZOrient,
+                 const int pWOrient);
   virtual ~BotMoveBaseOpr();
   move_base_msgs::MoveBaseGoal details();
+  bool isValid(const OperationParameters& opParams);
  private:
   move_base_msgs::MoveBaseGoal goal;
 };

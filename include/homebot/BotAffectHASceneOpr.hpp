@@ -45,9 +45,11 @@
 #ifndef HOMEBOT_INCLUDE_HOMEBOT_BOTAFFECTHASCENEOPR_HPP_
 #define HOMEBOT_INCLUDE_HOMEBOT_BOTAFFECTHASCENEOPR_HPP_
 
+#include <string>
 #include "ros/ros.h"
 #include "homebot/HAScene.h"
 #include "homebot/BotOperation.hpp"
+#include "homebot/OperationParameters.hpp"
 #include "homebot/BotOprClients.hpp"
 
 /** @brief <brief description>
@@ -56,9 +58,11 @@
 class BotAffectHASceneOpr : public BotOperation {
  public:
   BotAffectHASceneOpr();
-  BotAffectHASceneOpr(std::string pCode, int pSceneNumber, int pAction);
+  BotAffectHASceneOpr(const std::string pCode, const int pSceneNumber,
+                      const int pAction);
   virtual ~BotAffectHASceneOpr();
   homebot::HAScene::Request details();
+  bool isValid(const OperationParameters& opParams);
   bool execute(BotOprClients& clients);
  private:
   homebot::HAScene::Request request;

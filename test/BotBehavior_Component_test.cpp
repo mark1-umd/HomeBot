@@ -42,13 +42,15 @@
  */
 
 #include <string>
+#include <boost/shared_ptr.hpp>
 #include "gtest/gtest.h"
 #include "ros/ros.h"
+#include "homebot/BotOperation.hpp"
+#include "homebot/OperationParameters.hpp"
+#include "homebot/BotMoveBaseOpr.hpp"
 #include "homebot/BotAffectHADoorOpr.hpp"
 #include "homebot/BotAffectHASceneOpr.hpp"
 #include "homebot/BotAffectHAShadeOpr.hpp"
-#include "homebot/BotOperation.hpp"
-#include "homebot/BotMoveBaseOpr.hpp"
 #include "homebot/BotOprClients.hpp"
 
 
@@ -63,6 +65,41 @@ TEST (BotBehaviorOprClients, StartUp) {
   // The clients should be reported as not available if they are not all started
   // (and the move_base server is not currently being started)
   EXPECT_FALSE(botOprClients.allStarted());
+
+// Temporarily place these here so I can try and get some log output
+
+  // Define the operation parameters based on the Request Server initialization
+  // This is supposed to be 5 doors, 15 scenes, and 8 shades
+  OperationParameters opParams(5, 15, 8);
+
+  // Create a node handle since we are running as a ROS node
+  ros::NodeHandle nh;
+
+  std::string oprCode = "HADoor";
+  int doorNumber(1);
+  int action(2);
+
+  // Construct a HADoor operation and determine if the components are as specified
+  BotAffectHADoorOpr doorOpr(oprCode, doorNumber, action);
+  EXPECT_EQ(oprCode, doorOpr.getCode());
+  homebot::HADoorRequest doorReq = doorOpr.details();
+  EXPECT_EQ(doorNumber, doorReq.doorNumber);
+  EXPECT_EQ(action, doorReq.action);
+
+  // Validate the HADoor operation constructed above
+  EXPECT_TRUE(doorOpr.isValid(opParams));
+
+  // Now create an operation through the base class method makeOpr
+  std::stringstream operationComponents("HADoor 1 2");
+//  operationComponents << oprCode << " " << doorNumber << " " << action;
+  BotOperation emptyBaseOpr;
+  boost::shared_ptr<BotOperation> aDerivedOprInBase = emptyBaseOpr.makeOpr(
+      operationComponents,
+                                                        opParams);
+
+  // And self-validate through polymorphism/virtual function
+  bool success = aDerivedOprInBase->isValid(opParams);
+  EXPECT_TRUE(success);
 }
 /*******************************************************************************/
 
@@ -106,6 +143,10 @@ TEST (BotBehaviorMoveBase, Construction) {
 
 TEST (BotBehaviorAffectHADoor, Construction) {
 
+  // Define the operation parameters based on the Request Server initialization
+  // This is supposed to be 5 doors, 15 scenes, and 8 shades
+  OperationParameters opParams(5, 15, 8);
+
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
 
@@ -119,6 +160,20 @@ TEST (BotBehaviorAffectHADoor, Construction) {
   homebot::HADoorRequest doorReq = doorOpr.details();
   EXPECT_EQ(doorNumber, doorReq.doorNumber);
   EXPECT_EQ(action, doorReq.action);
+
+  // Validate the HADoor operation constructed above
+  EXPECT_TRUE(doorOpr.isValid(opParams));
+
+  // Now create an operation through the base class method makeOpr
+  std::stringstream operationComponents("HADoor 1 2");
+//  operationComponents << oprCode << " " << doorNumber << " " << action;
+//  BotOperation emptyBaseOpr;
+//  BotOperation& aDerivedOprInBase = emptyBaseOpr.makeOpr(operationComponents,
+//                                                        opParams);
+
+  // And self-validate through polymorphism/virtual function
+//  bool success = aDerivedOprInBase.isValid(opParams);
+//  EXPECT_TRUE(success);
 }
 /*******************************************************************************/
 

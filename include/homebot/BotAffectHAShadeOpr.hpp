@@ -45,9 +45,11 @@
 #ifndef HOMEBOT_INCLUDE_HOMEBOT_BOTAFFECTHASHADEOPR_HPP_
 #define HOMEBOT_INCLUDE_HOMEBOT_BOTAFFECTHASHADEOPR_HPP_
 
+#include <string>
 #include "ros/ros.h"
 #include "homebot/HAShade.h"
 #include "homebot/BotOperation.hpp"
+#include "homebot/OperationParameters.hpp"
 #include "homebot/BotOprClients.hpp"
 
 /** @brief <brief description>
@@ -56,9 +58,11 @@
 class BotAffectHAShadeOpr : public BotOperation {
  public:
   BotAffectHAShadeOpr();
-  BotAffectHAShadeOpr(std::string pCode, int pShadeNumber, int pAction);
+  BotAffectHAShadeOpr(const std::string pCode, const int pShadeNumber,
+                      const int pAction);
   virtual ~BotAffectHAShadeOpr();
   homebot::HAShade::Request details();
+  bool isValid(const OperationParameters& opParams);
   bool execute(BotOprClients& clients);
  private:
   homebot::HAShade::Request request;

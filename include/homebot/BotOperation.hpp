@@ -46,8 +46,18 @@
 #define HOMEBOT_INCLUDE_HOMEBOT_BOTOPERATION_HPP_
 
 #include <string>
+#include <sstream>
+#include <iostream>
+#include <boost/shared_ptr.hpp>
 #include "ros/ros.h"
+#include "homebot/OperationParameters.hpp"
 #include "homebot/BotOprClients.hpp"
+
+// Forward declarations for derived classes referenced in this base class
+class BotMOveBaseOpr;
+class BotAffectHADoorOpr;
+class BotAffectHASceneOpr;
+class BotAffectHAShadeOpr;
 
 /** @brief <brief description>
  */
@@ -55,11 +65,14 @@
 class BotOperation {
  public:
   BotOperation();
-  BotOperation(std::string pCode);
+  BotOperation(const std::string pCode);
   virtual ~BotOperation();
   std::string getCode();
+  virtual bool isValid(const OperationParameters& opParams);
   virtual bool execute(BotOprClients& clients);
-
+  boost::shared_ptr<BotOperation> makeOpr(
+      std::stringstream& operationComponents,
+                        const OperationParameters& opParams);
  protected:
   std::string code;
 };

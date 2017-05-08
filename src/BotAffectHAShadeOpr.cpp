@@ -49,8 +49,9 @@ BotAffectHAShadeOpr::BotAffectHAShadeOpr() {
   // TODO(Mark Jenkins): Auto-generated constructor stub
 }
 
-BotAffectHAShadeOpr::BotAffectHAShadeOpr(std::string pCode, int pShadeNumber,
-                                   int pAction)
+BotAffectHAShadeOpr::BotAffectHAShadeOpr(const std::string pCode,
+                                         const int pShadeNumber,
+                                         const int pAction)
     : BotOperation(pCode) {
   request.shadeNumber = pShadeNumber;
   request.action = pAction;
@@ -64,11 +65,26 @@ homebot::HAShade::Request BotAffectHAShadeOpr::details() {
   return request;
 }
 
+bool BotAffectHAShadeOpr::isValid(const OperationParameters& opParams) {
+  // Validate the code, the shade is less than the maximum, and the action is recognized;
+  if ((code == "HAShade") && (request.shadeNumber <= opParams.maxShadeNumber)
+      && ((request.action == homebot::HAShadeRequest::RAISE)
+          || (request.action == homebot::HAShadeRequest::LOWER)
+          || (request.action == homebot::HAShadeRequest::STATUS)))
+    return true;
+  else
+    {
+    ROS_WARN_STREAM(
+        "HomeBot-BotAffectHAShadeOpr(isValid): Validation failed code '" << code << "', shade '" << static_cast<int>(request.shadeNumber) << "', and action '" << static_cast<int>(request.action) << "'");
+    return false;
+  }
+}
+
 bool BotAffectHAShadeOpr::execute(BotOprClients& clients) {
   // Check whether the service is still available
   if (!clients.scHAShade.exists()) {
-    ROS_ERROR_STREAM(
-        "HAShade service does not exist when trying to execute action " << request.action << " on " << request.shadeNumber);
+    ROS_WARN_STREAM(
+        "HomeBot-BotAffectHAShadeOpr(execute): HAShade service does not exist when trying to execute action '" << static_cast<int>(request.action) << "' on " << static_cast<int>(request.shadeNumber) << "'");
     return false;
   }
   // Call for service  using the stored request object and a newly created response object
@@ -78,14 +94,14 @@ bool BotAffectHAShadeOpr::execute(BotOprClients& clients) {
   // See if we got a response for the shade that we requested
   if (response.shadeNumber != request.shadeNumber) {
     ROS_WARN_STREAM(
-        "HAShade service response was for shade " << response.shadeNumber << " when shade " << request.shadeNumber << " was requested");
+        "HomeBot-BotAffectHAShadeOpr(execute): HAShade service response was for shade '" << static_cast<int>(response.shadeNumber) << "' when shade '" << static_cast<int>(request.shadeNumber) << "' was requested");
     return false;
   }
 
   // If we checked status, any status is good
   if (request.action == homebot::HAShadeRequest::STATUS) {
     ROS_INFO_STREAM(
-        "Request for status of shade " << request.shadeNumber << " returned " << response.state);
+        "HomeBot-BotAffectHAShadeOpr(execute): Request for status of shade '" << static_cast<int>(request.shadeNumber) << "' returned state '" << static_cast<int>(response.state) << "'");
     return true;
   }
 
@@ -93,7 +109,7 @@ bool BotAffectHAShadeOpr::execute(BotOprClients& clients) {
   if ((request.action == homebot::HAShadeRequest::LOWER)
       && (response.state == homebot::HAShadeResponse::LOWERED)) {
     ROS_INFO_STREAM(
-        "Request to lower shade " << request.shadeNumber << " succeeded");
+        "HomeBot-BotAffectHAShadeOpr(execute): Request to lower shade '" << static_cast<int>(request.shadeNumber) << "' succeeded");
     return true;
   }
 
@@ -101,12 +117,12 @@ bool BotAffectHAShadeOpr::execute(BotOprClients& clients) {
   if ((request.action == homebot::HAShadeRequest::RAISE)
       && (response.state == homebot::HAShadeResponse::RAISED)) {
     ROS_INFO_STREAM(
-        "Request to raise shade " << request.shadeNumber << " succeeded");
+        "HomeBot-BotAffectHAShadeOpr(execute): Request to raise shade '" << static_cast<int>(request.shadeNumber) << "' succeeded");
     return true;
   }
 
   // We didn't get what we wanted
   ROS_INFO_STREAM(
-      "Request for action " << request.action << " on shade number " << request.shadeNumber << " returned a state of " << response.state);
+      "HomeBot-BotAffectHAShadeOpr(execute): Request for action '" << static_cast<int>(request.action) << "' on shade number '" << static_cast<int>(request.shadeNumber) << "' returned a state of " << response.state);
   return false;
 }

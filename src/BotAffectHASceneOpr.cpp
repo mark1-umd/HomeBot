@@ -49,8 +49,9 @@ BotAffectHASceneOpr::BotAffectHASceneOpr() {
   // TODO(Mark Jenkins): Auto-generated constructor stub
 }
 
-BotAffectHASceneOpr::BotAffectHASceneOpr(std::string pCode, int pSceneNumber,
-                                   int pAction)
+BotAffectHASceneOpr::BotAffectHASceneOpr(const std::string pCode,
+                                         const int pSceneNumber,
+                                         const int pAction)
     : BotOperation(pCode) {
   request.sceneNumber = pSceneNumber;
   request.action = pAction;
@@ -64,11 +65,25 @@ homebot::HAScene::Request BotAffectHASceneOpr::details() {
   return request;
 }
 
+bool BotAffectHASceneOpr::isValid(const OperationParameters& opParams) {
+  // Validate the code, the scene is less than the maximum, and the action is recognized;
+  if ((code == "HAScene") && (request.sceneNumber <= opParams.maxSceneNumber)
+      && ((request.action == homebot::HASceneRequest::TURNOFF)
+          || (request.action == homebot::HASceneRequest::TURNON)
+          || (request.action == homebot::HASceneRequest::STATUS)))
+    return true;
+  else {
+    ROS_WARN_STREAM(
+        "HomeBot-BotAffectHASceneOpr(isValid): Validation failed code '" << code << "', scene '" << static_cast<int>(request.sceneNumber) << "', and action '" << static_cast<int>(request.action) << "'");
+    return false;
+  }
+}
+
 bool BotAffectHASceneOpr::execute(BotOprClients& clients) {
   // Check whether the service is still available
   if (!clients.scHAScene.exists()) {
-    ROS_ERROR_STREAM(
-        "HAScene service does not exist when trying to execute action " << request.action << " on " << request.sceneNumber);
+    ROS_WARN_STREAM(
+        "HomeBot-BotAffectHASceneOpr(execute): HAScene service does not exist when trying to execute action '" << static_cast<int>(request.action) << "' on scene '" << request.sceneNumber << "'");
     return false;
   }
   // Call for service  using the stored request object and a newly created response object
@@ -78,14 +93,14 @@ bool BotAffectHASceneOpr::execute(BotOprClients& clients) {
   // See if we got a response for the scene that we requested
   if (response.sceneNumber != request.sceneNumber) {
     ROS_WARN_STREAM(
-        "HAScene service response was for scene " << response.sceneNumber << " when scene " << request.sceneNumber << " was requested");
+        "HomeBot-BotAffectHASceneOpr(execute): HAScene service response was for scene " << response.sceneNumber << " when scene " << request.sceneNumber << " was requested");
     return false;
   }
 
   // If we checked status, any status is good
   if (request.action == homebot::HASceneRequest::STATUS) {
     ROS_INFO_STREAM(
-        "Request for status of scene " << request.sceneNumber << " returned " << response.state);
+        "HomeBot-BotAffectHASceneOpr(execute): Request for status of scene '" << static_cast<int>(request.sceneNumber) << "' returned state '" << response.state << "'");
     return true;
   }
 
@@ -93,7 +108,7 @@ bool BotAffectHASceneOpr::execute(BotOprClients& clients) {
   if ((request.action == homebot::HASceneRequest::TURNON)
       && (response.state == homebot::HASceneResponse::ON)) {
     ROS_INFO_STREAM(
-        "Request to turn on scene " << request.sceneNumber << " succeeded");
+        "HomeBot-BotAffectHASceneOpr(execute): Request to turn on scene '" << static_cast<int>(request.sceneNumber) << "' succeeded");
     return true;
   }
 
@@ -101,12 +116,12 @@ bool BotAffectHASceneOpr::execute(BotOprClients& clients) {
   if ((request.action == homebot::HASceneRequest::TURNOFF)
       && (response.state == homebot::HASceneResponse::OFF)) {
     ROS_INFO_STREAM(
-        "Request to turn off scene " << request.sceneNumber << " succeeded");
+        "HomeBot-BotAffectHASceneOpr(execute): Request to turn off scene '" << static_cast<int>(request.sceneNumber) << "' succeeded");
     return true;
   }
 
   // We didn't get what we wanted
   ROS_INFO_STREAM(
-      "Request for action " << request.action << " on scene number " << request.sceneNumber << " returned a state of " << response.state);
+      "HomeBot-BotAffectHASceneOpr(execute): Request for action '" << static_cast<int>(request.action) << "' on scene number '" << static_cast<int>(request.sceneNumber) << "' returned a state of '" << response.state << "'");
   return false;
 }

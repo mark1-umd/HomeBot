@@ -48,7 +48,7 @@ BotOprClients::BotOprClients()
       clientsStarted(0),
       nh(),
       acBotMoveBase("move_base", true) {
-  ROS_INFO_STREAM("Starting clients for Bot Operations");
+  ROS_INFO_STREAM("HomeBot-BotOprClients: Starting clients for Bot Operations");
 
   // Start the services that weren't started above
   scHADoor = nh.serviceClient<homebot::HADoor>("ha_door");
@@ -57,25 +57,29 @@ BotOprClients::BotOprClients()
 
   // Check the move_base action server
   if (!acBotMoveBase.waitForServer(ros::Duration(5.0)))
-    ROS_ERROR_STREAM("The move_base action server is not available");
+    ROS_ERROR_STREAM(
+        "HomeBot-BotOprClients: The move_base action server is not available");
   else
     clientsStarted++;
 
   // Check the ha_door service
   if (!scHADoor.waitForExistence(ros::Duration(5.0)))
-    ROS_ERROR_STREAM("The ha_door service is not available");
+    ROS_ERROR_STREAM(
+        "HomeBot-BotOprClients: The ha_door service is not available");
   else
     clientsStarted++;
 
   // Check the ha_scene service
   if (!scHAScene.waitForExistence(ros::Duration(5.0)))
-    ROS_ERROR_STREAM("The ha_scene service is not available");
+    ROS_ERROR_STREAM(
+        "HomeBot-BotOprClients: The ha_scene service is not available");
   else
     clientsStarted++;
 
   // Check he ha_shade service
   if (!scHAShade.waitForExistence(ros::Duration(5.0)))
-    ROS_ERROR_STREAM("The ha_shade service is not available");
+    ROS_ERROR_STREAM(
+        "HomeBot-BotOprClients: The ha_shade service is not available");
   else
     clientsStarted++;
 }

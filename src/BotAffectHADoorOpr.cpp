@@ -49,8 +49,8 @@ BotAffectHADoorOpr::BotAffectHADoorOpr() {
   // TODO(Mark Jenkins): Auto-generated constructor stub
 }
 
-BotAffectHADoorOpr::BotAffectHADoorOpr(std::string pCode, int pDoorNumber,
-                                 int pAction)
+BotAffectHADoorOpr::BotAffectHADoorOpr(const std::string pCode,
+                                       const int pDoorNumber, const int pAction)
     : BotOperation(pCode) {
   request.doorNumber = pDoorNumber;
   request.action = pAction;
@@ -64,11 +64,28 @@ homebot::HADoor::Request BotAffectHADoorOpr::details() {
   return request;
 }
 
+bool BotAffectHADoorOpr::isValid(const OperationParameters& opParams) {
+  ROS_ERROR_STREAM("HomeBot-BotAffectHADoorOpr(isValid): Entered");
+  // Validate the code, the door is less than the maximum, and the action is recognized;
+  if ((code == "HADoor") && (request.doorNumber <= opParams.maxDoorNumber)
+      && ((request.action == homebot::HADoorRequest::CLOSE)
+          || (request.action == homebot::HADoorRequest::OPEN)
+          || (request.action == homebot::HADoorRequest::STATUS))) {
+    ROS_ERROR_STREAM("HomeBot-BotAffectHADoorOpr(isValid): returning TRUE");
+    return true;
+  }
+  else {
+    ROS_ERROR_STREAM(
+        "HomeBot-BotAffectHADoorOpr(isValid): Validation failed code '" << code << "', door '" << static_cast<int>(request.doorNumber) << "', and action '" << static_cast<int>(request.action) << "'");
+  }
+    return false;
+}
+
 bool BotAffectHADoorOpr::execute(BotOprClients& clients) {
   // Check whether the service is still available
   if (!clients.scHADoor.exists()) {
-    ROS_ERROR_STREAM(
-        "HADoor service does not exist when trying to execute action " << request.action << " on " << request.doorNumber);
+    ROS_WARN_STREAM(
+        "HomeBot-BotAffectHADoorOpr(execute): HADoor service does not exist when trying to execute action '" << static_cast<int>(request.action) << "' on door '" << static_cast<int>(request.doorNumber) << "'");
     return false;
   }
   // Call for service  using the stored request object and a newly created response object
@@ -78,13 +95,14 @@ bool BotAffectHADoorOpr::execute(BotOprClients& clients) {
   // See if we got a response for the door that we requested
   if (response.doorNumber != request.doorNumber) {
     ROS_WARN_STREAM(
-        "HADoor service response was for door " << response.doorNumber << " when door " << request.doorNumber << " was requested");
+        "HomeBot-BotAffectHADoorOpr(execute): HADoor service response was for door '" << static_cast<int>(response.doorNumber) << "' when door '" << static_cast<int>(request.doorNumber) << "' was requested");
     return false;
   }
 
   // If we checked status, any status is good
   if (request.action == homebot::HADoorRequest::STATUS) {
-    ROS_INFO_STREAM("Request for status of door " << request.doorNumber << " returned " << response.state);
+    ROS_INFO_STREAM(
+        "HomeBot-BotAffectHADoorOpr(execute): Request for status of door '" << static_cast<int>(request.doorNumber) << "' returned state '" << static_cast<int>(response.state) << "'");
     return true;
   }
 
@@ -92,7 +110,7 @@ bool BotAffectHADoorOpr::execute(BotOprClients& clients) {
   if ((request.action == homebot::HADoorRequest::OPEN)
       && (response.state == homebot::HADoorResponse::OPENED)) {
     ROS_INFO_STREAM(
-        "Request to open door " << request.doorNumber << " succeeded");
+        "HomeBot-BotAffectHADoorOpr(execute): Request to open door '" << static_cast<int>(request.doorNumber) << "' succeeded");
     return true;
   }
 
@@ -100,12 +118,12 @@ bool BotAffectHADoorOpr::execute(BotOprClients& clients) {
   if ((request.action == homebot::HADoorRequest::CLOSE)
       && (response.state == homebot::HADoorResponse::CLOSED)) {
     ROS_INFO_STREAM(
-        "Request to close door " << request.doorNumber << " succeeded");
+        "HomeBot-BotAffectHADoorOpr(execute): Request to close door '" << static_cast<int>(request.doorNumber) << "' succeeded");
     return true;
   }
 
   // We didn't get what we wanted
   ROS_INFO_STREAM(
-      "Request for action " << request.action << " on door number " << request.doorNumber << " returned a state of " << response.state);
+      "HomeBot-BotAffectHADoorOpr(execute): Request for action '" << static_cast<int>(request.action) << "' on door number '" << static_cast<int>(request.doorNumber) << "' returned a state of '" << static_cast<int>(response.state) << "'");
   return false;
 }
