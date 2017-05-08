@@ -54,7 +54,7 @@
 #include "homebot/BotOprClients.hpp"
 
 
-/*******************************************************************************/
+/*******************************************************************************
 
 TEST (BotBehaviorOprClients, StartUp) {
   // Create a node handle since we are running as a ROS node and use rosconsole
@@ -76,6 +76,9 @@ TEST (BotBehaviorBaseOpr, Construction) {
 
   // Create a node handle since we are running as a ROS node and use rosconsole
   ros::NodeHandle nh;
+
+  // Crank up bot clients just to create enough delay to get some console logging for tests
+  BotOprClients botOprClients;
 
   // Constructors on base with no input
   {
@@ -102,7 +105,7 @@ TEST (BotBehaviorBaseOpr, Construction) {
   // Constructors on base with "Bogus" raw text - invalid result
   {
     BotOperation baseOpr("Bogus");
-    EXPECT_EQ("Bogus", baseOpr.getCode());
+    EXPECT_EQ("", baseOpr.getCode());
     EXPECT_FALSE(baseOpr.isExecutable(opParams));
     boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
     EXPECT_FALSE(someOpr->isExecutable(opParams));
@@ -113,7 +116,7 @@ TEST (BotBehaviorBaseOpr, Construction) {
   // Constructors on base with "HADoor" raw text - invalid result
   {
     BotOperation baseOpr("HADoor");
-    EXPECT_EQ("HADoor", baseOpr.getCode());
+    EXPECT_EQ("", baseOpr.getCode());
     EXPECT_FALSE(baseOpr.isExecutable(opParams));
     boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
     EXPECT_FALSE(someOpr->isExecutable(opParams));
@@ -124,7 +127,7 @@ TEST (BotBehaviorBaseOpr, Construction) {
   // Constructors on base with "HADoor garbage" raw text - invalid result
   {
     BotOperation baseOpr("HADoor garbage");
-    EXPECT_EQ("HADoor", baseOpr.getCode());
+    EXPECT_EQ("", baseOpr.getCode());
     EXPECT_FALSE(baseOpr.isExecutable(opParams));
     boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
     EXPECT_FALSE(someOpr->isExecutable(opParams));
@@ -135,7 +138,7 @@ TEST (BotBehaviorBaseOpr, Construction) {
   // Constructors on base with "HADoor garbage garbage" raw text - invalid result
   {
     BotOperation baseOpr("HADoor garbage1 in garbage2 our");
-    EXPECT_EQ("HADoor", baseOpr.getCode());
+    EXPECT_EQ("", baseOpr.getCode());
     EXPECT_FALSE(baseOpr.isExecutable(opParams));
     boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
     EXPECT_FALSE(someOpr->isExecutable(opParams));
@@ -179,7 +182,7 @@ TEST (BotBehaviorBaseOpr, Construction) {
   // Constructors on base with garbage raw text, null code - invalid result
   {
     BotOperation baseOpr("garbage1 in garbage2 out", "");
-    EXPECT_EQ("garbage1", baseOpr.getCode());
+    EXPECT_EQ("", baseOpr.getCode());
     EXPECT_FALSE(baseOpr.isExecutable(opParams));
     boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
     EXPECT_FALSE(someOpr->isExecutable(opParams));
