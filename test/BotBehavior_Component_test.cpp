@@ -57,55 +57,166 @@
 /*******************************************************************************/
 
 TEST (BotBehaviorOprClients, StartUp) {
+  // Create a node handle since we are running as a ROS node and use rosconsole
+  ros::NodeHandle nh;
 
   // Instantiate the BotOprClients object;
-
   BotOprClients botOprClients;
 
   // The clients should be reported as not available if they are not all started
   // (and the move_base server is not currently being started)
   EXPECT_FALSE(botOprClients.allStarted());
+}
+/*******************************************************************************/
 
-// Temporarily place these here so I can try and get some log output
-
-  // Define the operation parameters based on the Request Server initialization
-  // This is supposed to be 5 doors, 15 scenes, and 8 shades
+TEST (BotBehaviorBaseOpr, Construction) {
+  // Define the operation parameters for this test
+  // doors = 5, scenes = 15, shades = 8
   OperationParameters opParams(5, 15, 8);
 
-  // Create a node handle since we are running as a ROS node
+  // Create a node handle since we are running as a ROS node and use rosconsole
   ros::NodeHandle nh;
 
-  std::string oprCode = "HADoor";
-  int doorNumber(1);
-  int action(2);
+  // Constructors on base with no input
+  {
+    BotOperation baseOpr;
+    EXPECT_EQ("", baseOpr.getCode());
+    EXPECT_FALSE(baseOpr.isExecutable(opParams));
+    boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(someOpr->isExecutable(opParams));
+    // the returned Opr should have a null code
+    EXPECT_EQ("", someOpr->getCode());
+  }
 
-  // Construct a HADoor operation and determine if the components are as specified
-  BotAffectHADoorOpr doorOpr(oprCode, doorNumber, action);
-  EXPECT_EQ(oprCode, doorOpr.getCode());
-  homebot::HADoorRequest doorReq = doorOpr.details();
-  EXPECT_EQ(doorNumber, doorReq.doorNumber);
-  EXPECT_EQ(action, doorReq.action);
+  // Constructors on base with null raw text - invalid result
+  {
+    BotOperation baseOpr("");
+    EXPECT_EQ("", baseOpr.getCode());
+    EXPECT_FALSE(baseOpr.isExecutable(opParams));
+    boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(someOpr->isExecutable(opParams));
+    // the returned Opr should have a null code
+    EXPECT_EQ("", someOpr->getCode());
+  }
 
-  // Validate the HADoor operation constructed above
-  EXPECT_TRUE(doorOpr.isValid(opParams));
+  // Constructors on base with "Bogus" raw text - invalid result
+  {
+    BotOperation baseOpr("Bogus");
+    EXPECT_EQ("Bogus", baseOpr.getCode());
+    EXPECT_FALSE(baseOpr.isExecutable(opParams));
+    boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(someOpr->isExecutable(opParams));
+    // the returned Opr should a "Bogus" code
+    EXPECT_EQ("Bogus", someOpr->getCode());
+  }
 
-  // Now create an operation through the base class method makeOpr
-  std::stringstream operationComponents("HADoor 1 2");
-//  operationComponents << oprCode << " " << doorNumber << " " << action;
-  BotOperation emptyBaseOpr;
-  boost::shared_ptr<BotOperation> aDerivedOprInBase = emptyBaseOpr.makeOpr(
-      operationComponents,
-                                                        opParams);
+  // Constructors on base with "HADoor" raw text - invalid result
+  {
+    BotOperation baseOpr("HADoor");
+    EXPECT_EQ("HADoor", baseOpr.getCode());
+    EXPECT_FALSE(baseOpr.isExecutable(opParams));
+    boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(someOpr->isExecutable(opParams));
+    // the returned Opr should a "HADoor" code
+    EXPECT_EQ("HADoor", someOpr->getCode());
+  }
 
-  // And self-validate through polymorphism/virtual function
-  bool success = aDerivedOprInBase->isValid(opParams);
-  EXPECT_TRUE(success);
+  // Constructors on base with "HADoor garbage" raw text - invalid result
+  {
+    BotOperation baseOpr("HADoor garbage");
+    EXPECT_EQ("HADoor", baseOpr.getCode());
+    EXPECT_FALSE(baseOpr.isExecutable(opParams));
+    boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(someOpr->isExecutable(opParams));
+    // the returned Opr should a "HADoor" code
+    EXPECT_EQ("HADoor", someOpr->getCode());
+  }
+
+  // Constructors on base with "HADoor garbage garbage" raw text - invalid result
+  {
+    BotOperation baseOpr("HADoor garbage1 in garbage2 our");
+    EXPECT_EQ("HADoor", baseOpr.getCode());
+    EXPECT_FALSE(baseOpr.isExecutable(opParams));
+    boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(someOpr->isExecutable(opParams));
+    // the returned Opr should a "HADoor" code
+    EXPECT_EQ("HADoor", someOpr->getCode());
+  }
+
+  // Constructors on base with null raw text, null code - invalid result
+  {
+    BotOperation baseOpr("", "");
+    EXPECT_EQ("", baseOpr.getCode());
+    EXPECT_FALSE(baseOpr.isExecutable(opParams));
+    boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(someOpr->isExecutable(opParams));
+    // the returned Opr should a null code
+    EXPECT_EQ("", someOpr->getCode());
+  }
+
+  // Constructors on base with null raw text, Bogus code - invalid result
+  {
+    BotOperation baseOpr("", "Bogus");
+    EXPECT_EQ("Bogus", baseOpr.getCode());
+    EXPECT_FALSE(baseOpr.isExecutable(opParams));
+    boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(someOpr->isExecutable(opParams));
+    // the returned Opr should a "Bogus" code
+    EXPECT_EQ("Bogus", someOpr->getCode());
+  }
+
+  // Constructors on base with null raw text, HADoor code - invalid result
+  {
+    BotOperation baseOpr("", "HADoor");
+    EXPECT_EQ("HADoor", baseOpr.getCode());
+    EXPECT_FALSE(baseOpr.isExecutable(opParams));
+    boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(someOpr->isExecutable(opParams));
+    // the returned Opr should a "HADoor" code
+    EXPECT_EQ("HADoor", someOpr->getCode());
+  }
+
+  // Constructors on base with garbage raw text, null code - invalid result
+  {
+    BotOperation baseOpr("garbage1 in garbage2 out", "");
+    EXPECT_EQ("garbage1", baseOpr.getCode());
+    EXPECT_FALSE(baseOpr.isExecutable(opParams));
+    boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(someOpr->isExecutable(opParams));
+    // the returned Opr should a "garbage" code
+    EXPECT_EQ("garbage1", someOpr->getCode());
+  }
+
+  // Constructors on base with garbage raw text, Bogus code - invalid result
+  {
+    BotOperation baseOpr("garbage1 in garbage2 out", "Bogus");
+    EXPECT_EQ("Bogus", baseOpr.getCode());
+    EXPECT_FALSE(baseOpr.isExecutable(opParams));
+    boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(someOpr->isExecutable(opParams));
+    // the returned Opr should a "Bogus" code
+    EXPECT_EQ("Bogus", someOpr->getCode());
+  }
+
+  // Constructors on base with garbage raw text, HADoor code - invalid result
+  {
+    BotOperation baseOpr("garbage1 in garbage2 out", "HADoor");
+    EXPECT_EQ("HADoor", baseOpr.getCode());
+    EXPECT_FALSE(baseOpr.isExecutable(opParams));
+    boost::shared_ptr<BotOperation> someOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(someOpr->isExecutable(opParams));
+    // the returned Opr should a "Bogus" code
+    EXPECT_EQ("HADoor", someOpr->getCode());
+  }
 }
 /*******************************************************************************/
 
 TEST (BotBehaviorMoveBase, Construction) {
+  // Define the operation parameters for this test
+  // doors = 5, scenes = 15, shades = 8
+  OperationParameters opParams(5, 15, 8);
 
-  // Create a node handle since we are running as a ROS node
+  // Create a node handle since we are running as a ROS node and use rosconsole
   ros::NodeHandle nh;
 
   std::string oprCode("BotMoveBase");
@@ -118,7 +229,7 @@ TEST (BotBehaviorMoveBase, Construction) {
   int zOrient(5);
   int wOrient(1);
 
-  // Construct a BotMoveBase operation and determine if the components are as specified
+  // Construct a BotMoveBase operation manually and determine if the components are as specified
   BotMoveBaseOpr mbOpr(oprCode, frame_id, xPos, yPos, zPos, xOrient, yOrient,
                        zOrient, wOrient);
   EXPECT_EQ(oprCode, mbOpr.getCode());
@@ -132,29 +243,69 @@ TEST (BotBehaviorMoveBase, Construction) {
   EXPECT_EQ(zOrient, goal.target_pose.pose.orientation.z);
   EXPECT_EQ(wOrient, goal.target_pose.pose.orientation.w);
 
-  // Now try and execute the BotMoveBase operation without a corresponding server
-  BotOprClients botOprClients;
-  EXPECT_FALSE(botOprClients.allStarted());
+  // Validate the MoveBase operation constructed above
+  EXPECT_TRUE(mbOpr.isExecutable(opParams));
 
-  // And this should fail, too
-  EXPECT_FALSE(mbOpr.execute(botOprClients));
+  // Now create an operation through the base class method transform
+  BotOperation baseOpr("BotMoveBase map 23 17 11 2 3 5 1");
+  boost::shared_ptr<BotOperation> aDerivedOprInBase = baseOpr.transform(
+      opParams);
+
+  // And self-validate through polymorphism/virtual function
+  EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
+}
+/*******************************************************************************/
+
+TEST (BotBehaviorMoveBase, Execution) {
+  // Define the operation parameters based on the Request Server initialization
+  // (Assume Request Server started with -doors 5 -scenes 15 -shades 8
+  // doors = 5, scenes = 15, shades = 8
+  OperationParameters opParams(5, 15, 8);
+
+  // Create a node handle since we are running as a ROS node with rosconsole
+  ros::NodeHandle nh;
+  // Spin up some clients
+  BotOprClients botOprClients;
+
+  // default test parameters
+  std::string oprCode("BotMoveBase");
+  std::string frame_id("map");
+  int xPos(23);
+  int yPos(17);
+  int zPos(11);
+  int xOrient(2);
+  int yOrient(3);
+  int zOrient(5);
+  int wOrient(1);
+
+  // Test HADoor execution for status (without a move_base action server)
+  {
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << frame_id << " " << xPos << " " << yPos << " "
+             << zPos << " " << xOrient << " " << yOrient << " " << zOrient
+             << " " << wOrient;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> doorOpr = baseOpr.transform(opParams);
+    EXPECT_TRUE(doorOpr->isExecutable(opParams));
+    EXPECT_FALSE(doorOpr->execute(botOprClients));
+  }
 }
 /*******************************************************************************/
 
 TEST (BotBehaviorAffectHADoor, Construction) {
-
-  // Define the operation parameters based on the Request Server initialization
-  // This is supposed to be 5 doors, 15 scenes, and 8 shades
+  // Define the operation parameters for this test
+  // doors = 5, scenes = 15, shades = 8
   OperationParameters opParams(5, 15, 8);
 
-  // Create a node handle since we are running as a ROS node
+  // Create a node handle since we are running as a ROS node and use rosconsole
   ros::NodeHandle nh;
 
   std::string oprCode = "HADoor";
   int doorNumber(1);
   int action(2);
 
-  // Construct a HADoor operation and determine if the components are as specified
+  // Construct a HADoor operation manually and determine if the components are as specified
   BotAffectHADoorOpr doorOpr(oprCode, doorNumber, action);
   EXPECT_EQ(oprCode, doorOpr.getCode());
   homebot::HADoorRequest doorReq = doorOpr.details();
@@ -162,178 +313,106 @@ TEST (BotBehaviorAffectHADoor, Construction) {
   EXPECT_EQ(action, doorReq.action);
 
   // Validate the HADoor operation constructed above
-  EXPECT_TRUE(doorOpr.isValid(opParams));
+  EXPECT_TRUE(doorOpr.isExecutable(opParams));
 
-  // Now create an operation through the base class method makeOpr
-  std::stringstream operationComponents("HADoor 1 2");
-//  operationComponents << oprCode << " " << doorNumber << " " << action;
-//  BotOperation emptyBaseOpr;
-//  BotOperation& aDerivedOprInBase = emptyBaseOpr.makeOpr(operationComponents,
-//                                                        opParams);
+  // Now create an operation through the base class method transform
+  BotOperation baseOpr("HADoor 1 2");
+  boost::shared_ptr<BotOperation> aDerivedOprInBase = baseOpr.transform(
+      opParams);
 
   // And self-validate through polymorphism/virtual function
-//  bool success = aDerivedOprInBase.isValid(opParams);
-//  EXPECT_TRUE(success);
-}
-/*******************************************************************************/
-
-// This test assumes that the HARequestServer has been initialized with 5 doors
-// (argument -doors 5)
-TEST (BotBehaviorAffectHADoor, Service) {
-  // Set the number of doors in the server to be tested
-  int doorCount = 5;
-
-  // Set up as a service client
-  ros::NodeHandle nh;
-  ros::ServiceClient client = nh.serviceClient<homebot::HADoor>("ha_door");
-
-  // Test the availability of the service
-  bool serviceAvailable(client.waitForExistence(ros::Duration(1)));
-  EXPECT_TRUE(serviceAvailable);
-
-  // Now test service requests and responses
-  bool success;
-  homebot::HADoor srv;
-
-  // Should not be door number 0 or a door greater than doorCount
-  srv.request.action = homebot::HADoorRequest::STATUS;
-  srv.request.doorNumber = 0;
-  success = client.call(srv);
-  EXPECT_FALSE(success);
-  srv.request.doorNumber = doorCount + 1;
-  success = client.call(srv);
-  EXPECT_FALSE(success);
-
-  // The doors should all initialize to closed
-  srv.request.action = homebot::HADoorRequest::STATUS;
-  for (int i = 1; i < (doorCount + 1); i++) {
-    srv.request.doorNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HADoorResponse::CLOSED, srv.response.state);
-  }
-
-  // Should be able to open all of the doors
-  srv.request.action = homebot::HADoorRequest::OPEN;
-  for (int i = 1; i < (doorCount + 1); i++) {
-    srv.request.doorNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HADoorResponse::OPENED, srv.response.state);
-  }
-
-  // Now all of the doors should be open
-  srv.request.action = homebot::HADoorRequest::STATUS;
-  for (int i = 1; i < (doorCount + 1); i++) {
-    srv.request.doorNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HADoorResponse::OPENED, srv.response.state);
-  }
-
-  // Should be able to close all of the doors
-  srv.request.action = homebot::HADoorRequest::CLOSE;
-  for (int i = 1; i < (doorCount + 1); i++) {
-    srv.request.doorNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HADoorResponse::CLOSED, srv.response.state);
-  }
-
-  // Now all of the doors should be closed
-  srv.request.action = homebot::HADoorRequest::STATUS;
-  for (int i = 1; i < (doorCount + 1); i++) {
-    srv.request.doorNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HADoorResponse::CLOSED, srv.response.state);
-  }
+  EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
 /*******************************************************************************/
 
 TEST (BotBehaviorAffectHADoor, Execution) {
+  // Define the operation parameters based on the Request Server initialization
+  // (Assume Request Server started with -doors 5 -scenes 15 -shades 8
+  // doors = 5, scenes = 15, shades = 8
+  OperationParameters opParams(5, 15, 8);
 
-  // Create a node handle since we are running as a ROS node
+  // Create a node handle since we are running as a ROS node with rosconsole
   ros::NodeHandle nh;
   // Spin up some clients
   BotOprClients botOprClients;
 
   std::string oprCode = "HADoor";
   int doorNumber(1);
-  int action(homebot::HADoorRequest::STATUS);
 
   // Test HADoor execution for status
   {
-    BotAffectHADoorOpr doorOpr(oprCode, doorNumber, action);
-    EXPECT_EQ(oprCode, doorOpr.getCode());
-    homebot::HADoorRequest doorReq = doorOpr.details();
-    EXPECT_EQ(doorNumber, doorReq.doorNumber);
-    EXPECT_EQ(action, doorReq.action);
-
-    // This should work if we have a server running...
-    EXPECT_TRUE(doorOpr.execute(botOprClients));
+    int action(homebot::HADoorRequest::STATUS);
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << doorNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> doorOpr = baseOpr.transform(opParams);
+    EXPECT_TRUE(doorOpr->isExecutable(opParams));
+    EXPECT_TRUE(doorOpr->execute(botOprClients));
   }
 
   // Test HADoor execution for close
-  action = homebot::HADoorRequest::CLOSE;
   {
-    BotAffectHADoorOpr doorOpr(oprCode, doorNumber, action);
-    EXPECT_EQ(oprCode, doorOpr.getCode());
-    homebot::HADoorRequest doorReq = doorOpr.details();
-    EXPECT_EQ(doorNumber, doorReq.doorNumber);
-    EXPECT_EQ(action, doorReq.action);
-
-    // This should work if we have a server running...
-    EXPECT_TRUE(doorOpr.execute(botOprClients));
+    int action = homebot::HADoorRequest::CLOSE;
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << doorNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> doorOpr = baseOpr.transform(opParams);
+    EXPECT_TRUE(doorOpr->isExecutable(opParams));
+    EXPECT_TRUE(doorOpr->execute(botOprClients));
   }
 
   // Test HADoor execution for open
-  action = homebot::HADoorRequest::OPEN;
   {
-    BotAffectHADoorOpr doorOpr(oprCode, doorNumber, action);
-    EXPECT_EQ(oprCode, doorOpr.getCode());
-    homebot::HADoorRequest doorReq = doorOpr.details();
-    EXPECT_EQ(doorNumber, doorReq.doorNumber);
-    EXPECT_EQ(action, doorReq.action);
+    int action = homebot::HADoorRequest::OPEN;
+
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << doorNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> doorOpr = baseOpr.transform(opParams);
+    EXPECT_TRUE(doorOpr->isExecutable(opParams));
+    EXPECT_TRUE(doorOpr->execute(botOprClients));
 
     // This should work if we have a server running...
-    EXPECT_TRUE(doorOpr.execute(botOprClients));
+    EXPECT_TRUE(doorOpr->execute(botOprClients));
   }
 
   // Test HADoor execution for invalid action
-  action = 5;
   {
-    BotAffectHADoorOpr doorOpr(oprCode, doorNumber, action);
-    EXPECT_EQ(oprCode, doorOpr.getCode());
-    homebot::HADoorRequest doorReq = doorOpr.details();
-    EXPECT_EQ(doorNumber, doorReq.doorNumber);
-    EXPECT_EQ(action, doorReq.action);
-
-    // This should work if we have a server running...
-    EXPECT_FALSE(doorOpr.execute(botOprClients));
+    int action = 5;
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << doorNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> doorOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(doorOpr->isExecutable(opParams));
+    EXPECT_FALSE(doorOpr->execute(botOprClients));
   }
 
   // Test HADoor execution for invalid door number
   // (assumes server was started with only 5 doors)
-  action = homebot::HADoorRequest::OPEN;
-  doorNumber = 99;
   {
-    BotAffectHADoorOpr doorOpr(oprCode, doorNumber, action);
-    EXPECT_EQ(oprCode, doorOpr.getCode());
-    homebot::HADoorRequest doorReq = doorOpr.details();
-    EXPECT_EQ(doorNumber, doorReq.doorNumber);
-    EXPECT_EQ(action, doorReq.action);
-
-    // This should fail even if we have a server running...
-    EXPECT_FALSE(doorOpr.execute(botOprClients));
+    int doorNumber = 99;
+    int action = homebot::HADoorRequest::OPEN;
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << doorNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> doorOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(doorOpr->isExecutable(opParams));
+    EXPECT_FALSE(doorOpr->execute(botOprClients));
   }
-
 }
 /*******************************************************************************/
 
 TEST (BotBehaviorAffectHAScene, Construction) {
+  // Define the operation parameters for this test
+  // doors = 5, scenes = 15, shades = 8
+  OperationParameters opParams(5, 15, 8);
 
-  // Create a node handle since we are running as a ROS node
+  // Create a node handle since we are running as a ROS node and use rosconsole
   ros::NodeHandle nh;
 
   std::string oprCode = "HAScene";
@@ -346,164 +425,103 @@ TEST (BotBehaviorAffectHAScene, Construction) {
   homebot::HASceneRequest sceneReq = sceneOpr.details();
   EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
   EXPECT_EQ(action, sceneReq.action);
-}
-/*******************************************************************************/
 
-// This test assumes that the HARequestServer has been initialized with 15 scenes
-// (argument -scenes 15)
-TEST (BotBehaviorAffectHAScene, Service) {
-  // Set the number of scenes in the server to be tested
-  int sceneCount = 15;
+  // Validate the HADoor operation constructed above
+  EXPECT_TRUE(sceneOpr.isExecutable(opParams));
 
-  // Set up as a service client
-  ros::NodeHandle nh;
-  ros::ServiceClient client = nh.serviceClient<homebot::HAScene>("ha_scene");
+  // Now create an operation through the base class method transform
+  BotOperation baseOpr("HAScene 3 1");
+  boost::shared_ptr<BotOperation> aDerivedOprInBase = baseOpr.transform(
+      opParams);
 
-  // Test the availability of the service
-  bool serviceAvailable(client.waitForExistence(ros::Duration(1)));
-  EXPECT_TRUE(serviceAvailable);
-
-  // Now test service requests and responses
-  bool success;
-  homebot::HAScene srv;
-
-  // Should not be scene number 0 or a scene greater than sceneCount
-  srv.request.action = homebot::HASceneRequest::STATUS;
-  srv.request.sceneNumber = 0;
-  success = client.call(srv);
-  EXPECT_FALSE(success);
-  srv.request.sceneNumber = sceneCount + 1;
-  success = client.call(srv);
-  EXPECT_FALSE(success);
-
-  // The scenes should all initialize to off
-  srv.request.action = homebot::HASceneRequest::STATUS;
-  for (int i = 1; i < (sceneCount + 1); i++) {
-    srv.request.sceneNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HASceneResponse::OFF, srv.response.state);
-  }
-
-  // Should be able to turn on all of the scenes
-  srv.request.action = homebot::HASceneRequest::TURNON;
-  for (int i = 1; i < (sceneCount + 1); i++) {
-    srv.request.sceneNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HASceneResponse::ON, srv.response.state);
-  }
-
-  // Now all of the scenes should be on
-  srv.request.action = homebot::HASceneRequest::STATUS;
-  for (int i = 1; i < (sceneCount + 1); i++) {
-    srv.request.sceneNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HASceneResponse::ON, srv.response.state);
-  }
-
-  // Should be able to turn off all of the scenes
-  srv.request.action = homebot::HASceneRequest::TURNOFF;
-  for (int i = 1; i < (sceneCount + 1); i++) {
-    srv.request.sceneNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HASceneResponse::OFF, srv.response.state);
-  }
-
-  // Now all of the scenes should be turned off
-  srv.request.action = homebot::HASceneRequest::STATUS;
-  for (int i = 1; i < (sceneCount + 1); i++) {
-    srv.request.sceneNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HASceneResponse::OFF, srv.response.state);
-  }
+  // And self-validate through polymorphism/virtual function
+  EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
 /*******************************************************************************/
 
 TEST (BotBehaviorAffectHAScene, Execution) {
+  // Define the operation parameters based on the Request Server initialization
+  // (Assume Request Server started with -doors 5 -scenes 15 -shades 8
+  // doors = 5, scenes = 15, shades = 8
+  OperationParameters opParams(5, 15, 8);
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
   // Spin up some clients
   BotOprClients botOprClients;
 
+  // Default testing parameters
   std::string oprCode = "HAScene";
   int sceneNumber(3);
-  int action(homebot::HASceneRequest::STATUS);
 
   // Test HAScene execution for status
   {
-    BotAffectHASceneOpr sceneOpr(oprCode, sceneNumber, action);
-    EXPECT_EQ(oprCode, sceneOpr.getCode());
-    homebot::HASceneRequest sceneReq = sceneOpr.details();
-    EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
-    EXPECT_EQ(action, sceneReq.action);
-
-    // This should work if we have a server running...
-    EXPECT_TRUE(sceneOpr.execute(botOprClients));
+    int action(homebot::HASceneRequest::STATUS);
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << sceneNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> sceneOpr = baseOpr.transform(opParams);
+    EXPECT_TRUE(sceneOpr->isExecutable(opParams));
+    EXPECT_TRUE(sceneOpr->execute(botOprClients));
   }
 
   // Test HAScene execution for turn off
-  action = homebot::HASceneRequest::TURNOFF;
   {
-    BotAffectHASceneOpr sceneOpr(oprCode, sceneNumber, action);
-    EXPECT_EQ(oprCode, sceneOpr.getCode());
-    homebot::HASceneRequest sceneReq = sceneOpr.details();
-    EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
-    EXPECT_EQ(action, sceneReq.action);
-
-    // This should work if we have a server running...
-    EXPECT_TRUE(sceneOpr.execute(botOprClients));
+    int action = homebot::HASceneRequest::TURNOFF;
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << sceneNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> sceneOpr = baseOpr.transform(opParams);
+    EXPECT_TRUE(sceneOpr->isExecutable(opParams));
+    EXPECT_TRUE(sceneOpr->execute(botOprClients));
   }
 
   // Test HAScene execution for turn on
-  action = homebot::HASceneRequest::TURNON;
   {
-    BotAffectHASceneOpr sceneOpr(oprCode, sceneNumber, action);
-    EXPECT_EQ(oprCode, sceneOpr.getCode());
-    homebot::HASceneRequest sceneReq = sceneOpr.details();
-    EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
-    EXPECT_EQ(action, sceneReq.action);
-
-    // This should work if we have a server running...
-    EXPECT_TRUE(sceneOpr.execute(botOprClients));
+    int action = homebot::HASceneRequest::TURNON;
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << sceneNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> sceneOpr = baseOpr.transform(opParams);
+    EXPECT_TRUE(sceneOpr->isExecutable(opParams));
+    EXPECT_TRUE(sceneOpr->execute(botOprClients));
   }
 
   // Test HAScene execution for invalid action
-  action = 5;
   {
-    BotAffectHASceneOpr sceneOpr(oprCode, sceneNumber, action);
-    EXPECT_EQ(oprCode, sceneOpr.getCode());
-    homebot::HASceneRequest sceneReq = sceneOpr.details();
-    EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
-    EXPECT_EQ(action, sceneReq.action);
-
-    // This should not work even if we have a server running...
-    EXPECT_FALSE(sceneOpr.execute(botOprClients));
+    int action = 5;
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << sceneNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> sceneOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(sceneOpr->isExecutable(opParams));
+    EXPECT_FALSE(sceneOpr->execute(botOprClients));
   }
 
   // Test HAScene execution for invalid scene number
   // (assumes server was started with only 15 scenes)
-  action = homebot::HASceneRequest::TURNON;
-  sceneNumber = 99;
   {
-    BotAffectHASceneOpr sceneOpr(oprCode, sceneNumber, action);
-    EXPECT_EQ(oprCode, sceneOpr.getCode());
-    homebot::HASceneRequest sceneReq = sceneOpr.details();
-    EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
-    EXPECT_EQ(action, sceneReq.action);
-
-    // This should work if we have a server running...
-    EXPECT_FALSE(sceneOpr.execute(botOprClients));
+    int sceneNumber = 99;
+    int action = homebot::HASceneRequest::TURNON;
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << sceneNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> sceneOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(sceneOpr->isExecutable(opParams));
+    EXPECT_FALSE(sceneOpr->execute(botOprClients));
   }
-
 }
 /*******************************************************************************/
 
 TEST (BotBehaviorAffectHAShade, Construction) {
+  // Define the operation parameters for this test
+  // doors = 5, scenes = 15, shades = 8
+  OperationParameters opParams(5, 15, 8);
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
@@ -518,84 +536,25 @@ TEST (BotBehaviorAffectHAShade, Construction) {
   homebot::HAShade::Request shadeReq = shadeOpr.details();
   EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
   EXPECT_EQ(action, shadeReq.action);
-}
-/*******************************************************************************/
 
-// This test assumes that the HARequestServer has been initialized with 8 shades
-// (argument -shades 8)
-TEST (BotBehaviorAffectHAShade, Service) {
-  // Set the number of shades in the server to be tested
-  int shadeCount = 8;
+  // Validate the HADoor operation constructed above
+  EXPECT_TRUE(shadeOpr.isExecutable(opParams));
 
-  // Set up as a service client
-  ros::NodeHandle nh;
-  ros::ServiceClient client = nh.serviceClient<homebot::HAShade>("ha_shade");
+  // Now create an operation through the base class method transform
+  BotOperation baseOpr("HADoor 1 2");
+  boost::shared_ptr<BotOperation> aDerivedOprInBase = baseOpr.transform(
+      opParams);
 
-  // Test the availability of the service
-  bool serviceAvailable(client.waitForExistence(ros::Duration(1)));
-  EXPECT_TRUE(serviceAvailable);
-
-  // Now test service requests and responses
-  bool success;
-  homebot::HAShade srv;
-
-  // Should not be shade number 0 or a shade greater than shadeCount
-  srv.request.action = homebot::HAShadeRequest::STATUS;
-  srv.request.shadeNumber = 0;
-  success = client.call(srv);
-  EXPECT_FALSE(success);
-  srv.request.shadeNumber = shadeCount + 1;
-  success = client.call(srv);
-  EXPECT_FALSE(success);
-
-  // The shades should all initialize to raised
-  srv.request.action = homebot::HAShadeRequest::STATUS;
-  for (int i = 1; i < (shadeCount + 1); i++) {
-    srv.request.shadeNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HAShadeResponse::RAISED, srv.response.state);
-  }
-
-  // Should be able to lower all of the shades
-  srv.request.action = homebot::HAShadeRequest::LOWER;
-  for (int i = 1; i < (shadeCount + 1); i++) {
-    srv.request.shadeNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HAShadeResponse::LOWERED, srv.response.state);
-  }
-
-  // Now all of the shades should be lowered
-  srv.request.action = homebot::HAShadeRequest::STATUS;
-  for (int i = 1; i < (shadeCount + 1); i++) {
-    srv.request.shadeNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HAShadeResponse::LOWERED, srv.response.state);
-  }
-
-  // Should be able to close all of the shades
-  srv.request.action = homebot::HADoorRequest::CLOSE;
-  for (int i = 1; i < (shadeCount + 1); i++) {
-    srv.request.shadeNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HAShadeResponse::RAISED, srv.response.state);
-  }
-
-  // Now all of the shades should be raised
-  srv.request.action = homebot::HADoorRequest::STATUS;
-  for (int i = 1; i < (shadeCount + 1); i++) {
-    srv.request.shadeNumber = i;
-    success = client.call(srv);
-    EXPECT_TRUE(success);
-    EXPECT_EQ(homebot::HAShadeResponse::RAISED, srv.response.state);
-  }
+  // And self-validate through polymorphism/virtual function
+  EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
 /*******************************************************************************/
 
 TEST (BotBehaviorAffectHAShade, Execution) {
+  // Define the operation parameters based on the Request Server initialization
+  // (Assume Request Server started with -doors 5 -scenes 15 -shades 8
+  // doors = 5, scenes = 15, shades = 8
+  OperationParameters opParams(5, 15, 8);
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
@@ -604,72 +563,67 @@ TEST (BotBehaviorAffectHAShade, Execution) {
 
   std::string oprCode = "HAShade";
   int shadeNumber(3);
-  int action(homebot::HAShadeRequest::STATUS);
 
   // Test HAShade execution for status
   {
-    BotAffectHAShadeOpr shadeOpr(oprCode, shadeNumber, action);
-    EXPECT_EQ(oprCode, shadeOpr.getCode());
-    homebot::HAShadeRequest shadeReq = shadeOpr.details();
-    EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
-    EXPECT_EQ(action, shadeReq.action);
-
-    // This should work if we have a server running...
-    EXPECT_TRUE(shadeOpr.execute(botOprClients));
+    int action(homebot::HAShadeRequest::STATUS);
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << shadeNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> shadeOpr = baseOpr.transform(opParams);
+    EXPECT_TRUE(shadeOpr->isExecutable(opParams));
+    EXPECT_TRUE(shadeOpr->execute(botOprClients));
   }
 
   // Test HAShade execution for raise
-  action = homebot::HAShadeRequest::RAISE;
   {
-    BotAffectHAShadeOpr shadeOpr(oprCode, shadeNumber, action);
-    EXPECT_EQ(oprCode, shadeOpr.getCode());
-    homebot::HAShadeRequest shadeReq = shadeOpr.details();
-    EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
-    EXPECT_EQ(action, shadeReq.action);
-
-    // This should work if we have a server running...
-    EXPECT_TRUE(shadeOpr.execute(botOprClients));
+    int action = homebot::HAShadeRequest::RAISE;
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << shadeNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> shadeOpr = baseOpr.transform(opParams);
+    EXPECT_TRUE(shadeOpr->isExecutable(opParams));
+    EXPECT_TRUE(shadeOpr->execute(botOprClients));
   }
 
   // Test HAShade execution for lower
-  action = homebot::HAShadeRequest::LOWER;
   {
-    BotAffectHAShadeOpr shadeOpr(oprCode, shadeNumber, action);
-    EXPECT_EQ(oprCode, shadeOpr.getCode());
-    homebot::HAShadeRequest shadeReq = shadeOpr.details();
-    EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
-    EXPECT_EQ(action, shadeReq.action);
-
-    // This should work if we have a server running...
-    EXPECT_TRUE(shadeOpr.execute(botOprClients));
+    int action = homebot::HAShadeRequest::LOWER;
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << shadeNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> shadeOpr = baseOpr.transform(opParams);
+    EXPECT_TRUE(shadeOpr->isExecutable(opParams));
+    EXPECT_TRUE(shadeOpr->execute(botOprClients));
   }
 
   // Test HAShade execution for invalid action
-  action = 5;
   {
-    BotAffectHAShadeOpr shadeOpr(oprCode, shadeNumber, action);
-    EXPECT_EQ(oprCode, shadeOpr.getCode());
-    homebot::HAShadeRequest shadeReq = shadeOpr.details();
-    EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
-    EXPECT_EQ(action, shadeReq.action);
-
-    // This should fail even if we have a server running...
-    EXPECT_FALSE(shadeOpr.execute(botOprClients));
+    int action = 5;
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << shadeNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> shadeOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(shadeOpr->isExecutable(opParams));
+    EXPECT_FALSE(shadeOpr->execute(botOprClients));
   }
 
   // Test HAShade execution for invalid hade number
   // (assumes server was started with only 8 shades)
-  action = homebot::HAShadeRequest::LOWER;
-  shadeNumber = 99;
   {
-    BotAffectHAShadeOpr shadeOpr(oprCode, shadeNumber, action);
-    EXPECT_EQ(oprCode, shadeOpr.getCode());
-    homebot::HAShadeRequest shadeReq = shadeOpr.details();
-    EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
-    EXPECT_EQ(action, shadeReq.action);
-
-    // This should not work even if we have a server running...
-    EXPECT_FALSE(shadeOpr.execute(botOprClients));
+    int shadeNumber = 99;
+    int action = homebot::HAShadeRequest::LOWER;
+    std::ostringstream ssRawOpr;
+    ssRawOpr << oprCode << " " << shadeNumber << " " << action;
+    std::string rawOpr = ssRawOpr.str();
+    BotOperation baseOpr(rawOpr);
+    boost::shared_ptr<BotOperation> shadeOpr = baseOpr.transform(opParams);
+    EXPECT_FALSE(shadeOpr->isExecutable(opParams));
+    EXPECT_FALSE(shadeOpr->execute(botOprClients));
   }
 
 }
