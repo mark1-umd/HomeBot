@@ -68,7 +68,7 @@ TEST (BotBehaviorOprClients, StartUp) {
   // (and the move_base server is not currently being started)
   EXPECT_FALSE(botOprClients.allStarted());
 }
-/*******************************************************************************/
+ /*******************************************************************************
 
 TEST (BotBehaviorBaseOpr, Construction) {
   // Define the operation parameters for this test
@@ -77,9 +77,6 @@ TEST (BotBehaviorBaseOpr, Construction) {
 
   // Create a node handle since we are running as a ROS node and use rosconsole
   ros::NodeHandle nh;
-
-  // Crank up bot clients just to create enough delay to get some console logging for tests
-  BotOprClients botOprClients;
 
   // Constructors on base with no input
   {
@@ -213,7 +210,7 @@ TEST (BotBehaviorBaseOpr, Construction) {
     EXPECT_EQ("HADoor", someOpr->getCode());
   }
 }
-/*******************************************************************************/
+/******************************************************************************
 
 TEST (BotBehaviorMoveBase, Construction) {
   // Define the operation parameters for this test
@@ -258,7 +255,7 @@ TEST (BotBehaviorMoveBase, Construction) {
   // And self-validate through polymorphism/virtual function
   EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
-/*******************************************************************************/
+ /*******************************************************************************
 
 TEST (BotBehaviorMoveBase, Execution) {
   // Define the operation parameters based on the Request Server initialization
@@ -295,7 +292,7 @@ TEST (BotBehaviorMoveBase, Execution) {
     EXPECT_FALSE(doorOpr->execute(botOprClients));
   }
 }
-/*******************************************************************************/
+ /*******************************************************************************
 
 TEST (BotBehaviorAffectHADoor, Construction) {
   // Define the operation parameters for this test
@@ -327,7 +324,7 @@ TEST (BotBehaviorAffectHADoor, Construction) {
   // And self-validate through polymorphism/virtual function
   EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
-/*******************************************************************************/
+ /*******************************************************************************
 
 TEST (BotBehaviorAffectHADoor, Execution) {
   // Define the operation parameters based on the Request Server initialization
@@ -409,7 +406,7 @@ TEST (BotBehaviorAffectHADoor, Execution) {
     EXPECT_FALSE(doorOpr->execute(botOprClients));
   }
 }
-/*******************************************************************************/
+ /*******************************************************************************
 
 TEST (BotBehaviorAffectHAScene, Construction) {
   // Define the operation parameters for this test
@@ -441,7 +438,7 @@ TEST (BotBehaviorAffectHAScene, Construction) {
   // And self-validate through polymorphism/virtual function
   EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
-/*******************************************************************************/
+ /*******************************************************************************
 
 TEST (BotBehaviorAffectHAScene, Execution) {
   // Define the operation parameters based on the Request Server initialization
@@ -520,7 +517,7 @@ TEST (BotBehaviorAffectHAScene, Execution) {
     EXPECT_FALSE(sceneOpr->execute(botOprClients));
   }
 }
-/*******************************************************************************/
+ /*******************************************************************************
 
 TEST (BotBehaviorAffectHAShade, Construction) {
   // Define the operation parameters for this test
@@ -552,7 +549,7 @@ TEST (BotBehaviorAffectHAShade, Construction) {
   // And self-validate through polymorphism/virtual function
   EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
-/*******************************************************************************/
+ /*******************************************************************************
 
 TEST (BotBehaviorAffectHAShade, Execution) {
   // Define the operation parameters based on the Request Server initialization
@@ -645,6 +642,7 @@ TEST (BotBehavior, BotBehavior) {
 
   // Create a behavior
   BotBehavior botBehav("AnswerDoor", opParams);
+  EXPECT_EQ("AnswerDoor", botBehav.getName());
   EXPECT_TRUE(botBehav.insert("prelim HAScene 1 1"));  // Turn on scene 1 (e.g., foyer lights)
   EXPECT_TRUE(botBehav.insert("prelim HADoor 1 1"));  // Open door 1 (e.g., front door)
   EXPECT_TRUE(botBehav.insert("main HAScene 2 1"));  // Turn on scene 2 (e.g., porch lights)
