@@ -3,11 +3,17 @@
  * @file BotBehavior.cpp
  *
  * @author MJenkins, ENPM 808X Spring 2017
- * @date May 4, 2017 - Creation
+ * @date May 7, 2017 - Creation
  *
- * @brief <brief description>
+ * @brief A BotBehavior is a set of operations that are executed serially to create a behavior
  *
- * <details>
+ * In the HomeBot system, HomeBot service robots can be tasked to perform behaviors.  Each behavior is a
+ * series of individual operations that are executed serially to create the desired behavior.  Since
+ * behaviors may be repeated, the operations are divided into three phases: preliminary, main, and post.
+ * Within each phase, the set of operations are executed atomically.  A presumption of the arrangement is
+ * that if a preliminary phase of operations for a behavior has been completed, the post phase of operations
+ * must also be completed to end the behavior, even if the main phase is never executed.  The responsibility
+ * for ensuring that this happens lies outside of the behavior itself, however.
  *
  * *
  * * BSD 3-Clause License
@@ -40,36 +46,144 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "BotBehavior.hpp"
+#include "../include/homebot/BotBehavior.hpp"
 
-BotBehavior::BotBehavior() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
-
+BotBehavior::BotBehavior(const std::string pName,
+                         const OperationParameters& pOpParams)
+    : name(pName),
+      opParams(pOpParams) {
 }
 
 BotBehavior::~BotBehavior() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
-
-}
-
-void BotBehavior::setAcBotMoveBase(
-    actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction>& pAcBotMoveBase) {
-  acBotMoveBase = pAcBotMoveBase;
-  return;
-}
-void BotBehavior::setScHADoorAffect(ros::ServiceClient& pScHADoorAffect) {
-  scHADoorAffect = pScHADoorAffect;
-  return;
-}
-void BotBehavior::setScHASceneAffect(ros::ServiceClient& pScHASceneAffect) {
-  scHASceneAffect = pScHASceneAffect;
-  return;
-}
-void BotBehavior::setScHAShadeAffect(ros::ServiceClient& pScHAShadeAffect) {
-  scHAShadeAffect = pScHAShadeAffect;
-  return;
 }
 
 std::string BotBehavior::getName() {
   return name;
 }
+
+bool BotBehavior::insert(const std::string textPhasedOpr) {
+  if (textPhasedOpr.length() == 0) {
+    ROS_ERROR_STREAM(
+        "HomeBot-BotBehavior(insert): Invoked with zero-length phase behavior component text");
+    return false;
+  }
+  std::stringstream ssPhasedOpr;
+  std::string phase;
+  ssPhasedOpr >> phase;
+  std::string textOpr;
+  getline(ssPhasedOpr, textOpr);
+
+  boost::shared_ptr<BotOperation> rawOpr(textOpr);
+  boost::shared_ptr<BotOperation> exeOpr = rawOpr->transform(opParams);
+  if (!exeOpr->isExecutable(opParams)) {
+    ROS_ERROR_STREAM(
+        "HomeBot-BotBehavior(insert): Failed to create executable operation '" << exeOpr->getCode() << "' for behavior '" << name << "'");
+    return false;
+  }
+  ROS_DEBUG_STREAM(
+      "HomeBot-BotBehavior(insert): Created executable operation '" << exeOpr->getCode() << "' for behavior '" << name << "'");
+
+  if (phase == "prelim") {
+    ROS_DEBUG_STREAM("HomeBot-BotBehavior(insert): Adding operation '" << exeOpr->getCode() << "' to behavior '" << name << "' preliminary phase");
+    prelimOprs.push_back(exeOpr);
+    return true;
+  } else if (phase == "main") {
+    ROS_DEBUG_STREAM("HomeBot-BotBehavior(insert): Adding operation '" << exeOpr->getCode() << "' to behavior '" << name << "' main phase");
+    mainOprs.push_back(exeOpr);
+    return true;
+  } else if (phase == "post") {
+    ROS_DEBUG_STREAM("HomeBot-BotBehavior(insert): Adding operation '" << exeOpr->getCode() << "' to behavior '" << name << "' post phase");
+    postOprs.push_back(exeOpr);
+    return true;
+  } else {
+    ROS_ERROR_STREAM(
+        "Homebot-BotBehavior(insert): Invoked with unrecognized phase '" << phase << "', with '" << textOpr << "'");
+    return false;
+  }
+}
+
+
+bool BotBehavior::performPrelim(BotOprClients& oprClients) {
+  // Keep track of whether all behaviors execute without trouble
+  bool allGood = true;
+
+  // Execute all behaviors in order
+  for (std::vector<boost::shared_ptr<BotOperation> >::size_type i = 0;
+      i < prelimOprs.size(); i++) {
+    ROS_DEBUG_STREAM(
+        "BotBehavior(performPrelim): Executing '" << prelimOprs[i]->getCode() << "'operation in this phase of behavior '" << name << "'");
+    if (!prelimOprs[i]->execute(oprClients)) {
+    ROS_ERROR_STREAM(
+          "HomeBot-BotBehavior(performPrelim): Failed to execute '" << prelimOprs[i]->getCode() << "' operation in this phase of behavior '" << name << "'");
+      allGood = false;
+    }
+  }
+
+  // Signal whether we were all good or not
+  if (allGood) {
+    ROS_DEBUG_STREAM(
+        "HomeBot-BotBehavior(performPrelim): All operations in this phase of behavior '" << name << "' executed with no problems");
+    return true;
+  } else {
+    ROS_WARN_STREAM(
+        "HomeBot-BotBehavior(performPrelim): At least one failed operation in this phase of behavior '" << name << "'");
+    return false;
+  }
+}
+
+bool BotBehavior::performMain(BotOprClients& oprClients) {
+  // Keep track of whether all behaviors execute without trouble
+  bool allGood = true;
+
+  // Execute all behaviors in order
+  for (std::vector<boost::shared_ptr<BotOperation> >::size_type i = 0;
+      i < mainOprs.size(); i++) {
+    ROS_DEBUG_STREAM(
+        "BotBehavior(performMain): Executing '" << mainOprs[i]->getCode() << "'operation in this phase of behavior '" << name << "'");
+    if (!mainOprs[i]->execute(oprClients)) {
+      ROS_ERROR_STREAM(
+          "HomeBot-BotBehavior(performMain): Failed to execute '" << mainOprs[i]->getCode() << "' operation in this phase of behavior '" << name << "'");
+      allGood = false;
+    }
+  }
+
+  // Signal whether we were all good or not
+  if (allGood) {
+    ROS_DEBUG_STREAM(
+        "HomeBot-BotBehavior(performMain): All operations in this phase of behavior '" << name << "' executed with no problems");
+    return true;
+  } else {
+    ROS_WARN_STREAM(
+        "HomeBot-BotBehavior(performMain): At least one failed operation in this phase of behavior '" << name << "'");
+    return false;
+  }
+}
+
+bool BotBehavior::performPost(BotOprClients& oprClients) {
+  // Keep track of whether all behaviors execute without trouble
+  bool allGood = true;
+
+  // Execute all behaviors in order
+  for (std::vector<boost::shared_ptr<BotOperation> >::size_type i = 0;
+      i < postOprs.size(); i++) {
+    ROS_DEBUG_STREAM(
+        "BotBehavior(performPost): Executing '" << mainOprs[i]->getCode() << "'operation in this phase of behavior '" << name << "'");
+    if (!mainOprs[i]->execute(oprClients)) {
+      ROS_ERROR_STREAM(
+          "HomeBot-BotBehavior(performPost): Failed to execute '" << mainOprs[i]->getCode() << "' operation in this phase of behavior '" << name << "'");
+      allGood = false;
+    }
+  }
+
+  // Signal whether we were all good or not
+  if (allGood) {
+    ROS_DEBUG_STREAM(
+        "HomeBot-BotBehavior(performMain): All operations in this phase of behavior '" << name << "' executed with no problems");
+    return true;
+  } else {
+    ROS_WARN_STREAM(
+        "HomeBot-BotBehavior(performMain): At least one failed operation in this phase of behavior '" << name << "'");
+    return false;
+  }
+}
+

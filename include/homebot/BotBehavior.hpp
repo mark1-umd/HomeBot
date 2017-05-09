@@ -3,11 +3,17 @@
  * @file BotBehavior.hpp
  *
  * @author MJenkins, ENPM 808X Spring 2017
- * @date May 4, 2017 - Creation
+ * @date May 7, 2017 - Creation
  *
- * @brief <brief description>
+ * @brief A BotBehavior is a set of operations that are executed serially to create a behavior
  *
- * <details>
+ * In the HomeBot system, HomeBot service robots can be tasked to perform behaviors.  Each behavior is a
+ * series of individual operations that are executed serially to create the desired behavior.  Since
+ * behaviors may be repeated, the operations are divided into three phases: preliminary, main, and post.
+ * Within each phase, the set of operations are executed atomically.  A presumption of the arrangement is
+ * that if a preliminary phase of operations for a behavior has been completed, the post phase of operations
+ * must also be completed to end the behavior, even if the main phase is never executed.  The responsibility
+ * for ensuring that this happens lies outside of the behavior itself, however.
  *
  * *
  * * BSD 3-Clause License
@@ -45,36 +51,33 @@
 
 #include <vector>
 #include <string>
-#include "ros/ros.h"
-#include "actionlib/client/simple_action_client.h";
-#include "move_base_msgs/MoveBaseAction.h"
-#include "homebot/HADoor.h"
-#include "homebot/HAScene.h"
-#include "homebot/HAShade.h"
-#include "homebot/HBBehaviorAction.h"
+#include <boost/shared_ptr.hpp>
+#include <homebot/BotOprClients.hpp>
+#include <homebot/BotOperation.hpp>
+#include <homebot/OperationParameters.hpp>
+#include <homebot/BotAffectHADoorOpr.hpp>
+#include <homebot/BotAffectHASceneOpr.hpp>
+#include <homebot/BotAffectHAShadeOpr.hpp>
+#include <homebot/BotMoveBaseOpr.hpp>
 
-/** @brief A HomeBot task robot behavior is a set of operations that when executed create a behavior
+/** @brief <brief description>
  */
 
 class BotBehavior {
  public:
-  BotBehavior();
+  BotBehavior(const std::string pName, const OperationParameters& pOpParams);
   virtual ~BotBehavior();
-  void setACBotMoveBase(
-      actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction>& pACBotMoveBase);
-  void setSCHADoorAffect(ros::ServiceClient& pSCHADoorAffect);
-  void setSCHASceneAffect(ros::ServiceClient& pSCHASceneAffect);
-  void setSCHAShadeAffect(ros::ServiceClient& pSCHAShadeAffect);
   std::string getName();
+  bool insert(const std::string textPhasedOpr);
+  bool performPrelim(BotOprClients& oprClients);
+  bool performMain(BotOprClients& oprClients);
+  bool performPost(BotOprClients& oprClients);
  private:
-  actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> acBotMoveBase;
-  ros::ServiceClient scHADoorAffect;
-  ros::ServiceClient scHASceneAffect;
-  ros::ServiceClient scHAShadeAffect;
   std::string name;
-  std::vector<HBSysOpr> beginning;
-  std::vector<HBSysOpr> main;
-  std::vector<HBSysOpr> finishing;
+  OperationParameters opParams;
+  std::vector<boost::shared_ptr<BotOperation> > prelimOprs;
+  std::vector<boost::shared_ptr<BotOperation> > mainOprs;
+  std::vector<boost::shared_ptr<BotOperation> > postOprs;
 };
 
 #endif /* HOMEBOT_INCLUDE_HOMEBOT_BOTBEHAVIOR_HPP_ */
