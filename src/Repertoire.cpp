@@ -64,20 +64,23 @@ Repertoire::~Repertoire() {
  */
 BotBehavior Repertoire::getBehavior(const std::string& pName) {
   ROS_ERROR_STREAM(
-      "HomeBot-Repertoire(getBehavior): Behavior '" << pName << "' requested from repertoire for '" << botType << "'");
+      "HomeBot-Repertoire(getBehavior): Behavior '" << pName << "' requested for '" << botType << "'");
   for (std::vector<BotBehavior>::size_type i = 0; i < behaviors.size(); i++) {
     if (behaviors[i].getName() == pName) {
       return behaviors[i];
     }
   }
+  ROS_ERROR_STREAM(
+      "HomeBot-Repertoire(getBehavior): Behavior '" << pName << "' not found for '" << botType << "'");
   BotBehavior nullBehavior("", operationParameters);
   return nullBehavior;
 }
 
 bool Repertoire::load(const std::string& pFilename,
                       const OperationParameters& pOpParams) {
-  // Update our memory of the operation parameters
+  // Update our memory of the operation parameters and clear out any old behaviors
   operationParameters = pOpParams;
+  behaviors.clear();
   ROS_ERROR_STREAM(
       "HomeBot-Repertoire(load): Loading repertoire for BotType '" << botType << "' from file '" << pFilename << "'");
 

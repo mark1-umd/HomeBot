@@ -1,0 +1,17 @@
+ButtleBot
+AnswerFrontDoor prelim HAScene 1 1
+AnswerFrontDoor prelim HADoor 1 1
+AnswerFrontDoor main   HAScene 2 1
+AnswerFrontDoor main   HAScene 2 0
+AnswerFrontDoor post   HADoor 1 0
+AnswerFrontDoor post   HAScene 1 0
+PrepareEveningEntertain main HAScene 1 1
+PrepareEveningEntertain main HAScene 2 1
+PrepareEveningEntertain main HAScene 3 1
+PrepareEveningEntertain main HAScene 4 1
+PrepareEveningEntertain main HAScene 5 1
+CloseForNight main HAScene 1 0
+CloseForNight main HAScene 2 0
+CloseForNight main HAScene 3 0
+CloseForNight main HAScene 4 0
+CloseForNight main HAScene 5 99

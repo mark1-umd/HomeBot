@@ -60,10 +60,42 @@ TEST (Repertoire, Repertoire) {
 
 
   Repertoire buttleBotRepertoire("ButtleBot");
+
+  // Bad filename
+  EXPECT_FALSE(
+      buttleBotRepertoire.load(
+          "/home/viki/ROS/hw/catkin_ws/src/homebot/repertoire/ButtleBot-test-nofile.rpt",
+          opParams));
+  // Bot name in file doesn't match this bot
+  EXPECT_FALSE(
+      buttleBotRepertoire.load(
+          "/home/viki/ROS/hw/catkin_ws/src/homebot/repertoire/ButtleBot-test-badbot.rpt",
+          opParams));
+  // Bad operation in otherwise good file
+  EXPECT_FALSE(
+      buttleBotRepertoire.load(
+          "/home/viki/ROS/hw/catkin_ws/src/homebot/repertoire/ButtleBot-test-badopr.rpt",
+          opParams));
+  // Good file
   EXPECT_TRUE(
       buttleBotRepertoire.load(
-          "/home/viki/ROS/hw/catkin_ws/src/homebot/repertoire/ButtleBot-test.rpt",
+          "/home/viki/ROS/hw/catkin_ws/src/homebot/repertoire/ButtleBot-test-good.rpt",
           opParams));
+  // Behavior that's not in the file
+  BotBehavior behavior = buttleBotRepertoire.getBehavior("CleanCat");
+  EXPECT_EQ("", behavior.getName());
+  // A behavior in the file
+  behavior = buttleBotRepertoire.getBehavior("CloseForNight");
+  EXPECT_EQ("CloseForNight", behavior.getName());
+  // A behavior in the file
+  behavior = buttleBotRepertoire.getBehavior("AnswerFrontDoor");
+  EXPECT_EQ("AnswerFrontDoor", behavior.getName());
+  // A behavior in the file
+  behavior = buttleBotRepertoire.getBehavior("PrepareEveningEntertain");
+  EXPECT_EQ("PrepareEveningEntertain", behavior.getName());
+  // Behavior that's not in the file
+  behavior = buttleBotRepertoire.getBehavior("WashPlane");
+  EXPECT_EQ("", behavior.getName());
 }
 
 /*******************************************************************************/

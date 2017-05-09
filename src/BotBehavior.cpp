@@ -110,7 +110,6 @@ bool BotBehavior::insert(const std::string textPhasedOpr) {
   }
 }
 
-
 bool BotBehavior::performPrelim(BotOprClients& oprClients) {
   // Keep track of whether all behaviors execute without trouble
   bool allGood = true;

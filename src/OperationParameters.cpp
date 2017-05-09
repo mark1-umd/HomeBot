@@ -45,6 +45,12 @@
  */
 #include "homebot/OperationParameters.hpp"
 
+OperationParameters::OperationParameters()
+    : maxDoorNumber(0),
+      maxSceneNumber(0),
+      maxShadeNumber(0) {
+}
+
 OperationParameters::OperationParameters(int doors, int scenes, int shades)
     : maxDoorNumber(doors),
       maxSceneNumber(scenes),
@@ -52,7 +58,5 @@ OperationParameters::OperationParameters(int doors, int scenes, int shades)
 }
 
 OperationParameters::~OperationParameters() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
-
 }
 
