@@ -52,6 +52,7 @@
 #include "homebot/BotAffectHASceneOpr.hpp"
 #include "homebot/BotAffectHAShadeOpr.hpp"
 #include "homebot/BotOprClients.hpp"
+#include "homebot/BotBehavior.hpp"
 
 
 /*******************************************************************************
@@ -629,6 +630,32 @@ TEST (BotBehaviorAffectHAShade, Execution) {
     EXPECT_FALSE(shadeOpr->execute(botOprClients));
   }
 
+}
+/*******************************************************************************/
+TEST (BotBehavior, BotBehavior) {
+  // Define the operation parameters based on the Request Server initialization
+  // (Assume Request Server started with -doors 5 -scenes 15 -shades 8
+  // doors = 5, scenes = 15, shades = 8
+  OperationParameters opParams(5, 15, 8);
+
+  // Create a node handle since we are running as a ROS node with rosconsole
+  ros::NodeHandle nh;
+  // Spin up some clients
+  BotOprClients botOprClients;
+
+  // Create a behavior
+  BotBehavior botBehav("AnswerDoor", opParams);
+  EXPECT_TRUE(botBehav.insert("prelim HAScene 1 1"));  // Turn on scene 1 (e.g., foyer lights)
+  EXPECT_TRUE(botBehav.insert("prelim HADoor 1 1"));  // Open door 1 (e.g., front door)
+  EXPECT_TRUE(botBehav.insert("main HAScene 2 1"));  // Turn on scene 2 (e.g., porch lights)
+  EXPECT_TRUE(botBehav.insert("main HAScene 2 0"));   // Turn off scene 2
+  EXPECT_TRUE(botBehav.insert("post HADoor 1 0"));    // Close door 1
+  EXPECT_TRUE(botBehav.insert("post HAScene 1 0"));   // Turn off scene 2
+
+  // Perform the behavior
+  EXPECT_TRUE(botBehav.performPrelim(botOprClients));
+  EXPECT_TRUE(botBehav.performMain(botOprClients));
+  EXPECT_TRUE(botBehav.performPost(botOprClients));
 }
 /*******************************************************************************/
 
