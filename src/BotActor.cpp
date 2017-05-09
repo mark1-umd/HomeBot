@@ -3,11 +3,14 @@
  * @file BotActor.cpp
  *
  * @author MJenkins, ENPM 808X Spring 2017
- * @date May 4, 2017 - Creation
+ * @date May 9, 2017 - Creation
  *
- * @brief <brief description>
+ * @brief The HomeBot BotActor is the action server for HomeBot behaviors
  *
- * <details>
+ * The HomeBot BotActor receives goals via the ROS actionlib action protocol.  Each goal names a behavior
+ * and an number of repetitions for the behavior.  If the behavior exists, and the number of repetitions
+ * is within certain parameters, the action server performs the phases of the behavior that causes the
+ * behavior activity to be carried out by various parts of the system.
  *
  * *
  * * BSD 3-Clause License
@@ -40,94 +43,84 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "BotActor.hpp"
+#include "homebot/BotActor.hpp"
 
-BotActor::BotActor(const Repertoire& pRepertoire)
+BotActor::BotActor(Repertoire& pRepertoire, BotOprClients& pOprClients)
     : repertoire(pRepertoire),
+      oprClients(pOprClients),
       nh(),
-      acBotMoveBase("move_base", true),
       as(nh, "bot_actor", boost::bind(&BotActor::actionExecuteCB, this, _1),
          false) {
-  scHADoorAffect = nh.serviceClient<homebot::HADoor>("ha_door");
-  scHASceneAffect = nh.serviceClient<homebot::HAScene>("ha_scene");
-  scHAShadeAffect = nh.serviceClient<homebot::HAShade>("ha_shade");
-  while (!acBotMoveBase.waitForServer(ros::Duration(5.0))) {
-    ROS_INFO_STREAM("Waiting for the move_base action server to start");
   }
-  while (!scHADoorAffect.waitForExistence(ros::Duration(5.0))) {
-    ROS_INFO_STREAM("Waiting for the ha_door service to start");
-  }
-  while (!scHASceneAffect.waitForExistence(ros::Duration(5.0))) {
-    ROS_INFO_STREAM("Waiting for the ha_scene service to start");
-  }
-  while (!scHAShadeAffect.waitForExistence(ros::Duration(5.0))) {
-    ROS_INFO_STREAM("Waiting for the ha_shade service to start");
-  }
-}
 
 BotActor::~BotActor() {
-    // TODO(Mark Jenkins): Auto-generated destructor stub
 }
 
 void BotActor::actionExecuteCB(const homebot::HBBehaviorGoalConstPtr &goal) {
   homebot::HBBehaviorFeedback feedback;
   homebot::HBBehaviorResult result;
 
-  // See if the goal behavior exists
-  std::string behaviorName;  // this should actually come from the goal directly once I update action definition to be a string not integer
-  BotBehavior botBehavior;
-  if (!repertoire.findBehavior(behaviorName, botBehavior)) {
+  // Avoid problems with funny message definitions from ROS and stream processing
+  std::string behaviorName = goal->behavior;
+  int repsGoal = goal->repetitions;
+
+  // See if the behavior is in our repertoire
+  BotBehavior botBehavior = repertoire.getBehavior(behaviorName);
+  if ("" == botBehavior.getName()) {
     ROS_WARN_STREAM(
-        "BotBehavior " << behaviorName << " not found in repertoire; aborting");
+        "HomeBot-BotActor(actionExecuteCB): Behavior '" << behaviorName << "' not found in repertoire; aborting");
     result.repetitions = 0;
     as.setAborted(result);
     return;
   }
 
   // Make sure the number of repetitions requested is reasonable
-  if (goal->repetitions < 1 || goal->repetitions > 10) {
+  if (repsGoal < 1 || repsGoal > 10) {
     ROS_WARN_STREAM(
-        "BotBehavior " << behaviorName << " cannot be repeated " << goal->repetitions << " times; aborting");
+        "HomeBot-BotActor(actionExecuteCB): Behavior '" << behaviorName << "' cannot be repeated " << repsGoal << " times; aborting");
     result.repetitions = 0;
     as.setAborted(result);
   }
 
   // Begin the behavior if we haven't been preempted already
   if (!as.isPreemptRequested() && ros::ok()) {
-    ROS_INFO_STREAM("BotBehavior beginning " << behaviorName);
-    botBehavior.beginning();
+    ROS_INFO_STREAM(
+        "HomeBot-BotActor(actionExecuteCB): Beginning behavior '" << behaviorName << "'");
+    // Perform the preliminary phase of the behavior using the operation clients
+    botBehavior.performPrelim(oprClients);
   } else {
     ROS_INFO_STREAM(
-        "BotBehavior " << behaviorName << " preempted before beginning");
+        "HomeBot-BotActor(actionExecuteCB): Behavior '" << behaviorName << "' preempted before preliminary phase");
     as.setPreempted();
     return;
   }
 
   // Now perform the main behavior the requested number of repetitions
-  int repetitions;
-  for (repetitions = 1; repetitions <= goal->repetitions; repetitions++) {
-    if (!as.isPreemptRequested && ros::ok()) {
+  int repsPerformed;
+  for (repsPerformed = 1; repsPerformed <= repsGoal; repsPerformed++) {
+    if (!as.isPreemptRequested() && ros::ok()) {
       ROS_INFO_STREAM(
-          "BotBehavior main " << behaviorName << " " << repetitions);
-      botBehavior.main();
-      feedback.repetition = repetitions;
+          "HomeBot-BotActor(actionExecuteCB): Behavior '" << behaviorName << "' main phase, repetition " << repsPerformed);
+      botBehavior.performMain(oprClients);
+      feedback.repetitions = repsPerformed;
       as.publishFeedback(feedback);
     } else {
-      repetitions--;
+      repsPerformed--;
       break;
     }
   }
 
-  // Regardless of whether the behavior has been pre-empted,
-  // if we did the behavior beginning, we have to do the behavior finishing
+  // Regardless of whether the behavior has been pre-empted, if we did the preliminary
+  // phase of the behavior, we have to do the post phase of the behavior
   if (ros::ok()) {
-    ROS_INFO_STREAM("BotBehavior " << behaviorName << " finishing");
-    botBehavior.finishing();
+    ROS_INFO_STREAM(
+        "HomeBot-BotActor(actionExecuteCB): Behavior '" << behaviorName << "' post phase");
+    botBehavior.performPost(oprClients);
   }
 
   // Did we achieve our goal?
-  if (repetitions == goal->repetitions) {
-    result.repetitions = repetitions;
+  if (repsPerformed == repsGoal) {
+    result.repetitions = repsPerformed;
     as.setSucceeded(result);
   } else if (as.isPreemptRequested()) {
     as.setPreempted();
@@ -135,6 +128,7 @@ void BotActor::actionExecuteCB(const homebot::HBBehaviorGoalConstPtr &goal) {
   }
 
   // If we get here something is confused, so signal an error
-  ROS_ERROR_STREAM("BotBehavior terminating without success or preemption");
+  ROS_ERROR_STREAM(
+      "HomeBot-BotActor(actionExecuteCB): returning without success or preemption");
   return;
 }

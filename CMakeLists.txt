@@ -246,27 +246,46 @@ if(CATKIN_ENABLE_TESTING)
   src/BotOprClients.cpp
   src/BotBehavior.cpp
   )
+  add_rostest_gtest(
+  BotActor_test
+  test/BotActor.test
+  test/BotActor_test.cpp
+  src/BotActor.cpp
+  src/Repertoire.cpp
+   src/BotOperation.cpp
+  src/OperationParameters.cpp
+  src/BotMoveBaseOpr.cpp
+  src/BotAffectHADoorOpr.cpp
+  src/BotAffectHASceneOpr.cpp
+  src/BotAffectHAShadeOpr.cpp
+  src/BotOprClients.cpp
+  src/BotBehavior.cpp
+  )
   
   target_link_libraries(
   HARequestServer_test
-  ${catkin_LIBRARIES}
-  )
+  ${catkin_LIBRARIES})
+  
   target_link_libraries(
   HAHvacActionServer_test
-  ${catkin_LIBRARIES}
-  )
+  ${catkin_LIBRARIES})
+  
  # target_link_libraries(
  # BotBehavior_Component_Standalone_test
  # ${catkin_LIBRARIES}
  # )
   target_link_libraries(
   BotBehavior_Component_test
-  ${catkin_LIBRARIES}
-  )
+  ${catkin_LIBRARIES})
+  
   target_link_libraries(
   Repertoire_test
-  ${catkin_LIBRARIES}
-  )
+  ${catkin_LIBRARIES})
+  
+  target_link_libraries(
+  BotActor_test
+  ${catkin_LIBRARIES})
+  
   add_dependencies(
   HARequestServer_test
   HARequestServer
@@ -289,6 +308,12 @@ if(CATKIN_ENABLE_TESTING)
   
   add_dependencies(
   BotBehavior_Component_test
+  ${PROJECT_NAME}_generate_messages.cpp
+  ${catkin_EXPORTED_TARGETS}
+  )
+  
+  add_dependencies(
+  BotActor_test
   ${PROJECT_NAME}_generate_messages.cpp
   ${catkin_EXPORTED_TARGETS}
   )
