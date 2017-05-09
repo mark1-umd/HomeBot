@@ -232,6 +232,12 @@ if(CATKIN_ENABLE_TESTING)
   src/BotOprClients.cpp
   src/BotBehavior.cpp
   )
+  add_rostest_gtest(
+  Repertoire_test
+  test/Repertoire.test
+  test/Repertoire_test.cpp
+  src/Repertoire.cpp
+  )
   
   target_link_libraries(
   HARequestServer_test
@@ -249,6 +255,9 @@ if(CATKIN_ENABLE_TESTING)
   BotBehavior_Component_test
   ${catkin_LIBRARIES}
   )
+  target_link_libraries(
+  Repertoire_test
+  ${catkin_LIBRARIES}
   
   add_dependencies(
   HARequestServer_test

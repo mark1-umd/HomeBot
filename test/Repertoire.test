@@ -1,0 +1,5 @@
+<launch>
+  <test test-name="Repertoire_test"
+        pkg="homebot"
+        type="Repertoire_test" />
+</launch>
