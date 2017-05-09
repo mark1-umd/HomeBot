@@ -230,6 +230,7 @@ if(CATKIN_ENABLE_TESTING)
   src/BotAffectHASceneOpr.cpp
   src/BotAffectHAShadeOpr.cpp
   src/BotOprClients.cpp
+  src/BotBehavior.cpp
   )
   
   target_link_libraries(
