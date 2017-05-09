@@ -237,6 +237,14 @@ if(CATKIN_ENABLE_TESTING)
   test/Repertoire.test
   test/Repertoire_test.cpp
   src/Repertoire.cpp
+  src/BotOperation.cpp
+  src/OperationParameters.cpp
+  src/BotMoveBaseOpr.cpp
+  src/BotAffectHADoorOpr.cpp
+  src/BotAffectHASceneOpr.cpp
+  src/BotAffectHAShadeOpr.cpp
+  src/BotOprClients.cpp
+  src/BotBehavior.cpp
   )
   
   target_link_libraries(
@@ -258,7 +266,7 @@ if(CATKIN_ENABLE_TESTING)
   target_link_libraries(
   Repertoire_test
   ${catkin_LIBRARIES}
-  
+  )
   add_dependencies(
   HARequestServer_test
   HARequestServer

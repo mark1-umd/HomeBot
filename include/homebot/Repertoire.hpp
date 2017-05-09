@@ -1,16 +1,19 @@
 /**
  * @copyright (c) 2017 Mark R. Jenkins.  All rights reserved.
- * @file OperationParameters.hpp
+ * @file Repertoire.hpp
  *
  * @author MJenkins, ENPM 808X Spring 2017
- * @date May 7, 2017 - Creation
+ * @date May 9, 2017 - Creation
  *
- * @brief A simple read-only object to pass parameters used to make sure operations are within limits when created
+ * @brief A HomeBot repertoire is a collection of behaviors for a HomeBot service robot
  *
- * When the Node using Bot Behaviors is created, sizing parameters for the Home Automation system are provided
- * so that operations against the Home Automation system can be checked at load time for compatibility.  In order
- * to prevent having specify multiple individual parameters, those parameters are captured in this object.  For
- * ease of access, all attributes are public.  To protect them, they are created in a constructor as constants.
+ * HomeBot represents a behavior as collections of operations that, when executed together,
+ * produce activity that is described as the service robot carrying out the behavior.  Since
+ * it is useful for a service robot to possibly have more than one behavior, a collection of
+ * behaviors must be maintained for each service robot in a HomeBot system.  That collection
+ * is termed a repertoire, and is maintained by this class.  The repertoire protects its
+ * behaviors, only providing a copy of the behaviors when requested, not a reference or pointer
+ * to the Repertoire's stored behavior.
  *
  * *
  * * BSD 3-Clause License
@@ -43,20 +46,30 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef HOMEBOT_INCLUDE_HOMEBOT_OPERATIONPARAMETERS_HPP_
-#define HOMEBOT_INCLUDE_HOMEBOT_OPERATIONPARAMETERS_HPP_
+#ifndef HOMEBOT_INCLUDE_HOMEBOT_REPERTOIRE_HPP_
+#define HOMEBOT_INCLUDE_HOMEBOT_REPERTOIRE_HPP_
 
-/** @brief Holds system parameters used to ensure Operations are built to respect the limits of the system
+#include <vector>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include "ros/ros.h"
+#include "OperationParameters.hpp"
+#include "homebot/BotBehavior.hpp"
+
+/** @brief A collection of HomeBot service robot behaviors
  */
 
-class OperationParameters {
+class Repertoire {
  public:
-  OperationParameters();
-  OperationParameters(int doors, int scenes, int shades);
-  virtual ~OperationParameters();
-  int maxDoorNumber;
-  int maxSceneNumber;
-  int maxShadeNumber;
+  Repertoire(const std::string& pBotType);
+  virtual ~Repertoire();
+  BotBehavior getBehavior(const std::string& pName);
+  bool load(const std::string& pFilename, const OperationParameters& pOpParams);
+ private:
+  std::string botType;
+  OperationParameters operationParameters;
+  std::vector<BotBehavior> behaviors;
 };
 
-#endif /* HOMEBOT_INCLUDE_HOMEBOT_OPERATIONPARAMETERS_HPP_ */
+#endif /* HOMEBOT_INCLUDE_HOMEBOT_REPERTOIRE_HPP_ */

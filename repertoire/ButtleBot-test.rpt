@@ -1,0 +1,7 @@
+ButtleBot
+AnswerDoor prelim HAScene 1 1
+AnswerDoor prelim HADoor 1 1
+AnswerDoor main   HAScene 2 1
+AnswerDoor main   HAScene 2 0
+AnswerDoor post   HADoor 1 0
+AnswerDoor post   HAScene 1 0

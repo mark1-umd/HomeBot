@@ -3,11 +3,17 @@
  * @file Repertoire.cpp
  *
  * @author MJenkins, ENPM 808X Spring 2017
- * @date May 4, 2017 - Creation
+ * @date May 9, 2017 - Creation
  *
- * @brief <brief description>
+ * @brief A HomeBot repertoire is a collection of behaviors for a HomeBot service robot
  *
- * <details>
+ * HomeBot represents a behavior as collections of operations that, when executed together,
+ * produce activity that is described as the service robot carrying out the behavior.  Since
+ * it is useful for a service robot to possibly have more than one behavior, a collection of
+ * behaviors must be maintained for each service robot in a HomeBot system.  That collection
+ * is termed a repertoire, and is maintained by this class.  The repertoire protects its
+ * behaviors, only providing a copy of the behaviors when requested, not a reference or pointer
+ * to the Repertoire's stored behavior.
  *
  * *
  * * BSD 3-Clause License
@@ -40,102 +46,14 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "Repertoire.hpp"
+#include "homebot/Repertoire.hpp"
 
-Repertoire::Repertoire() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
-
+Repertoire::Repertoire(const std::string& pBotType)
+    : botType(pBotType),
+      operationParameters() {
 }
 
 Repertoire::~Repertoire() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
-
-}
-bool decodeOpr(std::stringstream &oprDetails, HBSysOpr opr) {
-  std::string oprCode;
-  oprDetails >> oprCode;
-  if (oprCode == "BotMoveBase") {
-    move_base_msgs::MoveBaseGoal details;
-    oprDetails >> details.target_pose.pose.position.x
-        >> details.target_pose.pose.position.y
-        >> details.target_pose.pose.orientation.w;
-    BotMoveBaseOpr newOpr(oprCode, details.target_pose.pose.position.x,
-                          details.target_pose.pose.position.y,
-                          details.target_pose.pose.orientation.w);
-    if (!newOpr.isValid()) {
-      ROS_ERROR_STREAM(
-          "Invalid BotMoveBase operation " << details.target_pose.pose.position.x << " " << details.target_pose.pose.position.y << " " << details.target_pose.pose.orientation.w;);
-      return false;
-    }
-  } else if (oprCode == "HADoor") {
-    homebot::HADoorRequest details;
-    oprDetails >> details.doorNumber >> details.action;
-    HADoorAffectOpr newOpr(oprCode, details.doorNumber, details.action);
-    if (!newOpr.isValid(maxDoorNumber)) {
-      ROS_ERROR_STREAM(
-          "Invalid HADoor operation; door number " << details.doorNumber << ", action " << details.action << " in repertoire file " << pFilename);
-      return false;
-    }
-  } else if (oprCode == "HAScene") {
-    homebot::HASceneRequest details;
-    oprDetails >> details.sceneNumber >> details.action;
-    HASceneAffectOpr newOpr(oprCode, details.sceneNumber, details.action);
-    if (!newOpr.isValid(maxSceneNumber)) {
-      ROS_ERROR_STREAM(
-          "Invalid HAScene operation; scene number " << details.sceneNumber << ", action " << details.action << " in repertoire file " << pFilename);
-      return false;
-    }
-  } else if (oprCode == "HAShade") {
-    homebot::HAShadeRequest details;
-    oprDetails >> details.shadeNumber >> details.action;
-    HAShadeAffectOpr newOpr(oprCode, details.shadeNumber, details.action);
-    if (!newOpr.isValid(maxShadeNumber)) {
-      ROS_ERROR_STREAM(
-          "Invalid HAShade operation; shade number " << details.shadeNumber << ", action " << details.action << " in repertoire file " << pFilename);
-      return false;
-    }
-  }
-}
-
-bool Repertoire::load(std::string pBotType, std::string pFilename,
-                      int maxDoorNumber, int maxSceneNumber,
-                      int maxShadeNumber) {
-  std::ifstream rptFile(pFilename);
-  if (!rptFile) {
-    ROS_FATAL_STREAM("Could not open repertoire file " << pFilename);
-    return false;
-  };
-  std::string rptBotType;
-
-  rptFile >> rptBotType;
-  if (rptBotType != pBotType) {
-    ROS_FATAL_STREAM(
-        "Repertoire file is for " << rptBotType << ", expected repertoire for " << pBotType);
-    return false;
-  }
-
-  botType = rptBotType;
-
-  // Read the repertoire file, decode the instructions on each line, and add to the appropriate list
-  std::string line;
-  while (rptFile) {
-    std::getline(rptFile, line);
-    if (line.length() != 0) {
-      std::stringstream oprLine;
-
-      // Get the behavior name and stage
-      std::string behaviorName, behaviorStage;
-      oprLine >> behaviorName >> behaviorStage;
-
-      // Decode the operation into an operation object
-      HBSysOpr newOpr;
-      if (!decodeOpr(line, newOpr)) {
-        ROS_ERROR_STREAM("Could not decode operation");
-        return false;
-      }
-
-    }
-
 }
 
 /**
@@ -144,12 +62,98 @@ bool Repertoire::load(std::string pBotType, std::string pFilename,
  * @param [out] pBehavior the BotBehavior identified by the behavior name pName
  * @return
  */
-bool Repertoire::findBehavior(const std::string pName, BotBehavior &pBehavior) {
+BotBehavior Repertoire::getBehavior(const std::string& pName) {
+  ROS_ERROR_STREAM(
+      "HomeBot-Repertoire(getBehavior): Behavior '" << pName << "' requested from repertoire for '" << botType << "'");
   for (std::vector<BotBehavior>::size_type i = 0; i < behaviors.size(); i++) {
     if (behaviors[i].getName() == pName) {
-      pBehavior = behaviors[i];
-      return true;
+      return behaviors[i];
     }
   }
-  return false;
+  BotBehavior nullBehavior("", operationParameters);
+  return nullBehavior;
+}
+
+bool Repertoire::load(const std::string& pFilename,
+                      const OperationParameters& pOpParams) {
+  // Update our memory of the operation parameters
+  operationParameters = pOpParams;
+  ROS_ERROR_STREAM(
+      "HomeBot-Repertoire(load): Loading repertoire for BotType '" << botType << "' from file '" << pFilename << "'");
+
+  std::ifstream rptFile(pFilename.c_str());
+  if (!rptFile.is_open()) {
+    ROS_ERROR_STREAM(
+        "HomeBot-Repertoire(load): Could not open repertoire file '" << pFilename << "'");
+    return false;
+  }
+
+  // Get the BotType from the first line of the repertoire file to verify that the
+  // behaviors are appropriate for the Bot that will have this repertoire
+  std::string rptBotType;
+  if (!getline(rptFile, rptBotType)) {
+    ROS_ERROR_STREAM(
+        "HomeBot-Repertoire(load): Could not read botType from repertoire file '" << pFilename<< "'");
+    rptFile.close();
+    return false;
+  }
+  if (botType != rptBotType) {
+    ROS_ERROR_STREAM(
+        "HomeBot-Repertoire(load): This repertoire's BotType '" << botType << "' does not match the file BotType '" << rptBotType << "' in file '" << pFilename << "'");
+    rptFile.close();
+    return false;
+  }
+
+  // Read the lines of behaviors from the repertoire file, building this repertoire
+  int behaviorCount(0), operationCount(0);
+  std::string textRepertoire;
+  while (getline(rptFile, textRepertoire)) {
+    if (textRepertoire.length() == 0) {
+      // Tolerate blank lines in repertoire file
+      ROS_WARN_STREAM(
+          "HomeBot-Repertoire(load): skipping blank line in file '" << pFilename << "'");
+    }
+    std::stringstream ssRepertoire;
+    ssRepertoire.str(textRepertoire);
+    std::string behaviorName;
+    ssRepertoire >> behaviorName;
+    std::string textPhasedBehavior;
+    getline(ssRepertoire, textPhasedBehavior);
+    if (textPhasedBehavior.length() == 0) {
+      // We don't like behaviors on a line without an actual operation, but we will tolerate them
+      ROS_ERROR_STREAM(
+          "HomeBot-Repertoire(load): Skipping blank operation for behavior << '" << behaviorName << "'");
+      break;
+    }
+
+    // See if this behavior exists already
+    std::vector<BotBehavior>::size_type index;
+    for (index = 0; index < behaviors.size(); index++) {
+      if (behaviors[index].getName() == behaviorName) {
+        break;
+      }
+    }
+    // If it doesn't, add it as a new behavior
+    if (index == behaviors.size()) {
+      ROS_ERROR_STREAM(
+          "HomeBot-Repertoire(load): Adding new behavior '" << behaviorName << "'");
+      BotBehavior newBehavior(behaviorName, operationParameters);
+      behaviors.push_back(newBehavior);
+      index = behaviors.size() - 1;
+      behaviorCount++;
+    }
+    // Then stick the rest of the line into this behavior as a phased operation
+    if (!behaviors[index].insert(textPhasedBehavior)) {
+      ROS_ERROR_STREAM(
+          "HomeBot-Repertoire(load): Error inserting operation '" << textPhasedBehavior << "' into behavior '" << behaviorName << "', ending load");
+      rptFile.close();
+      return false;
+    }
+    operationCount++;
+    // End of while(getLine)
+  }
+  ROS_ERROR_STREAM(
+      "HomeBot-Repertoire(load): Loaded repertoire for '" << botType << "' from file '" << pFilename << "'; " << operationCount << " operations in " << behaviorCount << " behaviors");
+  rptFile.close();
+  return true;
 }
