@@ -62,7 +62,7 @@ class BotAffectHADoorOpr : public BotOperation {
                      const int pAction);
   virtual ~BotAffectHADoorOpr();
   homebot::HADoor::Request details();
-  bool isValid(const OperationParameters& opParams);
+  bool isExecutable(const OperationParameters& opParams);
   bool execute(BotOprClients& clients);
  private:
   homebot::HADoor::Request request;

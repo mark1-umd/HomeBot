@@ -64,7 +64,7 @@ class BotMoveBaseOpr : public BotOperation {
                  const int pWOrient);
   virtual ~BotMoveBaseOpr();
   move_base_msgs::MoveBaseGoal details();
-  bool isValid(const OperationParameters& opParams);
+  bool isExecutable(const OperationParameters& opParams);
  private:
   move_base_msgs::MoveBaseGoal goal;
 };

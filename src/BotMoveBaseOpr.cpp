@@ -54,7 +54,7 @@ BotMoveBaseOpr::BotMoveBaseOpr(const std::string pCode,
                                const int pYPos, const int pZPos,
                                const int pXOrient, const int pYOrient,
                                const int pZOrient, const int pWOrient)
-    : BotOperation(pCode) {
+    : BotOperation("", pCode) {
   goal.target_pose.header.frame_id = pFrame_id;
   goal.target_pose.pose.position.x = pXPos;
   goal.target_pose.pose.position.y = pYPos;
@@ -74,14 +74,14 @@ move_base_msgs::MoveBaseGoal BotMoveBaseOpr::details() {
   return goal;
 }
 
-bool BotMoveBaseOpr::isValid(const OperationParameters& opParams) {
+bool BotMoveBaseOpr::isExecutable(const OperationParameters& opParams) {
   // The only validation right now is to ensure the right opcode
   if (code == "BotMoveBase")
     return true;
   else
   {
     ROS_WARN_STREAM(
-        "HomeBot-BotAffectHAShadeOpr(isValid): Validation failed code '" << code << "'" << " frame: '" << goal.target_pose.header.frame_id << "' pose: '" << static_cast<double>(goal.target_pose.pose.position.x) << " " << static_cast<double>(goal.target_pose.pose.position.y) << " " << static_cast<double>(goal.target_pose.pose.position.z) << " " << static_cast<double>(goal.target_pose.pose.orientation.x) << " " << static_cast<double>(goal.target_pose.pose.orientation.y) << " " << static_cast<double>(goal.target_pose.pose.orientation.z) << " " << static_cast<double>(goal.target_pose.pose.orientation.w) << "'");
+        "HomeBot-BotAffectHAShadeOpr(isExecutable): Validation failed code '" << code << "'" << " frame: '" << goal.target_pose.header.frame_id << "' pose: '" << static_cast<double>(goal.target_pose.pose.position.x) << " " << static_cast<double>(goal.target_pose.pose.position.y) << " " << static_cast<double>(goal.target_pose.pose.position.z) << " " << static_cast<double>(goal.target_pose.pose.orientation.x) << " " << static_cast<double>(goal.target_pose.pose.orientation.y) << " " << static_cast<double>(goal.target_pose.pose.orientation.z) << " " << static_cast<double>(goal.target_pose.pose.orientation.w) << "'");
     return false;
   }
 }

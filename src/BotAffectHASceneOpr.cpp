@@ -52,7 +52,7 @@ BotAffectHASceneOpr::BotAffectHASceneOpr() {
 BotAffectHASceneOpr::BotAffectHASceneOpr(const std::string pCode,
                                          const int pSceneNumber,
                                          const int pAction)
-    : BotOperation(pCode) {
+    : BotOperation("", pCode) {
   request.sceneNumber = pSceneNumber;
   request.action = pAction;
 }
@@ -65,7 +65,7 @@ homebot::HAScene::Request BotAffectHASceneOpr::details() {
   return request;
 }
 
-bool BotAffectHASceneOpr::isValid(const OperationParameters& opParams) {
+bool BotAffectHASceneOpr::isExecutable(const OperationParameters& opParams) {
   // Validate the code, the scene is less than the maximum, and the action is recognized;
   if ((code == "HAScene") && (request.sceneNumber <= opParams.maxSceneNumber)
       && ((request.action == homebot::HASceneRequest::TURNOFF)
@@ -74,7 +74,7 @@ bool BotAffectHASceneOpr::isValid(const OperationParameters& opParams) {
     return true;
   else {
     ROS_WARN_STREAM(
-        "HomeBot-BotAffectHASceneOpr(isValid): Validation failed code '" << code << "', scene '" << static_cast<int>(request.sceneNumber) << "', and action '" << static_cast<int>(request.action) << "'");
+        "HomeBot-BotAffectHASceneOpr(isExecutable): Validation failed code '" << code << "', scene '" << static_cast<int>(request.sceneNumber) << "', and action '" << static_cast<int>(request.action) << "'");
     return false;
   }
 }

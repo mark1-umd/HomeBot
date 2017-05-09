@@ -52,13 +52,19 @@
 
 
 BotOperation::BotOperation()
-    : code("") {
+    : code(""),
+      rawText("") {
 }
 
-BotOperation::BotOperation(const std::string pCode)
-    : code(pCode) {
+BotOperation::BotOperation(const std::string pRawText)
+    : rawText(pRawText) {
 }
 
+BotOperation::BotOperation(const std::string pRawText, const std::string pCode)
+    : code(pCode),
+      rawText(pRawText) {
+
+}
 BotOperation::~BotOperation() {
 }
 
@@ -75,10 +81,10 @@ std::string BotOperation::getCode() {
  * @param [in] OperationParameters opParams that assist with validation
  * @return
  */
-bool BotOperation::isValid(const OperationParameters& opParams) {
+bool BotOperation::isExecutable(const OperationParameters& opParams) {
   ROS_ERROR_STREAM(
-      "HomeBot-BotOperation(isValid): Base class virtual method called; possible error in system");
-  // This method is only executed from the base object, which means it is not a valid operation
+      "HomeBot-BotOperation(isExecutable): Base class virtual method called; possible error in system");
+  // This method is being called in the base object, which means it is not an executable operation
   return false;
 }
 
@@ -88,7 +94,7 @@ bool BotOperation::isValid(const OperationParameters& opParams) {
  * @return bool indication of whether the execution was successful (true) or not (false)
  */
 bool BotOperation::execute(BotOprClients& clients) {
-  // Executing a base object can't do anything because it does not have any operation details
+  // Executing a base object can't do anything because it has not been transformed to executable form
   ROS_ERROR_STREAM(
       "HomeBot-BotOperation(execute): Base class virtual method called; possible error in system");
   return false;
@@ -100,18 +106,28 @@ bool BotOperation::execute(BotOprClients& clients) {
  * @param [in] OperationParameters opParams that are used to make sure an operation is within limits
  * @return
  */
-boost::shared_ptr<BotOperation> BotOperation::makeOpr(
-    std::stringstream& operationComponents,
-                                    const OperationParameters& opParams) {
-  // Get the operation code from the operation components parameter and construct the
-  // right derived class of the operation based on the operation code and return it or
-  // return a null operation of the base class that will fail validation when checked
-  std::string oprCode;
-  operationComponents >> oprCode;
-  ROS_ERROR_STREAM(
-      "HomeBot-BotOperation(makeOpr): Making operation with code '" << oprCode << ";");
+boost::shared_ptr<BotOperation> BotOperation::transform(
+    const OperationParameters& opParams) {
+  // Transform the operation's raw text into an operation-specific ready-to-execute form
 
-  if (oprCode == "BotMoveBase") {
+  // If we don't have a code yet, and there is no raw text, there is nothing we can do
+  if ((code == "") && (rawText.length() == 0)) {
+    ROS_ERROR_STREAM(
+        "HomeBot-BotOperation(transform): Attempt to transform an operation with no code and no raw text");
+    return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
+  }
+  // Either we have a code, or there is raw text that should start with a code, so we can begin
+  std::stringstream operationComponents;
+  operationComponents.str(rawText);
+
+  // If we don't have a code, it should be the first thing in the raw text
+  if (code == "") {
+    operationComponents >> code;
+  }
+  ROS_ERROR_STREAM(
+      "HomeBot-BotOperation(transform): Making operation with code '" << code << "' and raw text '" << rawText << "'");
+
+  if (code == "BotMoveBase") {
     // For stringstream input, use directly-defined numeric/string variables, not the ROS message types - some
     // of these types (such as int8_t) interact poorly with streamstream, causing a character value to be read
     // instead of the actual desired integer value
@@ -119,68 +135,63 @@ boost::shared_ptr<BotOperation> BotOperation::makeOpr(
     double pX, pY, pZ, oX, oY, oZ, oW;
     operationComponents >> frame_id >> pX >> pY >> pZ >> oX >> oZ >> oW;
     boost::shared_ptr<BotMoveBaseOpr> newOpr(
-        new BotMoveBaseOpr(oprCode, frame_id, pX, pY, pZ, oX, oY, oZ, oW));
-    if (!newOpr->isValid(opParams)) {
+        new BotMoveBaseOpr(code, frame_id, pX, pY, pZ, oX, oY, oZ, oW));
+    if (!newOpr->isExecutable(opParams)) {
       ROS_ERROR_STREAM(
-          "HomeBot-BotOperation(makeOpr): Invalid BotMoveBase operation with pose: " << pX << " " << pY << " " << pZ << " " << oX << " " << oY << " " << oZ <<" " << oW;);
-      boost::shared_ptr<BotOperation> nullOpr(new BotOperation);
-      return nullOpr;
+          "HomeBot-BotOperation(transform): Invalid BotMoveBase operation with pose: " << pX << " " << pY << " " << pZ << " " << oX << " " << oY << " " << oZ <<" " << oW;);
+      return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
     }
     return newOpr;
 
-  } else if (oprCode == "HADoor") {
+} else if (code == "HADoor") {
     // For stringstream input, use clearly defined integer/string variables, not the ROS message types - some
     // of these types (such as int8_t) interact poorly with streamstream, causing a character value to be read
     // instead of the actual desired integer value
     int doorNumber, action;
     operationComponents >> doorNumber >> action;
     boost::shared_ptr<BotAffectHADoorOpr> newOpr(
-        new BotAffectHADoorOpr(oprCode, doorNumber, action));
-    if (!newOpr->isValid(opParams)) {
+      new BotAffectHADoorOpr(code, doorNumber, action));
+    if (!newOpr->isExecutable(opParams)) {
       ROS_ERROR_STREAM(
-          "HomeBot-BotOperation(makeOpr): Invalid HADoor operation with door number '" << doorNumber << "', action '" << action << "'");
-      boost::shared_ptr<BotOperation> nullOpr(new BotOperation);
-      return nullOpr;
+          "HomeBot-BotOperation(transform): Invalid HADoor operation with door number '" << doorNumber << "', action '" << action << "'");
+    return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
     }
     ROS_ERROR_STREAM(
-        "HomeBot-BotOperation(makeOpr): Returning valid HADoor operation");
+        "HomeBot-BotOperation(transform): Returning valid HADoor operation");
     return newOpr;
 
-  } else if (oprCode == "HAScene") {
+} else if (code == "HAScene") {
     // For stringstream input, use clearly defined integer/string variables, not the ROS message types - some
     // of these types (such as int8_t) interact poorly with streamstream, causing a character value to be read
     // instead of the actual desired integer value
     int sceneNumber, action;
     operationComponents >> sceneNumber >> action;
     boost::shared_ptr<BotAffectHASceneOpr> newOpr(
-        new BotAffectHASceneOpr(oprCode, sceneNumber, action));
-    if (!newOpr->isValid(opParams)) {
+      new BotAffectHASceneOpr(code, sceneNumber, action));
+    if (!newOpr->isExecutable(opParams)) {
       ROS_ERROR_STREAM(
-          "HomeBot-BotOperation(makeOpr): Invalid HAScene operation with scene number " << sceneNumber << ", action " << action);
-      boost::shared_ptr<BotOperation> nullOpr(new BotOperation);
-      return nullOpr;
+          "HomeBot-BotOperation(transform): Invalid HAScene operation with scene number " << sceneNumber << ", action " << action);
+    return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
     }
     return newOpr;
 
-  } else if (oprCode == "HAShade") {
+} else if (code == "HAShade") {
     // For stringstream input, use clearly defined integer/string variables, not the ROS message types - some
     // of these types (such as int8_t) interact poorly with streamstream, causing a character value to be read
     // instead of the actual desired integer value
     int shadeNumber, action;
     operationComponents >> shadeNumber >> action;
     boost::shared_ptr<BotAffectHAShadeOpr> newOpr(
-        new BotAffectHAShadeOpr(oprCode, shadeNumber, action));
-    if (!newOpr->isValid(opParams)) {
+        new BotAffectHAShadeOpr(code, shadeNumber, action));
+    if (!newOpr->isExecutable(opParams)) {
       ROS_ERROR_STREAM(
-          "HomeBot-BotOperation(makeOpr): Invalid HAShade operation; shade number " << shadeNumber << ", action " << action);
-      boost::shared_ptr<BotOperation> nullOpr(new BotOperation);
-      return nullOpr;
+          "HomeBot-BotOperation(transform): Invalid HAShade operation; shade number " << shadeNumber << ", action " << action);
+    return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
     }
     return newOpr;
 
   }
   ROS_ERROR_STREAM(
-      "HomeBot-BotOperation(makeOpr): Unrecognized operation '" << oprCode << "', can't decode operation");
-  boost::shared_ptr<BotOperation> nullOpr(new BotOperation);
-  return nullOpr;
+      "HomeBot-BotOperation(transform): Unrecognized operation '" << code << "', can't decode operation");
+return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
 }

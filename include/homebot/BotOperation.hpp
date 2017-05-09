@@ -65,16 +65,18 @@ class BotAffectHAShadeOpr;
 class BotOperation {
  public:
   BotOperation();
-  BotOperation(const std::string pCode);
+  BotOperation(const std::string pRawText);
+  BotOperation(const std::string pRawText, const std::string pCode);
   virtual ~BotOperation();
   std::string getCode();
-  virtual bool isValid(const OperationParameters& opParams);
+  std::string getRawText();
+  virtual bool isExecutable(const OperationParameters& opParams);
   virtual bool execute(BotOprClients& clients);
-  boost::shared_ptr<BotOperation> makeOpr(
-      std::stringstream& operationComponents,
-                        const OperationParameters& opParams);
+  boost::shared_ptr<BotOperation> transform(
+      const OperationParameters& opParams);
  protected:
   std::string code;
+  std::string rawText;
 };
 
 #endif /* HOMEBOT_INCLUDE_HOMEBOT_BOTOPERATION_HPP_ */

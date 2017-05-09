@@ -51,7 +51,7 @@ BotAffectHADoorOpr::BotAffectHADoorOpr() {
 
 BotAffectHADoorOpr::BotAffectHADoorOpr(const std::string pCode,
                                        const int pDoorNumber, const int pAction)
-    : BotOperation(pCode) {
+    : BotOperation("", pCode) {
   request.doorNumber = pDoorNumber;
   request.action = pAction;
 }
@@ -64,19 +64,20 @@ homebot::HADoor::Request BotAffectHADoorOpr::details() {
   return request;
 }
 
-bool BotAffectHADoorOpr::isValid(const OperationParameters& opParams) {
-  ROS_ERROR_STREAM("HomeBot-BotAffectHADoorOpr(isValid): Entered");
+bool BotAffectHADoorOpr::isExecutable(const OperationParameters& opParams) {
+  ROS_ERROR_STREAM("HomeBot-BotAffectHADoorOpr(isExecutable): Entered");
   // Validate the code, the door is less than the maximum, and the action is recognized;
   if ((code == "HADoor") && (request.doorNumber <= opParams.maxDoorNumber)
       && ((request.action == homebot::HADoorRequest::CLOSE)
           || (request.action == homebot::HADoorRequest::OPEN)
           || (request.action == homebot::HADoorRequest::STATUS))) {
-    ROS_ERROR_STREAM("HomeBot-BotAffectHADoorOpr(isValid): returning TRUE");
+    ROS_ERROR_STREAM(
+        "HomeBot-BotAffectHADoorOpr(isExecutable): returning TRUE");
     return true;
   }
   else {
     ROS_ERROR_STREAM(
-        "HomeBot-BotAffectHADoorOpr(isValid): Validation failed code '" << code << "', door '" << static_cast<int>(request.doorNumber) << "', and action '" << static_cast<int>(request.action) << "'");
+        "HomeBot-BotAffectHADoorOpr(isExecutable): Validation failed code '" << code << "', door '" << static_cast<int>(request.doorNumber) << "', and action '" << static_cast<int>(request.action) << "'");
   }
     return false;
 }

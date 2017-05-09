@@ -62,7 +62,7 @@ class BotAffectHAShadeOpr : public BotOperation {
                       const int pAction);
   virtual ~BotAffectHAShadeOpr();
   homebot::HAShade::Request details();
-  bool isValid(const OperationParameters& opParams);
+  bool isExecutable(const OperationParameters& opParams);
   bool execute(BotOprClients& clients);
  private:
   homebot::HAShade::Request request;

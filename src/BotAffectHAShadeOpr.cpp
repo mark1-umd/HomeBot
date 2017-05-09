@@ -52,7 +52,7 @@ BotAffectHAShadeOpr::BotAffectHAShadeOpr() {
 BotAffectHAShadeOpr::BotAffectHAShadeOpr(const std::string pCode,
                                          const int pShadeNumber,
                                          const int pAction)
-    : BotOperation(pCode) {
+    : BotOperation("", pCode) {
   request.shadeNumber = pShadeNumber;
   request.action = pAction;
 }
@@ -65,7 +65,7 @@ homebot::HAShade::Request BotAffectHAShadeOpr::details() {
   return request;
 }
 
-bool BotAffectHAShadeOpr::isValid(const OperationParameters& opParams) {
+bool BotAffectHAShadeOpr::isExecutable(const OperationParameters& opParams) {
   // Validate the code, the shade is less than the maximum, and the action is recognized;
   if ((code == "HAShade") && (request.shadeNumber <= opParams.maxShadeNumber)
       && ((request.action == homebot::HAShadeRequest::RAISE)
@@ -75,7 +75,7 @@ bool BotAffectHAShadeOpr::isValid(const OperationParameters& opParams) {
   else
     {
     ROS_WARN_STREAM(
-        "HomeBot-BotAffectHAShadeOpr(isValid): Validation failed code '" << code << "', shade '" << static_cast<int>(request.shadeNumber) << "', and action '" << static_cast<int>(request.action) << "'");
+        "HomeBot-BotAffectHAShadeOpr(isExecutable): Validation failed code '" << code << "', shade '" << static_cast<int>(request.shadeNumber) << "', and action '" << static_cast<int>(request.action) << "'");
     return false;
   }
 }

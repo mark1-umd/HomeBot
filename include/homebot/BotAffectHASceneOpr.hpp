@@ -62,7 +62,7 @@ class BotAffectHASceneOpr : public BotOperation {
                       const int pAction);
   virtual ~BotAffectHASceneOpr();
   homebot::HAScene::Request details();
-  bool isValid(const OperationParameters& opParams);
+  bool isExecutable(const OperationParameters& opParams);
   bool execute(BotOprClients& clients);
  private:
   homebot::HAScene::Request request;
