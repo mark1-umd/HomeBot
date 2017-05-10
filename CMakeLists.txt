@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   geometry_msgs
+  move_base_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -101,7 +102,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
 #  LIBRARIES homebot
-#  CATKIN_DEPENDS actionlib message_generation roscpp std_msgs
+CATKIN_DEPENDS actionlib message_generation roscpp std_msgs move_base_msgs
 #  DEPENDS system_lib
 )
 
@@ -142,6 +143,9 @@ add_executable(HomeBot_Node src/HomeBot_Node.cpp
                             src/BotAffectHADoorOpr.cpp
                             src/BotAffectHASceneOpr.cpp
                             src/BotAffectHAShadeOpr.cpp)
+add_executable(FakeMoveBaseServer src/FakeMoveBaseServer.cpp
+                                  src/FakeMoveBaseAction.cpp)
+add_executable(FakeMoveBaseExerciser src/FakeMoveBaseExerciser.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -151,6 +155,7 @@ add_dependencies(HAexerciser homebot_generate_messages_cpp)
 add_dependencies(HAHvacActionServer homebot_generate_messages_cpp)
 add_dependencies(HARequestServer homebot_generate_messages_cpp)
 add_dependencies(HomeBot_Node homebot_generate_messages_cpp)
+add_dependencies(FakeMoveBaseServer homebot_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(homebot_node
@@ -161,6 +166,8 @@ target_link_libraries(HAexerciser ${catkin_LIBRARIES})
 target_link_libraries(HARequestServer ${catkin_LIBRARIES})
 target_link_libraries(HAHvacActionServer ${catkin_LIBRARIES})
 target_link_libraries(HomeBot_Node ${catkin_LIBRARIES})
+target_link_libraries(FakeMoveBaseServer ${catkin_LIBRARIES})
+target_link_libraries(FakeMoveBaseExerciser ${catkin_LIBRARIES})
 
 #############
 ## Install ##

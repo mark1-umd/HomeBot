@@ -45,10 +45,11 @@
 #include "homebot/FakeMoveBaseAction.hpp"
 
 FakeMoveBaseAction::FakeMoveBaseAction()
-    : baseVel(0.1),
-      posX(0.0),
-      posY(0.0),
-      posZ(0.0),
+    : fbFreq(10),  // feedback frequency in Hz; also controls time for simulation
+      baseVel(1.0),       // base velocity in units (assumed meters) per second
+      posX(0.0),          // X coordinate of current base location; starts at 0
+      posY(0.0),          // Y coordinate of current base location; starts at 0
+      posZ(0.0),          // Z coordinate of current base location; starts at 0
       as(nh, "move_base",
          boost::bind(&FakeMoveBaseAction::actionExecuteCB, this, _1),
          false) {
@@ -58,11 +59,23 @@ FakeMoveBaseAction::FakeMoveBaseAction()
 FakeMoveBaseAction::~FakeMoveBaseAction() {
 }
 
+/**
+ * @brief Calculates the distance from one 2D point to another 2D point
+ * @param [in] x1 X coordinate of first point
+ * @param [in] y1 Y coordinate of first point
+ * @param [in] x2 X coordinate of second point
+ * @param [in] y2 Y coordinate of second point
+ * @return distance from first point to second point
+ */
 double FakeMoveBaseAction::distance(double x1, double y1, double x2,
                                     double y2) {
   return sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));
 }
 
+/**
+ * @brief Executes whenever the action server receives a goal from an action client
+ * @param goal
+ */
 void FakeMoveBaseAction::actionExecuteCB(
     const move_base_msgs::MoveBaseGoalConstPtr &goal) {
   move_base_msgs::MoveBaseFeedback feedback;
@@ -73,16 +86,19 @@ void FakeMoveBaseAction::actionExecuteCB(
 
   // Simulate command to Home Automation system for HVAC temperature change
   ROS_INFO_STREAM(
-      "FakeMoveBase(actionExecuteCB): moving from (" << posX << ", " << posY << ") to (" << goalX << ", " << goalY << " at " << baseVel << " m/s");
+      "FakeMoveBase(actionExecuteCB): moving from (" << posX << ", " << posY << ") to (" << goalX << ", " << goalY << ") at " << baseVel << " m/s");
 
-  // Simulate the move at a rate of 10 HZ using a ROS rate object
-  ros::Rate delay(fbFreq);  // Will cycle at 10 Hz, 1/10 second per deltaTempDegF, so 1 degree/second if delta = .1 deg
+  // Simulate the move at a rate of fbFreq Hz using a ROS rate object
+  ros::Rate delay(fbFreq);
 
   // Fix our rate of change in position at the base velocity / feedback frequency
+  // (feedback frequency controls delta time for the simulation)
   double deltaP = baseVel / fbFreq;
 
-  // While the home temperature is outside of the allowed tolerance
+  // While the base is not at the goal location [(X,Y) only] plan our next move
   while ((posX != goalX) && (posY != goalY)) {
+    ROS_DEBUG_STREAM(
+        "FakeMoveBase(actionExecuteCB): Not at goal; planning move");
     // Bail out if this action has been preempted or ROS is not running
     if (as.isPreemptRequested() || !ros::ok()) {
       ROS_INFO_STREAM("FakeMoveBase(actionExecuteCB): Preempted");
@@ -91,13 +107,17 @@ void FakeMoveBaseAction::actionExecuteCB(
     }
     // Adjust our position by deltaP  or the actual distance, whichever is less
     double distanceToGoal = distance(posX, posY, goalX, goalY);
+    ROS_DEBUG_STREAM(
+        "FakeMoveBase(actionExecuteCB): Distance to goal is " << distanceToGoal << " meters");
     if (distanceToGoal < deltaP) {
+      ROS_DEBUG_STREAM(
+          "FakeMoveBase(actionExecuteCB): Less than " << deltaP << " meters, we are going to be there next!");
       posX = goalX;
       posY = goalY;
     } else {
-      double theta = asin((goalY - posY) / distanceToGoal);
-      double deltaX = cos(theta) / deltaP;
-      double deltaY = sin(theta) / deltaP;
+      double theta = atan2((goalY - posY), (goalX - posX));
+      double deltaX = cos(theta) * deltaP;
+      double deltaY = sin(theta) * deltaP;
       posX += deltaX;
       posY += deltaY;
     }
