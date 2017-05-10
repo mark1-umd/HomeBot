@@ -50,10 +50,10 @@ BotMoveBaseOpr::BotMoveBaseOpr() {
 }
 
 BotMoveBaseOpr::BotMoveBaseOpr(const std::string pCode,
-                               const std::string pFrame_id, const int pXPos,
-                               const int pYPos, const int pZPos,
-                               const int pXOrient, const int pYOrient,
-                               const int pZOrient, const int pWOrient)
+                               const std::string pFrame_id, const double pXPos,
+                               const double pYPos, const double pZPos,
+                               const double pXOrient, const double pYOrient,
+                               const double pZOrient, const double pWOrient)
     : BotOperation("", pCode) {
   goal.target_pose.header.frame_id = pFrame_id;
   goal.target_pose.pose.position.x = pXPos;
@@ -66,8 +66,6 @@ BotMoveBaseOpr::BotMoveBaseOpr(const std::string pCode,
 }
 
 BotMoveBaseOpr::~BotMoveBaseOpr() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
-
 }
 
 move_base_msgs::MoveBaseGoal BotMoveBaseOpr::details() {
@@ -80,8 +78,49 @@ bool BotMoveBaseOpr::isExecutable(const OperationParameters& opParams) {
     return true;
   else
   {
-    ROS_WARN_STREAM(
+    ROS_INFO_STREAM(
         "HomeBot-BotAffectHAShadeOpr(isExecutable): Validation failed code '" << code << "'" << " frame: '" << goal.target_pose.header.frame_id << "' pose: '" << static_cast<double>(goal.target_pose.pose.position.x) << " " << static_cast<double>(goal.target_pose.pose.position.y) << " " << static_cast<double>(goal.target_pose.pose.position.z) << " " << static_cast<double>(goal.target_pose.pose.orientation.x) << " " << static_cast<double>(goal.target_pose.pose.orientation.y) << " " << static_cast<double>(goal.target_pose.pose.orientation.z) << " " << static_cast<double>(goal.target_pose.pose.orientation.w) << "'");
+    return false;
+  }
+}
+
+bool BotMoveBaseOpr::execute(BotOprClients& clients) {
+  // Check whether the action is still available
+  if (!clients.acBotMoveBase.isServerConnected()) {
+    ROS_INFO_STREAM(
+        "HomeBot-BotMoveBaseOpr(execute): move_base action server not ready when trying to move to frame: '"
+            << goal.target_pose.header.frame_id << "' pose: '"
+            << static_cast<double>(goal.target_pose.pose.position.x) << " "
+            << static_cast<double>(goal.target_pose.pose.position.y) << " "
+            << static_cast<double>(goal.target_pose.pose.position.z) << " "
+            << static_cast<double>(goal.target_pose.pose.orientation.x) << " "
+            << static_cast<double>(goal.target_pose.pose.orientation.y) << " "
+            << static_cast<double>(goal.target_pose.pose.orientation.z) << " "
+            << static_cast<double>(goal.target_pose.pose.orientation.w) << "'");
+    return false;
+  }
+
+  ROS_INFO_STREAM(
+      "HomeBot-BotMoveBaseOpr(execute): sending goal to move_base; frame: '"
+          << goal.target_pose.header.frame_id << "' pose: '"
+          << static_cast<double>(goal.target_pose.pose.position.x) << " "
+          << static_cast<double>(goal.target_pose.pose.position.y) << " "
+          << static_cast<double>(goal.target_pose.pose.position.z) << " "
+          << static_cast<double>(goal.target_pose.pose.orientation.x) << " "
+          << static_cast<double>(goal.target_pose.pose.orientation.y) << " "
+          << static_cast<double>(goal.target_pose.pose.orientation.z) << " "
+          << static_cast<double>(goal.target_pose.pose.orientation.w) << "'");
+  // Send goal to move_base action server, then wait for result
+  goal.target_pose.header.stamp = ros::Time::now();
+  clients.acBotMoveBase.sendGoal(goal);
+  clients.acBotMoveBase.waitForResult();
+
+  if (clients.acBotMoveBase.getState()
+      == actionlib::SimpleClientGoalState::SUCCEEDED) {
+    ROS_INFO("HomeBot-BotMoveBaseOpr(execute): goal reached");
+    return true;
+  } else {
+    ROS_WARN_STREAM("HomeBot-BotMoveBaseOpr(execute): Failed to reach goal");
     return false;
   }
 }

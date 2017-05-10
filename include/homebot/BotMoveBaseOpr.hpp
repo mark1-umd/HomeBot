@@ -59,12 +59,13 @@ class BotMoveBaseOpr : public BotOperation {
  public:
   BotMoveBaseOpr();
   BotMoveBaseOpr(const std::string pCode, const std::string pFrame_id,
-                 const int pXPos, const int pYPos, const int pZPos,
-                 const int pXOrient, const int pYOrient, const int pZOrient,
-                 const int pWOrient);
+                 const double pXPos, const double pYPos, const double pZPos,
+                 const double pXOrient, const double pYOrient,
+                 const double pZOrient, const double pWOrient);
   virtual ~BotMoveBaseOpr();
   move_base_msgs::MoveBaseGoal details();
   bool isExecutable(const OperationParameters& opParams);
+  bool execute(BotOprClients& clients);
  private:
   move_base_msgs::MoveBaseGoal goal;
 };
