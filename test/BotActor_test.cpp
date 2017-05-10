@@ -52,7 +52,7 @@
 
 /*******************************************************************************/
 
-TEST (BotActor, BotActor) {
+TEST (BotActor, ButtleBot) {
   // Define the operation parameters for this test
   // doors = 5, scenes = 15, shades = 8
   OperationParameters opParams(5, 15, 8);
@@ -72,6 +72,32 @@ TEST (BotActor, BotActor) {
 
   // And create the BotActor, which will start things going
   BotActor botActor(buttleBotRepertoire, oprClients);
+
+  // There is no output from BotActor; if this was a main function we would just
+  // use ros::spin() here and wait until the node was shutdown
+}
+
+/*******************************************************************************/
+
+TEST (BotActor, WatchBot) {
+  // Define the operation parameters for this test
+  // doors = 5, scenes = 15, shades = 8
+  OperationParameters opParams(5, 15, 8);
+
+  // Create a node handle since we are running as a ROS node and use rosconsole
+  ros::NodeHandle nh;
+
+  Repertoire watchBotRepertoire("WatchBot");
+  EXPECT_TRUE(
+      watchBotRepertoire.load(
+          "/home/viki/ROS/hw/catkin_ws/src/homebot/repertoire/WatchBot-test-good.rpt",
+          opParams));
+
+  // Start up the Bot Clients
+  BotOprClients oprClients;
+
+  // And create the BotActor, which will start things going
+  BotActor botActor(watchBotRepertoire, oprClients);
 
   // There is no output from BotActor; if this was a main function we would just
   // use ros::spin() here and wait until the node was shutdown

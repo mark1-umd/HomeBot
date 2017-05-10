@@ -1,0 +1,29 @@
+WatchBot
+PatrolCW prelim HAScene 5 1
+PatrolCW prelim HADoor 3 1
+PatrolCW prelim BotMoveBase map 1.0 -1.0 0.0 0.0 0.0 0.0 0.0
+PatrolCW prelim HADoor 3 0
+PatrolCW prelim BotMoveBase map 5.0 -5.0 0.0 0.0 0.0 0.0 0.0
+PatrolCW main BotMoveBase map -5.0 -5.0 0.0 0.0 0.0 0.0 0.0
+PatrolCW main BotMoveBase map -5.0 5.0 0.0 0.0 0.0 0.0 0.0
+PatrolCW main BotMoveBase map 5.0 5.0 0.0 0.0 0.0 0.0 0.0
+PatrolCW main BotMoveBase map 5.0 -5.0 0.0 0.0 0.0 0.0 0.0
+PatrolCW post BotMoveBase map 1.0 -1.0 0.0 0.0 0.0 0.0 0.0
+PatrolCW post HADoor 3 1
+PatrolCW post BotMoveBase map 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+PatrolCW post HADoor 3 0
+PatrolCW post HAScene 5 0
+PatrolCCW prelim HAScene 5 1
+PatrolCCW prelim HADoor 3 1
+PatrolCCW prelim BotMoveBase map 1.0 -1.0 0.0 0.0 0.0 0.0 0.0
+PatrolCCW prelim HADoor 3 0
+PatrolCCW prelim BotMoveBase map 5.0 -5.0 0.0 0.0 0.0 0.0 0.0
+PatrolCCW main BotMoveBase map 5.0 5.0 0.0 0.0 0.0 0.0 0.0
+PatrolCCW main BotMoveBase map -5.0 5.0 0.0 0.0 0.0 0.0 0.0
+PatrolCCW main BotMoveBase map -5.0 -5.0 0.0 0.0 0.0 0.0 0.0
+PatrolCCW main BotMoveBase map 5.0 -5.0 0.0 0.0 0.0 0.0 0.0
+PatrolCCW post BotMoveBase map 1.0 -1.0 0.0 0.0 0.0 0.0 0.0
+PatrolCCW post HADoor 3 1
+PatrolCCW post BotMoveBase map 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+PatrolCCW post HADoor 3 0
+PatrolCCW post HAScene 5 0

@@ -629,7 +629,7 @@ TEST (BotBehaviorAffectHAShade, Execution) {
 
 }
 /*******************************************************************************/
-TEST (BotBehavior, BotBehavior) {
+TEST (BotBehavior, HAServiceBehaviors) {
   // Define the operation parameters based on the Request Server initialization
   // (Assume Request Server started with -doors 5 -scenes 15 -shades 8
   // doors = 5, scenes = 15, shades = 8
@@ -649,6 +649,36 @@ TEST (BotBehavior, BotBehavior) {
   EXPECT_TRUE(botBehav.insert("main HAScene 2 0"));   // Turn off scene 2
   EXPECT_TRUE(botBehav.insert("post HADoor 1 0"));    // Close door 1
   EXPECT_TRUE(botBehav.insert("post HAScene 1 0"));   // Turn off scene 2
+
+  // Perform the behavior
+  EXPECT_TRUE(botBehav.performPrelim(botOprClients));
+  EXPECT_TRUE(botBehav.performMain(botOprClients));
+  EXPECT_TRUE(botBehav.performPost(botOprClients));
+}
+/*******************************************************************************/
+TEST (BotBehavior, MoveBaseBehaviors) {
+  // Define the operation parameters based on the Request Server initialization
+  // (Assume Request Server started with -doors 5 -scenes 15 -shades 8
+  // doors = 5, scenes = 15, shades = 8
+  OperationParameters opParams(5, 15, 8);
+
+  // Create a node handle since we are running as a ROS node with rosconsole
+  ros::NodeHandle nh;
+  // Spin up some clients
+  BotOprClients botOprClients;
+
+  // Create a behavior
+  BotBehavior botBehav("TrundleAround", opParams);
+  EXPECT_EQ("TrundleAround", botBehav.getName());
+  EXPECT_TRUE(
+      botBehav.insert("prelim BotMoveBase 1.0 1.0 0.0 0.0 0.0 0.0 0.0"));  // Goto (1,1);
+  EXPECT_TRUE(
+      botBehav.insert("prelim BotMoveBase 2.0 -1.0 0.0 0.0 0.0 0.0 0.0"));  // Goto (2,-1);
+  EXPECT_TRUE(botBehav.insert("main BotMoveBase -1.0 2.0 0.0 0.0 0.0 0.0 0.0"));  // Goto (-1,2);
+  EXPECT_TRUE(
+      botBehav.insert("main BotMoveBase -1.0 -1.0 0.0 0.0 0.0 0.0 0.0"));  // Goto (-1,-1);
+  EXPECT_TRUE(botBehav.insert("post BotMoveBase 1.0 1.0 0.0 0.0 0.0 0.0 0.0"));  // Goto (1,1);
+  EXPECT_TRUE(botBehav.insert("post BotMoveBase 0.0 0.0 0.0 0.0 0.0 0.0 0.0"));  // Goto (0,0);
 
   // Perform the behavior
   EXPECT_TRUE(botBehav.performPrelim(botOprClients));
