@@ -131,6 +131,17 @@ add_executable(HARequestServer src/HARequestServer.cpp
                                src/HAShadeService.cpp)
 add_executable(HAHvacActionServer src/HAHvacActionServer.cpp
                                   src/HAHvacAction.cpp)
+add_executable(HomeBot_Node src/HomeBot_Node.cpp
+                            src/OperationParameters.cpp
+                            src/Repertoire.cpp
+                            src/BotOprClients.cpp
+                            src/BotActor.cpp
+                            src/BotBehavior.cpp
+                            src/BotOperation.cpp
+                            src/BotMoveBaseOpr.cpp
+                            src/BotAffectHADoorOpr.cpp
+                            src/BotAffectHASceneOpr.cpp
+                            src/BotAffectHAShadeOpr.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -144,6 +155,7 @@ target_link_libraries(HARequests ${catkin_LIBRARIES})
 target_link_libraries(HAexerciser ${catkin_LIBRARIES})
 target_link_libraries(HARequestServer ${catkin_LIBRARIES})
 target_link_libraries(HAHvacActionServer ${catkin_LIBRARIES})
+target_link_libraries(HomeBot_Node ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -252,7 +264,7 @@ if(CATKIN_ENABLE_TESTING)
   test/BotActor_test.cpp
   src/BotActor.cpp
   src/Repertoire.cpp
-   src/BotOperation.cpp
+  src/BotOperation.cpp
   src/OperationParameters.cpp
   src/BotMoveBaseOpr.cpp
   src/BotAffectHADoorOpr.cpp
