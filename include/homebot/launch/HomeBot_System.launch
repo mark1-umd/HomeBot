@@ -1,9 +1,0 @@
-<launch>
-    <node pkg="homebot" name="HAHvacActionServer" type="HAHvacActionServer" />
-
-    <node pkg="homebot" name="HARequestServer" type="HARequestServer"
-        args="-doors 5 -scenes 15 -shades 8" />
-        
-    <node pkg="homebot" name="HomeBot_Node" type="HomeBot_Node"
-        args="-doors 5 -scenes 15 -shades 8 -botType ButtleBot -rptFile $(find homebot)/repertoire/ButtleBot.rpt" />     
-</launch>
