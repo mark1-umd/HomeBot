@@ -1,19 +1,27 @@
 <?xml version="1.0"?>
 <package>
   <name>homebot</name>
-  <version>0.0.0</version>
-  <description>The homebot package</description>
+  <version>0.5.0</version>
+  <description>The HomeBot home automation integration system merges HomeBot service robots
+  	with home automation systems.  Through the HomeBot system, the home automation system can
+  	send action goals for the execution of simple behaviors by the service robots.  In turn,
+  	the simmple behaviors can request services from the home automation system, such as
+  	opening doors, turning scenes (lights) on and off, and raising and lowering shades.  This
+  	package was written as a final project for a software engineering course, and does not
+  	represent a finished project.  It is, however, useful as a demonstration of implementing
+  	ROS services and actionlib clients and servers.  It also shows the future possibilities
+  	of integrating service robots with home automation systems.</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="viki@todo.todo">viki</maintainer>
+  <maintainer email="mark1@umd.edu">Mark Jenkins</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
   <!-- Commonly used license strings: -->
   <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>TODO</license>
+  <license>BSD</license>
 
 
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
@@ -26,7 +34,7 @@
   <!-- Authors do not have to be maintianers, but could be -->
   <!-- Example: -->
   <!-- <author email="jane.doe@example.com">Jane Doe</author> -->
-
+  <author email="mark1@umd.edu">Mark Jenkins</author>
 
   <!-- The *_depend tags are used to specify dependencies -->
   <!-- Dependencies can be catkin packages or system dependencies -->

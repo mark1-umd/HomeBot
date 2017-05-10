@@ -146,6 +146,11 @@ add_executable(HomeBot_Node src/HomeBot_Node.cpp
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(homebot_node homebot_generate_messages_cpp)
+add_dependencies(HARequests homebot_generate_messages_cpp)
+add_dependencies(HAexerciser homebot_generate_messages_cpp)
+add_dependencies(HAHvacActionServer homebot_generate_messages_cpp)
+add_dependencies(HARequestServer homebot_generate_messages_cpp)
+add_dependencies(HomeBot_Node homebot_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(homebot_node
