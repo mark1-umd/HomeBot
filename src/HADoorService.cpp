@@ -43,7 +43,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "HADoorService.hpp"
+#include "homebot/HADoorService.hpp"
 
 HADoorService::HADoorService() {
   // TODO(Mark Jenkins): Auto-generated constructor stub

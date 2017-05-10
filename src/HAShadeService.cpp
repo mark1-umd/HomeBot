@@ -43,7 +43,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "HAShadeService.hpp"
+#include "homebot/HAShadeService.hpp"
 
 HAShadeService::HAShadeService() {
   // TODO(Mark Jenkins): Auto-generated constructor stub

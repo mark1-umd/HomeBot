@@ -43,7 +43,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "HASceneService.hpp"
+#include "homebot/HASceneService.hpp"
 
 HASceneService::HASceneService() {
   // TODO(Mark Jenkins): Auto-generated constructor stub

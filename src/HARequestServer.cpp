@@ -47,9 +47,10 @@
  */
 
 #include "ros/ros.h"
-#include "HADoorService.hpp"
-#include "HASceneService.hpp"
-#include "HAShadeService.hpp"
+
+#include "../include/homebot/HADoorService.hpp"
+#include "../include/homebot/HASceneService.hpp"
+#include "../include/homebot/HAShadeService.hpp"
 
 /**
  * The main function handles the ROS node lifespan
