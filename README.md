@@ -9,7 +9,7 @@ The HomeBot system can include products such as:
 - ButtleBot – automated butler services (answers the door, greets guests, provides tele-presence, takes packages, delivers objects from room to room, and more)
 - TrashBot – takes the trash out and down to the road for pickup by city services
 - LawnBot – keeps lawns looking fresh cut
-- WatchBot – patrols estate perimeters day and night from the ground or from the air
+- WatchBot – patrols estate perimeters day and night from the ground or (future product) from the air
 
 The key to the HomeBot system is a ROS node that can interface one or more HomeBot robotic products with a home automation system, allowing them to interact bi-directionally; the robots can make requests of and send notifications to the home automation system, and the home automation system can make requests of and send notifications to the robotic systems.  These communications take place through the ROS Actionlib, a non-blocking service interface well-suited for this type of integration.
 
@@ -53,13 +53,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 - Ubuntu Linux 14.04 as a VirtualBox guest O/S on a macOS 10.12 host O/S as the development platform
 - git version control system with GitHub as a centralized repo host
 - The Robot Operating System (ROS) version Indigo Igloo
-- Gazebo 3D rigid body simulator integrated with ROS
-- Turtlebot simulation stack for Indigo Igloo
+- [future] Gazebo 3D rigid body simulator integrated with ROS
+- [future] Turtlebot simulation stack for Indigo Igloo
 - C++ language using the gcc compiler with C++11/14 syntax and extensions
 - cmake build system
 - googletest testing
-- Travis Continual Integration
-- Coveralls coverage monitoring (in development)
+- [future] Travis Continual Integration
+- [future] Coveralls coverage monitoring (in development)
 
 ## Dependencies
 
@@ -87,7 +87,19 @@ The HARequestServer is a ROS node that manages service requests from ROS nodes r
 
 ## Testing using rostest
 
-Level 2 integration testing of ROS nodes uses the Google Test framework combined with the rostest tool to test ROS nodes.  For the purpose of demonstrating these testing capabilities, a ROS testing nodes with test launch files are provided.  "xxxxxxxxxxx" tests xxxxxxxxxxx.  To invoke the rostest capability at the node level, a test launch script called "xxxxxxxxxx" is provided.  To invoke the test at the command line:
+Level 2 integration testing of ROS nodes uses the Google Test framework combined with the rostest tool to run the ROS nodes individually or in groups.  This package uses the testing capability extensively, both for testing individual components and for testing combinations of components.
+
+### Tests available
+
+- HARequestServer.test: Verifies the function of the HARequestServer node using a ROS test node to drive the HARequestServer node
+- HAHvacActionServer.test: Verifies the function of the HAHvacActionServer node using a ROS test node to drive the HAHvacActionServer node
+- BotBehavior_Component_Standalone.test: Verifies the function of multiple components that together make up the BotBehavior capability when they are operated without the ROS nodes that provide interaction support
+- BotBehavior_Component.test: Verifies the function of multiple components that together make up the BotBehavior capability when operated with other ROS nodes that interact with the components
+- Repertoire.test: Verifies the function of the Repertoire component, which depends upon the BotBehavior components; does not use any other nodes. THIS TEST HAS HARD CODED FILEPATHS in the Repertoire_test.cpp source code because no ready method was apparent to pass arguments in through the rostest/gtest execution framework to the code inside of the test macros.
+- BotActor.test: Verifies the function of the BotActor class (the behavior action server) in conjunction with many other components (BotBehavior, Repertoire); requires HARequestServer and FakeMoveBaseServer for testing. THIS TEST HAS HARD CODED FILEPATHS in the Repertoire_test.cpp source code because no ready method was apparent to pass arguments in through the rostest/gtest execution framework to the code inside of the test macros.
+
+### General testing instructions:
+  To invoke a test at the command line:
 
     - rostest homebot HARequestServer.test
     
@@ -96,7 +108,7 @@ output can be sent directly to the terminal using this form of the command:
 
     - rostest --text HomeBot xxxxxxxxxxxxx.test
     
-The rostest capability is also baked into the package's CMakeLists.txt build configuration file.  To build the test nodes, invoke the catkin workspace build command with the target "tests":
+The rostest capability is baked into the package's CMakeLists.txt build configuration file.  To build the test nodes, invoke the catkin workspace build command with the target "tests":
 
     - catkin_make tests
 
