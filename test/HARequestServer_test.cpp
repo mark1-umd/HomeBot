@@ -123,7 +123,7 @@ TEST (HARequestServer, HADoorService) {
 /*******************************************************************************/
 
 // Set up the HARequestServer HAScene service test using the GoogleTest macros
-// This test assumes that the HARequestServer has been initialized with 5 scenes
+// This test assumes that the HARequestServer has been initialized with 15 scenes
 // (argument -scenes 15)
 TEST (HARequestServer, HASceneService) {
   // Set the number of scenes in the server to be tested
@@ -198,7 +198,7 @@ TEST (HARequestServer, HASceneService) {
 /*******************************************************************************/
 
 // Set up the HARequestServer HAShade service test using the GoogleTest macros
-// This test assumes that the HARequestServer has been initialized with 5 shades
+// This test assumes that the HARequestServer has been initialized with 8 shades
 // (argument -shades 8)
 TEST (HARequestServer, HAShadeService) {
   // Set the number of shades in the server to be tested

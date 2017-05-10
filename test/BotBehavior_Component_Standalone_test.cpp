@@ -42,22 +42,38 @@
  */
 
 #include <string>
+#include <sstream>
+#include <iostream>
 #include "gtest/gtest.h"
 #include "ros/ros.h"
 
+#include "homebot/BotOperation.hpp"
+#include "homebot/OperationParameters.hpp"
+#include "homebot/BotMoveBaseOpr.hpp"
 #include "homebot/BotAffectHADoorOpr.hpp"
 #include "homebot/BotAffectHASceneOpr.hpp"
 #include "homebot/BotAffectHAShadeOpr.hpp"
-#include "homebot/BotOperation.hpp"
-#include "homebot/BotMoveBaseOpr.hpp"
 #include "homebot/BotOprClients.hpp"
 
+
+/*******************************************************************************/
+TEST (HomeBotBehavior, BotOprClients) {
+
+  // Instantiate the BotOprClients object; NO SERVERS SHOULD BE RUNNING FOR THIS TEST
+
+//  BotOprClients botOprClients;
+
+// The clients should be reported as not available
+//  EXPECT_FALSE(botOprClients.allStarted());
+}
 
 /*******************************************************************************/
 TEST (HomeBotBehavior, BotMoveBase) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
+  // Specify some parameters to use in testing operation validity
+  OperationParameters opParams(5, 15, 8);  // 5 doors, 15 scenes, and 8 shades
 
   std::string oprCode("BotMoveBase");
   std::string frame_id("map");
@@ -83,12 +99,15 @@ TEST (HomeBotBehavior, BotMoveBase) {
   EXPECT_EQ(zOrient, goal.target_pose.pose.orientation.z);
   EXPECT_EQ(wOrient, goal.target_pose.pose.orientation.w);
 
-  // Now try and execute the BotMoveBase operation without a corresponding server
-  BotOprClients botOprClients;
-  EXPECT_FALSE(botOprClients.allStarted());
+  // The operation should pass validation
+  EXPECT_TRUE(mbOpr.isValid(opParams));
 
-  // And this should fail, too
-  EXPECT_FALSE(mbOpr.execute(botOprClients));
+  // But the clients should not be started
+//  BotOprClients botOprClients;
+//  EXPECT_FALSE(botOprClients.allStarted());
+
+  // And so the operation should not be able to execute
+//  EXPECT_FALSE(mbOpr.execute(botOprClients));
 }
 
 /*******************************************************************************/
@@ -96,6 +115,9 @@ TEST (HomeBotBehavior, BotAffectHADoor) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
+  // Specify some parameters to use in testing operation validity
+  OperationParameters opParams(5, 15, 8);  // 5 doors, 15 scenes, and 8 shades
+  ros::Duration(2).sleep();
 
   std::string oprCode = "HADoor";
   int doorNumber(1);
@@ -107,6 +129,27 @@ TEST (HomeBotBehavior, BotAffectHADoor) {
   homebot::HADoorRequest doorReq = doorOpr.details();
   EXPECT_EQ(doorNumber, doorReq.doorNumber);
   EXPECT_EQ(action, doorReq.action);
+
+  // The operation should pass validation
+  EXPECT_TRUE(doorOpr.isValid(opParams));
+
+  // But the clients should not be started
+//  BotOprClients botOprClients;
+//  EXPECT_FALSE(botOprClients.allStarted());
+
+  // And so the operation should not be able to execute
+//  EXPECT_FALSE(doorOpr.execute(botOprClients));
+
+  // Now create an operation through the base class
+  std::stringstream operationComponents("HADoor 1 2");
+  operationComponents << oprCode << " " << doorNumber << " " << action;
+  BotOperation emptyBaseOpr;
+  BotOperation aDerivedOprInBase = emptyBaseOpr.makeOpr(operationComponents,
+                                                        opParams);
+
+  // And self-validate through polymorphism/virtual function
+  bool success = aDerivedOprInBase.isValid(opParams);
+  EXPECT_TRUE(success);
 }
 
 /*******************************************************************************/
@@ -114,6 +157,8 @@ TEST (HomeBotBehavior, BotAffectHAScene) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
+  // Specify some parameters to use in testing operation validity
+  OperationParameters opParams(5, 15, 8);  // 5 doors, 15 scenes, and 8 shades
 
   std::string oprCode = "HAScene";
   int sceneNumber(3);
@@ -125,35 +170,66 @@ TEST (HomeBotBehavior, BotAffectHAScene) {
   homebot::HASceneRequest sceneReq = sceneOpr.details();
   EXPECT_EQ(sceneNumber, sceneReq.sceneNumber);
   EXPECT_EQ(action, sceneReq.action);
+
+  // The operation should pass validation
+  EXPECT_TRUE(sceneOpr.isValid(opParams));
+
+  // But the clients should not be started
+//  BotOprClients botOprClients;
+//  EXPECT_FALSE(botOprClients.allStarted());
+
+  // And so the operation should not be able to execute
+//  EXPECT_FALSE(sceneOpr.execute(botOprClients));
+
+  // Now create an operation through the base class
+  std::stringstream operationComponents("HAScene 3 1");
+  operationComponents << oprCode << " " << sceneNumber << " " << action;
+  BotOperation emptyBaseOpr;
+  BotOperation aDerivedOprInBase = emptyBaseOpr.makeOpr(operationComponents,
+                                                        opParams);
+
+  // And self-validate through polymorphism/virtual function
+  EXPECT_TRUE(aDerivedOprInBase.isValid(opParams));
 }
 
 /*******************************************************************************/
 TEST (HomeBotBehavior, BotAffectHAShade) {
 
- // Create a node handle since we are running as a ROS node
- ros::NodeHandle nh;
+  // Create a node handle since we are running as a ROS node
+  ros::NodeHandle nh;
+  // Specify some parameters to use in testing operation validity
+  OperationParameters opParams(5, 15, 8);  // 5 doors, 15 scenes, and 8 shades
 
- std::string oprCode = "HAShade";
- int shadeNumber(5);
- int action(1);
+  std::string oprCode = "HAShade";
+  int shadeNumber(5);
+  int action(1);
 
- // Construct a HAScene operation and determine if the components are as specified
-  BotAffectHAShade shadeOpr(oprCode, shadeNumber, action);
- EXPECT_EQ(oprCode, shadeOpr.getCode());
+  // Construct a HAScene operation and determine if the components are as specified
+  BotAffectHAShadeOpr shadeOpr(oprCode, shadeNumber, action);
+  EXPECT_EQ(oprCode, shadeOpr.getCode());
   homebot::HAShade::Request shadeReq = shadeOpr.details();
- EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
- EXPECT_EQ(action, shadeReq.action);
-}
+  EXPECT_EQ(shadeNumber, shadeReq.shadeNumber);
+  EXPECT_EQ(action, shadeReq.action);
 
-/*******************************************************************************/
-TEST (HomeBotBehavior, BotOprClients) {
+  // The operation should pass validation
+  EXPECT_TRUE(shadeOpr.isValid(opParams));
 
-  // Instantiate the BotOprClients object; NO SERVERS SHOULD BE RUNNING FOR THIS TEST
+  // But the clients should not be started
+//  BotOprClients botOprClients;
+//  EXPECT_FALSE(botOprClients.allStarted());
 
-  BotOprClients botOprClients;
+  // And so the operation should not be able to execute
+//  EXPECT_FALSE(shadeOpr.execute(botOprClients));
 
-// The clients should be reported as not available
-  EXPECT_FALSE(botOprClients.allStarted());
+  // Now create an operation through the base class
+  std::stringstream operationComponents("HAShade 5 1");
+  operationComponents << oprCode << " " << shadeNumber << " " << action;
+  BotOperation emptyBaseOpr;
+  BotOperation aDerivedOprInBase = emptyBaseOpr.makeOpr(operationComponents,
+                                                        opParams);
+
+  // And self-validate through polymorphism/virtual function
+  EXPECT_TRUE(aDerivedOprInBase.isValid(opParams));
 }
 
 /*******************************************************************************/

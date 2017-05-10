@@ -51,6 +51,7 @@ BotActor::BotActor(Repertoire& pRepertoire, BotOprClients& pOprClients)
       nh(),
       as(nh, "bot_actor", boost::bind(&BotActor::actionExecuteCB, this, _1),
          false) {
+  as.start();
   ROS_INFO_STREAM(
       "HomeBot-BotActor(constructor): Initialized bot_actor action server");
   }

@@ -1,5 +1,5 @@
 <launch>
-  <test test-name="BotBehavior_Component_test"
+  <test test-name="BotBehavior_Component_Standalone_test"
         pkg="homebot"
-        type="BotBehavior_Component_test" />
+        type="BotBehavior_Component_Standalone_test" />
 </launch>

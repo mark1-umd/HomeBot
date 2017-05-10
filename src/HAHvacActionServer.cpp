@@ -43,7 +43,8 @@
  */
 
 #include "ros/ros.h"
-#include "HAHvacAction.hpp"
+
+#include "../include/homebot/HAHvacAction.hpp"
 
 int main(int argc, char** argv) {
   ros::init(argc, argv, "ha_hvac_actionserver");

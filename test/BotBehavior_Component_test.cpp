@@ -1,9 +1,9 @@
 /**
  * @copyright (c) 2017 Mark R. Jenkins.  All rights reserved.
- * @file HAHvacActionServer_test.cpp
+ * @file BotBehavior_Component_test.cpp
  *
  * @author MJenkins, ENPM 808X Spring 2017
- * @date May 2, 2017 - Creation
+ * @date May 6, 2017 - Creation
  *
  * @brief ROS test node for the HomeBot Bot Behavior Components
  *
@@ -662,7 +662,7 @@ TEST (BotBehavior, BotBehavior) {
  */
 int main(int argc, char **argv) {
   // Initialize ROS
-  ros::init(argc, argv, "BotBehavior_Component_Standalone_test");
+  ros::init(argc, argv, "BotBehavior_Component_test");
 
   // Run all of the Google Test defined tests
   testing::InitGoogleTest(&argc, argv);

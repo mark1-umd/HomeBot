@@ -1,13 +1,15 @@
 /**
  * @copyright (c) 2017 Mark R. Jenkins.  All rights reserved.
- * @file WatchBotBehaviorServer.cpp
+ * @file HAHvacAction.hpp
  *
  * @author MJenkins, ENPM 808X Spring 2017
- * @date May 2, 2017 - Creation
+ * @date May 1, 2017 - Creation
  *
- * @brief <brief description>
+ * @brief Home Automation HVAC Action (set goal temperature; wait for temp to match goal)
  *
- * <details>
+ * This class provides a ROS actionlib action that allows a HomeBot ROS node to set a goal
+ * temperature for a home; the action server tracks the progress towards the goal, providing
+ * feedback to the requestor.  When the temperature reaches the goal, the action has succeeded.
  *
  * *
  * * BSD 3-Clause License
@@ -40,49 +42,27 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#ifndef HOMEBOT_INCLUDE_HOMEBOT_HAHVACACTION_HPP_
+#define HOMEBOT_INCLUDE_HOMEBOT_HAHVACACTION_HPP_
 
 #include "ros/ros.h"
 #include "actionlib/server/simple_action_server.h"
-#include "homebot/HBBehaviorAction.h"
+#include "homebot/HAHvacAction.h"
 
-typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
+/** @brief An object to hold the action server for controlling home temperature through the Home Automation system
+ */
 
-void actionExecuteCB(const homebot::HBBehaviorGoalConstPtr &goal) {
-  move_base_msgs::MOveBaseGoal mbgoal;
-
-  //goal.target_pose.header.frame_id = "map"
-  mbgoal.target_pose.header.stamp = ros::Time::now();
-
-  mbgoal.target_pose.pose.position.x = 0.0;
-  mbgoal.target_pose.pose.position.y = 0.0;
-  mbgoal.target_pose.pose.orientation.w = 1.0;
-
-  ROS_INFO_STREAM("Sending goal");
-  mbac.sendGoal(mbgoal);
-
-  mbac.waitForResult();
-
-  if (ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-    ROS_INFO_STREAM("Reached goal");
-  else
-    ROS_INFO_STREAM("Failed to reach goal");
-
-  return;
-}
-
-int main(int argc, char** argv) {
-  ros::init(argc, argv, "wb_behavior_server");
+class HAHvacAction {
+ public:
+  HAHvacAction();
+  virtual ~HAHvacAction();
+  void actionExecuteCB(const homebot::HAHvacGoalConstPtr &goal);
+ private:
+  double homeTempDegF;
+  double tempToleranceDegF;
+  double deltaTempDegF;
   ros::NodeHandle nh;
+  actionlib::SimpleActionServer<homebot::HAHvacAction> as;
+};
 
-  MoveBaseClient mbac("move_base", true);
-  while (!mbac.waitForServer(ros::Duration(5.0))) {
-    ROS_INFO_STREAM("Waiting for the move_base action server to come up");
-  }
-
-  actionlib::SimpleActionServer<homebot::HBBehaviorAction> hbas(
-      nh, "hb_behavior", boost::bind(&actionExecuteCB), false);
-
-  ros::spin();
-
-  return 0;
-}
+#endif /* HOMEBOT_INCLUDE_HOMEBOT_HAHVACACTION_HPP_ */
