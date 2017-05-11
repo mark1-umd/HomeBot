@@ -52,7 +52,7 @@
 #include "homebot/OperationParameters.hpp"
 #include "homebot/BotOprClients.hpp"
 
-/** @brief <brief description>
+/** @brief Provides a Home Automation "door" operation (open/close); derived from BotOperation
  */
 
 class BotAffectHADoorOpr : public BotOperation {

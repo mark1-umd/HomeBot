@@ -52,7 +52,7 @@
 #include "homebot/OperationParameters.hpp"
 #include "homebot/BotOprClients.hpp"
 
-/** @brief <brief description>
+/** @brief Provides a service robot "move_base" operation (move to frame_id/Pose); derived from BotOperation
  */
 
 class BotMoveBaseOpr : public BotOperation {

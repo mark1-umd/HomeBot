@@ -52,7 +52,7 @@
 #include "homebot/OperationParameters.hpp"
 #include "homebot/BotOprClients.hpp"
 
-/** @brief <brief description>
+/** @brief Provides a home Automation "scene" (lighting) operation (turnon/turnoff); derived from BotOperation
  */
 
 class BotAffectHASceneOpr : public BotOperation {

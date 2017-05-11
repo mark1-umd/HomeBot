@@ -63,13 +63,13 @@ BotOperation::BotOperation(const std::string pRawText)
 BotOperation::BotOperation(const std::string pRawText, const std::string pCode)
     : code(pCode),
       rawText(pRawText) {
-
 }
+
 BotOperation::~BotOperation() {
 }
 
 /**
- * @brief See what code is in an operation - primarily for testing purposes
+ * @brief Provides access to the code in an operation through the base class - primarily for testing purposes
  * @return std::string code from this object
  */
 std::string BotOperation::getCode() {
@@ -79,10 +79,10 @@ std::string BotOperation::getCode() {
 /**
  * @brief Determine as closely as possible whether an operation is valid (can be executed)
  * @param [in] OperationParameters opParams that assist with validation
- * @return
+ * @return bool value that indicates whether the operation can be executed
  */
 bool BotOperation::isExecutable(const OperationParameters& opParams) {
-  ROS_ERROR_STREAM(
+  ROS_WARN_STREAM(
       "HomeBot-BotOperation(isExecutable): Base class virtual method called; possible error in system");
   // This method is being called in the base object, which means it is not an executable operation
   return false;
@@ -96,26 +96,26 @@ bool BotOperation::isExecutable(const OperationParameters& opParams) {
 bool BotOperation::execute(BotOprClients& clients) {
   // Executing a base object can't do anything because it has not been transformed to executable form
   ROS_ERROR_STREAM(
-      "HomeBot-BotOperation(execute): Base class virtual method called; possible error in system");
+      "HomeBot-BotOperation(execute): Base class virtual method called; probable error in system");
   return false;
 }
 
 /**
- * @brief Base class method to construct a derived class object from components passed in as a stringstream
- * @param [in] stringstream operationComponents that can be used to construct an operation
- * @param [in] OperationParameters opParams that are used to make sure an operation is within limits
- * @return
+ * @brief Base class method to construct a derived class object from source text (inserted by constructor)
+ * @param [in] opParams  provides operational parameters for the system used to verify this operation
+ * @return boost::shared_ptr<BotOperation> for the derived class object (non-executable base object returned if transformation failed)
  */
 boost::shared_ptr<BotOperation> BotOperation::transform(
     const OperationParameters& opParams) {
   // Transform the operation's raw text into an operation-specific ready-to-execute form
 
-  // If we don't have a code yet, and there is no raw text, there is nothing we can do
+  // If we don't have a code yet, and there is no raw text, so no transformation is possible
   if ((code == "") && (rawText.length() == 0)) {
-    ROS_ERROR_STREAM(
+    ROS_WARN_STREAM(
         "HomeBot-BotOperation(transform): Attempt to transform an operation with no code and no raw text");
     return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
   }
+
   // Either we have a code, or there is raw text that should start with a code, so we can begin
   std::stringstream operationComponents;
   operationComponents.str(rawText);
@@ -124,7 +124,7 @@ boost::shared_ptr<BotOperation> BotOperation::transform(
   if (code == "") {
     operationComponents >> code;
   }
-  ROS_ERROR_STREAM(
+  ROS_DEBUG_STREAM(
       "HomeBot-BotOperation(transform): Making operation with code '" << code << "' and raw text '" << rawText << "'");
 
   if (code == "BotMoveBase") {
@@ -134,13 +134,17 @@ boost::shared_ptr<BotOperation> BotOperation::transform(
     std::string frame_id;
     double pX, pY, pZ, oX, oY, oZ, oW;
     operationComponents >> frame_id >> pX >> pY >> pZ >> oX >> oZ >> oW;
+    // Use derived class constructor to embed details into the operation
     boost::shared_ptr<BotMoveBaseOpr> newOpr(
         new BotMoveBaseOpr(code, frame_id, pX, pY, pZ, oX, oY, oZ, oW));
     if (!newOpr->isExecutable(opParams)) {
-      ROS_ERROR_STREAM(
+      ROS_WARN_STREAM(
           "HomeBot-BotOperation(transform): Invalid BotMoveBase operation with pose: " << pX << " " << pY << " " << pZ << " " << oX << " " << oY << " " << oZ <<" " << oW;);
+      // Return a non-executable base class object populated with what the current base class object contained
       return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
     }
+    ROS_DEBUG_STREAM(
+        "HomeBot-BotOperation(transform): Returning valid BotMoveBase operation");
     return newOpr;
 
 } else if (code == "HADoor") {
@@ -149,14 +153,16 @@ boost::shared_ptr<BotOperation> BotOperation::transform(
     // instead of the actual desired integer value
     int doorNumber, action;
     operationComponents >> doorNumber >> action;
+    // Use derived class constructor to embed details into the operation
     boost::shared_ptr<BotAffectHADoorOpr> newOpr(
       new BotAffectHADoorOpr(code, doorNumber, action));
     if (!newOpr->isExecutable(opParams)) {
-      ROS_ERROR_STREAM(
+      ROS_WARN_STREAM(
           "HomeBot-BotOperation(transform): Invalid HADoor operation with door number '" << doorNumber << "', action '" << action << "'");
-    return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
+      // Return a non-executable base class object populated with what the current base class object contained
+      return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
     }
-    ROS_ERROR_STREAM(
+    ROS_DEBUG_STREAM(
         "HomeBot-BotOperation(transform): Returning valid HADoor operation");
     return newOpr;
 
@@ -166,13 +172,17 @@ boost::shared_ptr<BotOperation> BotOperation::transform(
     // instead of the actual desired integer value
     int sceneNumber, action;
     operationComponents >> sceneNumber >> action;
+    // Use derived class constructor to embed details into the operation
     boost::shared_ptr<BotAffectHASceneOpr> newOpr(
       new BotAffectHASceneOpr(code, sceneNumber, action));
     if (!newOpr->isExecutable(opParams)) {
-      ROS_ERROR_STREAM(
+      ROS_WARN_STREAM(
           "HomeBot-BotOperation(transform): Invalid HAScene operation with scene number " << sceneNumber << ", action " << action);
-    return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
+      // Return a non-executable base class object populated with what the current base class object contained
+      return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
     }
+    ROS_DEBUG_STREAM(
+        "HomeBot-BotOperation(transform): Returning valid HAScene operation");
     return newOpr;
 
 } else if (code == "HAShade") {
@@ -181,17 +191,22 @@ boost::shared_ptr<BotOperation> BotOperation::transform(
     // instead of the actual desired integer value
     int shadeNumber, action;
     operationComponents >> shadeNumber >> action;
+    // Use derived class constructor to embed details into the operation
     boost::shared_ptr<BotAffectHAShadeOpr> newOpr(
         new BotAffectHAShadeOpr(code, shadeNumber, action));
     if (!newOpr->isExecutable(opParams)) {
-      ROS_ERROR_STREAM(
+      ROS_WARN_STREAM(
           "HomeBot-BotOperation(transform): Invalid HAShade operation; shade number " << shadeNumber << ", action " << action);
-    return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
+      // Return a non-executable base class object populated with what the current base class object contained
+      return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
     }
+    ROS_DEBUG_STREAM(
+        "HomeBot-BotOperation(transform): Returning valid HAShade operation");
     return newOpr;
 
   }
-  ROS_ERROR_STREAM(
+  ROS_WARN_STREAM(
       "HomeBot-BotOperation(transform): Unrecognized operation '" << code << "', can't decode operation");
-return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
+  // Return a non-executable base class object populated with what the current base class object contained
+  return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));
 }

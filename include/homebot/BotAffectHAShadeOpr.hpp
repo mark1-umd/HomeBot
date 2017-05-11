@@ -52,7 +52,7 @@
 #include "homebot/OperationParameters.hpp"
 #include "homebot/BotOprClients.hpp"
 
-/** @brief <brief description>
+/** @brief Provides a Home Automation "shade" operation (lower/raise); derived from BotOperation
  */
 
 class BotAffectHAShadeOpr : public BotOperation {

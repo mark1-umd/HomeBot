@@ -59,6 +59,10 @@ BotActor::BotActor(Repertoire& pRepertoire, BotOprClients& pOprClients)
 BotActor::~BotActor() {
 }
 
+/**
+ * @brief ROS Action Protocol execute callback that receives and pursues BotBehavior goals
+ * @param [in] goal specified by the action definition
+ */
 void BotActor::actionExecuteCB(const homebot::HBBehaviorGoalConstPtr &goal) {
   homebot::HBBehaviorFeedback feedback;
   homebot::HBBehaviorResult result;
@@ -66,7 +70,7 @@ void BotActor::actionExecuteCB(const homebot::HBBehaviorGoalConstPtr &goal) {
   // Avoid problems with funny message definitions from ROS and stream processing
   std::string behaviorName = goal->behavior;
   int repsGoal = goal->repetitions;
-  ROS_ERROR_STREAM(
+  ROS_INFO_STREAM(
       "HomeBot-BotActor(actionExecuteCB): Goal is behavior '" << behaviorName << "' executed " << repsGoal << " time(s)");
 
   // See if the behavior is in our repertoire
@@ -105,7 +109,7 @@ void BotActor::actionExecuteCB(const homebot::HBBehaviorGoalConstPtr &goal) {
   int repsAttempted, repsPerformed(0);
   for (repsAttempted = 1; repsAttempted <= repsGoal; repsAttempted++) {
     if (!as.isPreemptRequested() && ros::ok()) {
-      ROS_ERROR_STREAM(
+      ROS_INFO_STREAM(
           "HomeBot-BotActor(actionExecuteCB): Behavior '" << behaviorName << "' main phase, repetition " << repsAttempted);
       botBehavior.performMain(oprClients);
       repsPerformed++;
@@ -121,14 +125,14 @@ void BotActor::actionExecuteCB(const homebot::HBBehaviorGoalConstPtr &goal) {
   // Regardless of whether the behavior has been pre-empted, if we did the preliminary
   // phase of the behavior, we have to do the post phase of the behavior
   if (ros::ok()) {
-    ROS_ERROR_STREAM(
-        "HomeBot-BotActor(actionExecuteCB): Behavior '" << behaviorName << "' post phase");
+    ROS_INFO_STREAM(
+        "HomeBot-BotActor(actionExecuteCB): Ending behavior '" << behaviorName << "'");
     botBehavior.performPost(oprClients);
   }
 
   // Did we achieve our goal?
-  ROS_ERROR_STREAM(
-      "HomeBot-BotActor(actionExecuteCB): Goal check - performed " << repsPerformed << " out of " << repsGoal);
+  ROS_INFO_STREAM(
+      "HomeBot-BotActor(actionExecuteCB): Performed behavior '" << behaviorName << "'" << repsPerformed << " time(s) out of " << repsGoal << " desired");
   if (repsPerformed == repsGoal) {
     result.repetitions = repsPerformed;
     as.setSucceeded(result);

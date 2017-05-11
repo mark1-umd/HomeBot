@@ -46,7 +46,6 @@
 #include "homebot/BotAffectHASceneOpr.hpp"
 
 BotAffectHASceneOpr::BotAffectHASceneOpr() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
 }
 
 BotAffectHASceneOpr::BotAffectHASceneOpr(const std::string pCode,
@@ -58,27 +57,43 @@ BotAffectHASceneOpr::BotAffectHASceneOpr(const std::string pCode,
 }
 
 BotAffectHASceneOpr::~BotAffectHASceneOpr() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
 }
 
+/**
+ * @brief Provides access to operation details for testing purposes
+ * @return request formatted according to the ROS service definition for HAScene
+ */
 homebot::HAScene::Request BotAffectHASceneOpr::details() {
   return request;
 }
 
+/**
+ * @brief Validates that an operation is within acceptable parameters
+ * @param [in] opParams provides oprational parameters for the system used to verify this operation can execute
+ * @return bool value indicating whether this operation can execute within the current HomeBot system
+ */
 bool BotAffectHASceneOpr::isExecutable(const OperationParameters& opParams) {
   // Validate the code, the scene is less than the maximum, and the action is recognized;
+  ROS_DEBUG_STREAM("HomeBot-BotAffectHAShadeOpr(isExecutable): Entered");
   if ((code == "HAScene") && (request.sceneNumber <= opParams.maxSceneNumber)
       && ((request.action == homebot::HASceneRequest::TURNOFF)
           || (request.action == homebot::HASceneRequest::TURNON)
-          || (request.action == homebot::HASceneRequest::STATUS)))
+          || (request.action == homebot::HASceneRequest::STATUS))) {
+    ROS_DEBUG_STREAM(
+        "HomeBot-BotAffectHASceneOpr(isExecutable): returning TRUE");
     return true;
-  else {
-    ROS_WARN_STREAM(
+  } else {
+  ROS_WARN_STREAM(
         "HomeBot-BotAffectHASceneOpr(isExecutable): Validation failed code '" << code << "', scene '" << static_cast<int>(request.sceneNumber) << "', and action '" << static_cast<int>(request.action) << "'");
-    return false;
+  return false;
   }
 }
 
+/**
+ * @brief Performs the behavior embedded in this operation (HAScene turnon/turnoff via the Home Automation system
+ * @param [in] clients object containing the action/service clients used by BotOperations to carry out their functions
+ * @return bool indicating whetherthe operation executed successfully
+ */
 bool BotAffectHASceneOpr::execute(BotOprClients& clients) {
   // Check whether the service is still available
   if (!clients.scHAScene.exists()) {
@@ -92,7 +107,7 @@ bool BotAffectHASceneOpr::execute(BotOprClients& clients) {
 
   // See if we got a response for the scene that we requested
   if (response.sceneNumber != request.sceneNumber) {
-    ROS_WARN_STREAM(
+    ROS_ERROR_STREAM(
         "HomeBot-BotAffectHASceneOpr(execute): HAScene service response was for scene " << response.sceneNumber << " when scene " << request.sceneNumber << " was requested");
     return false;
   }
@@ -121,7 +136,7 @@ bool BotAffectHASceneOpr::execute(BotOprClients& clients) {
   }
 
   // We didn't get what we wanted
-  ROS_INFO_STREAM(
+  ROS_WARN_STREAM(
       "HomeBot-BotAffectHASceneOpr(execute): Request for action '" << static_cast<int>(request.action) << "' on scene number '" << static_cast<int>(request.sceneNumber) << "' returned a state of '" << response.state << "'");
   return false;
 }

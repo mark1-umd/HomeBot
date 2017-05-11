@@ -53,7 +53,7 @@
 #include "homebot/HBBehaviorAction.h"
 #include "homebot/Repertoire.hpp"
 
-/** @brief An actionlib action server that receives behavior actions and carries them out using its repertoire
+/** @brief An actionlib action server that receives bot behavior actions and carries them out using its repertoire
  */
 
 class BotActor {

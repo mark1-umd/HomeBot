@@ -46,7 +46,6 @@
 #include "homebot/BotAffectHAShadeOpr.hpp"
 
 BotAffectHAShadeOpr::BotAffectHAShadeOpr() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
 }
 
 BotAffectHAShadeOpr::BotAffectHAShadeOpr(const std::string pCode,
@@ -58,28 +57,43 @@ BotAffectHAShadeOpr::BotAffectHAShadeOpr(const std::string pCode,
 }
 
 BotAffectHAShadeOpr::~BotAffectHAShadeOpr() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
 }
 
+/**
+ * @brief Proides access tooperation details for testing purposes
+ * @return request formated according to the ROS service definition for HAShade
+ */
 homebot::HAShade::Request BotAffectHAShadeOpr::details() {
   return request;
 }
 
+/**
+ * @brief Validates that an operation is within acceptable parameters
+ * @param [in] opParams provides operational parameters for the system used to verify this operation can execute
+ * @return bool value indicating whether this operation can execute within the current HomeBot system
+ */
 bool BotAffectHAShadeOpr::isExecutable(const OperationParameters& opParams) {
   // Validate the code, the shade is less than the maximum, and the action is recognized;
+  ROS_DEBUG_STREAM("HomeBot-BotAffectHAShadeOpr(isExecutable): Entered");
   if ((code == "HAShade") && (request.shadeNumber <= opParams.maxShadeNumber)
       && ((request.action == homebot::HAShadeRequest::RAISE)
           || (request.action == homebot::HAShadeRequest::LOWER)
-          || (request.action == homebot::HAShadeRequest::STATUS)))
+          || (request.action == homebot::HAShadeRequest::STATUS))) {
+    ROS_DEBUG_STREAM(
+        "HomeBot-BotAffectHAShadeOpr(isExecutable): returning TRUE");
     return true;
-  else
-    {
+  } else {
     ROS_WARN_STREAM(
         "HomeBot-BotAffectHAShadeOpr(isExecutable): Validation failed code '" << code << "', shade '" << static_cast<int>(request.shadeNumber) << "', and action '" << static_cast<int>(request.action) << "'");
     return false;
   }
 }
 
+/**
+ * @brief Performs the behavior embedded in this operation (HAScene lower/raises shades via the Home Automation system)
+ * @param clients object containing the action/service clients used by BotOperations to carry out their function
+ * @return bool indicating whether the operation executed successfully
+ */
 bool BotAffectHAShadeOpr::execute(BotOprClients& clients) {
   // Check whether the service is still available
   if (!clients.scHAShade.exists()) {
@@ -93,7 +107,7 @@ bool BotAffectHAShadeOpr::execute(BotOprClients& clients) {
 
   // See if we got a response for the shade that we requested
   if (response.shadeNumber != request.shadeNumber) {
-    ROS_WARN_STREAM(
+    ROS_ERROR_STREAM(
         "HomeBot-BotAffectHAShadeOpr(execute): HAShade service response was for shade '" << static_cast<int>(response.shadeNumber) << "' when shade '" << static_cast<int>(request.shadeNumber) << "' was requested");
     return false;
   }
@@ -122,7 +136,7 @@ bool BotAffectHAShadeOpr::execute(BotOprClients& clients) {
   }
 
   // We didn't get what we wanted
-  ROS_INFO_STREAM(
+  ROS_WARN_STREAM(
       "HomeBot-BotAffectHAShadeOpr(execute): Request for action '" << static_cast<int>(request.action) << "' on shade number '" << static_cast<int>(request.shadeNumber) << "' returned a state of " << response.state);
   return false;
 }

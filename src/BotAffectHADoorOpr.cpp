@@ -57,33 +57,46 @@ BotAffectHADoorOpr::BotAffectHADoorOpr(const std::string pCode,
 }
 
 BotAffectHADoorOpr::~BotAffectHADoorOpr() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
 }
 
+/**
+ * @brief Provides access to operation details for testing purposes
+ * @return request formatted according to the ROS service definition for HADoor
+ */
 homebot::HADoor::Request BotAffectHADoorOpr::details() {
   return request;
 }
 
+/**
+ * @brief Validates that an operation is within acceptable parameters
+ * @param [in] opParams provides operational parameters for the system used to verify this operation can execute
+ * @return bool value indicating whether this operation can execute within the current HomeBot system
+ */
 bool BotAffectHADoorOpr::isExecutable(const OperationParameters& opParams) {
-  ROS_ERROR_STREAM("HomeBot-BotAffectHADoorOpr(isExecutable): Entered");
+  ROS_DEBUG_STREAM("HomeBot-BotAffectHADoorOpr(isExecutable): Entered");
   // Validate the code, the door is less than the maximum, and the action is recognized;
   if ((code == "HADoor") && (request.doorNumber <= opParams.maxDoorNumber)
       && ((request.action == homebot::HADoorRequest::CLOSE)
           || (request.action == homebot::HADoorRequest::OPEN)
           || (request.action == homebot::HADoorRequest::STATUS))) {
-    ROS_ERROR_STREAM(
+    ROS_DEBUG_STREAM(
         "HomeBot-BotAffectHADoorOpr(isExecutable): returning TRUE");
     return true;
   }
   else {
-    ROS_ERROR_STREAM(
+    ROS_WARN_STREAM(
         "HomeBot-BotAffectHADoorOpr(isExecutable): Validation failed code '" << code << "', door '" << static_cast<int>(request.doorNumber) << "', and action '" << static_cast<int>(request.action) << "'");
   }
     return false;
 }
 
+/**
+ * @brief Performs the behavior embedded in this operation (HADoor opens/closes doors via the Home Automation system)
+ * @param [in] clients object containing the action/service clients used by BotOperations to carry out their function
+ * @return bool indicating whether the operation executed successfully
+ */
 bool BotAffectHADoorOpr::execute(BotOprClients& clients) {
-  // Check whether the service is still available
+  // Check whether the ROS service needed to execute this operation is still available
   if (!clients.scHADoor.exists()) {
     ROS_WARN_STREAM(
         "HomeBot-BotAffectHADoorOpr(execute): HADoor service does not exist when trying to execute action '" << static_cast<int>(request.action) << "' on door '" << static_cast<int>(request.doorNumber) << "'");
@@ -95,7 +108,7 @@ bool BotAffectHADoorOpr::execute(BotOprClients& clients) {
 
   // See if we got a response for the door that we requested
   if (response.doorNumber != request.doorNumber) {
-    ROS_WARN_STREAM(
+    ROS_ERROR_STREAM(
         "HomeBot-BotAffectHADoorOpr(execute): HADoor service response was for door '" << static_cast<int>(response.doorNumber) << "' when door '" << static_cast<int>(request.doorNumber) << "' was requested");
     return false;
   }
@@ -124,7 +137,7 @@ bool BotAffectHADoorOpr::execute(BotOprClients& clients) {
   }
 
   // We didn't get what we wanted
-  ROS_INFO_STREAM(
+  ROS_WARN_STREAM(
       "HomeBot-BotAffectHADoorOpr(execute): Request for action '" << static_cast<int>(request.action) << "' on door number '" << static_cast<int>(request.doorNumber) << "' returned a state of '" << static_cast<int>(response.state) << "'");
   return false;
 }

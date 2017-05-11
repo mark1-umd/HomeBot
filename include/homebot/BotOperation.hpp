@@ -59,7 +59,7 @@ class BotAffectHADoorOpr;
 class BotAffectHASceneOpr;
 class BotAffectHAShadeOpr;
 
-/** @brief <brief description>
+/** @brief Base class for all operations; used to create new instances of derived classes from text-based source
  */
 
 class BotOperation {

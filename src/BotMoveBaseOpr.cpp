@@ -46,7 +46,6 @@
 #include "homebot/BotMoveBaseOpr.hpp"
 
 BotMoveBaseOpr::BotMoveBaseOpr() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
 }
 
 BotMoveBaseOpr::BotMoveBaseOpr(const std::string pCode,
@@ -68,26 +67,42 @@ BotMoveBaseOpr::BotMoveBaseOpr(const std::string pCode,
 BotMoveBaseOpr::~BotMoveBaseOpr() {
 }
 
+/**
+ * @brief Provides access to operation details for testing purposes
+ * @return goal formatted according to the ROS action definition for MoveBase
+ */
 move_base_msgs::MoveBaseGoal BotMoveBaseOpr::details() {
   return goal;
 }
 
+/**
+ * @brief Validates that an operation is within acceptable parameters
+ * @param [in] opParams provides operational parameters for the system used to verify this operation can execute
+ * @return bool value indicating whether this operation can execute within the current HomeBot system
+ */
 bool BotMoveBaseOpr::isExecutable(const OperationParameters& opParams) {
+  ROS_DEBUG_STREAM("HomeBot-BotAffectHAShadeOpr(isExecutable): Entered");
   // The only validation right now is to ensure the right opcode
-  if (code == "BotMoveBase")
+  if (code == "BotMoveBase") {
+    ROS_DEBUG_STREAM(
+        "HomeBot-BotAffectHAShadeOpr(isExecutable): returning TRUE");
     return true;
-  else
-  {
-    ROS_INFO_STREAM(
+  } else {
+    ROS_WARN_STREAM(
         "HomeBot-BotAffectHAShadeOpr(isExecutable): Validation failed code '" << code << "'" << " frame: '" << goal.target_pose.header.frame_id << "' pose: '" << static_cast<double>(goal.target_pose.pose.position.x) << " " << static_cast<double>(goal.target_pose.pose.position.y) << " " << static_cast<double>(goal.target_pose.pose.position.z) << " " << static_cast<double>(goal.target_pose.pose.orientation.x) << " " << static_cast<double>(goal.target_pose.pose.orientation.y) << " " << static_cast<double>(goal.target_pose.pose.orientation.z) << " " << static_cast<double>(goal.target_pose.pose.orientation.w) << "'");
     return false;
   }
 }
 
+/**
+ * @brief Performs the behavior embedded in this operation (BotMoveBase moves a robot base via its navigation system
+ * @param [in] clients object containing the action/service clients used by BotOperations to carry out their function
+ * @return bool indicating whether the operation executed successfully
+ */
 bool BotMoveBaseOpr::execute(BotOprClients& clients) {
   // Check whether the action is still available
   if (!clients.acBotMoveBase.isServerConnected()) {
-    ROS_INFO_STREAM(
+    ROS_WARN_STREAM(
         "HomeBot-BotMoveBaseOpr(execute): move_base action server not ready when trying to move to frame: '"
             << goal.target_pose.header.frame_id << "' pose: '"
             << static_cast<double>(goal.target_pose.pose.position.x) << " "
@@ -117,7 +132,8 @@ bool BotMoveBaseOpr::execute(BotOprClients& clients) {
 
   if (clients.acBotMoveBase.getState()
       == actionlib::SimpleClientGoalState::SUCCEEDED) {
-    ROS_INFO("HomeBot-BotMoveBaseOpr(execute): goal reached");
+    ROS_INFO_STREAM(
+        "HomeBot-BotMoveBaseOpr(execute): move_base reports goal reached");
     return true;
   } else {
     ROS_WARN_STREAM("HomeBot-BotMoveBaseOpr(execute): Failed to reach goal");
