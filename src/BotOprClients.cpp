@@ -5,9 +5,17 @@
  * @author MJenkins, ENPM 808X Spring 2017
  * @date May 6, 2017 - Creation
  *
- * @brief <brief description>
+ * @brief Holds a set of ROS service and action clients necessary to execute Bot Operations
  *
- * <details>
+ * The HomeBot Bot Operations are an implementation of behaviors for HomeBot service robots.
+ * Each behavior is a set of lower-level operations that act on various entities in the
+ * HomeBot system.  For now, those entities are a HomeBot mobile base action server, and various
+ * Home Automation services (Doors, Scenes, and Shades).  In order for the operations to
+ * execute against the services and actions, clients for the service and actions have to be
+ * available.  Rather than continuously start and stop these clients, this Class provides a
+ * way to start them up when a ROS node initializes, and to hold the client objects so that
+ * they can be used by methods in the instructions when they are executing (assuming that this
+ * BotOprClients object is made available to each instruction).
  *
  * *
  * * BSD 3-Clause License
@@ -48,7 +56,8 @@ BotOprClients::BotOprClients()
       clientsStarted(0),
       nh(),
       acBotMoveBase("move_base", true) {
-  ROS_INFO_STREAM("HomeBot-BotOprClients: Starting clients for Bot Operations");
+  ROS_INFO_STREAM(
+      "HomeBot-BotOprClients(constructor): Starting clients for Bot Operations");
 
   // Start the services that weren't started above
   scHADoor = nh.serviceClient<homebot::HADoor>("ha_door");
@@ -57,31 +66,33 @@ BotOprClients::BotOprClients()
 
   // Check the move_base action server
   if (!acBotMoveBase.waitForServer(ros::Duration(5.0)))
-    ROS_ERROR_STREAM(
-        "HomeBot-BotOprClients: The move_base action server is not available");
+    ROS_WARN_STREAM(
+        "HomeBot-BotOprClients(constructor): The move_base action server is not available");
   else
     clientsStarted++;
 
   // Check the ha_door service
   if (!scHADoor.waitForExistence(ros::Duration(5.0)))
-    ROS_ERROR_STREAM(
-        "HomeBot-BotOprClients: The ha_door service is not available");
+    ROS_WARN_STREAM(
+        "HomeBot-BotOprClients(constructor): The ha_door service is not available");
   else
     clientsStarted++;
 
   // Check the ha_scene service
   if (!scHAScene.waitForExistence(ros::Duration(5.0)))
-    ROS_ERROR_STREAM(
-        "HomeBot-BotOprClients: The ha_scene service is not available");
+    ROS_WARN_STREAM(
+        "HomeBot-BotOprClients(constructor): The ha_scene service is not available");
   else
     clientsStarted++;
 
   // Check he ha_shade service
   if (!scHAShade.waitForExistence(ros::Duration(5.0)))
-    ROS_ERROR_STREAM(
-        "HomeBot-BotOprClients: The ha_shade service is not available");
+    ROS_WARN_STREAM(
+        "HomeBot-BotOprClients(constructor): The ha_shade service is not available");
   else
     clientsStarted++;
+  ROS_DEBUG_STREAM(
+      "HomeBot-BotOprClients(constructor): finshed with " << clientsStarted << " clients started out of " << totalClients);
 }
 
 BotOprClients::~BotOprClients() {

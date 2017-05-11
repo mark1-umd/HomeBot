@@ -60,7 +60,7 @@
 #include <homebot/BotAffectHAShadeOpr.hpp>
 #include <homebot/BotMoveBaseOpr.hpp>
 
-/** @brief <brief description>
+/** @brief Collection of operations used to perform a behavior
  */
 
 class BotBehavior {
