@@ -55,7 +55,7 @@
 #include "homebot/BotBehavior.hpp"
 
 
-/*******************************************************************************
+/*******************************************************************************/
 
 TEST (BotBehaviorOprClients, StartUp) {
   // Create a node handle since we are running as a ROS node and use rosconsole
@@ -66,9 +66,9 @@ TEST (BotBehaviorOprClients, StartUp) {
 
   // The clients should be reported as not available if they are not all started
   // (and the move_base server is not currently being started)
-  EXPECT_FALSE(botOprClients.allStarted());
+  EXPECT_TRUE(botOprClients.allStarted());
 }
- /*******************************************************************************
+/*******************************************************************************/
 
 TEST (BotBehaviorBaseOpr, Construction) {
   // Define the operation parameters for this test
@@ -210,7 +210,7 @@ TEST (BotBehaviorBaseOpr, Construction) {
     EXPECT_EQ("HADoor", someOpr->getCode());
   }
 }
-/******************************************************************************
+/******************************************************************************/
 
 TEST (BotBehaviorMoveBase, Construction) {
   // Define the operation parameters for this test
@@ -255,7 +255,7 @@ TEST (BotBehaviorMoveBase, Construction) {
   // And self-validate through polymorphism/virtual function
   EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
- /*******************************************************************************
+/*******************************************************************************/
 
 TEST (BotBehaviorMoveBase, Execution) {
   // Define the operation parameters based on the Request Server initialization
@@ -268,18 +268,19 @@ TEST (BotBehaviorMoveBase, Execution) {
   // Spin up some clients
   BotOprClients botOprClients;
 
-  // default test parameters
+  // default test parameters (the "move_base" component starts at (0,0)
+  // only the X position and Y position components are supported at present
   std::string oprCode("BotMoveBase");
   std::string frame_id("map");
-  int xPos(23);
-  int yPos(17);
-  int zPos(11);
+  int xPos(1);
+  int yPos(2);
+  int zPos(0);
   int xOrient(2);
   int yOrient(3);
   int zOrient(5);
   int wOrient(1);
 
-  // Test HADoor execution for status (without a move_base action server)
+  // Test HADoor execution for status
   {
     std::ostringstream ssRawOpr;
     ssRawOpr << oprCode << " " << frame_id << " " << xPos << " " << yPos << " "
@@ -289,10 +290,10 @@ TEST (BotBehaviorMoveBase, Execution) {
     BotOperation baseOpr(rawOpr);
     boost::shared_ptr<BotOperation> doorOpr = baseOpr.transform(opParams);
     EXPECT_TRUE(doorOpr->isExecutable(opParams));
-    EXPECT_FALSE(doorOpr->execute(botOprClients));
+    EXPECT_TRUE(doorOpr->execute(botOprClients));
   }
 }
- /*******************************************************************************
+/*******************************************************************************/
 
 TEST (BotBehaviorAffectHADoor, Construction) {
   // Define the operation parameters for this test
@@ -324,7 +325,7 @@ TEST (BotBehaviorAffectHADoor, Construction) {
   // And self-validate through polymorphism/virtual function
   EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
- /*******************************************************************************
+/*******************************************************************************/
 
 TEST (BotBehaviorAffectHADoor, Execution) {
   // Define the operation parameters based on the Request Server initialization
@@ -406,7 +407,7 @@ TEST (BotBehaviorAffectHADoor, Execution) {
     EXPECT_FALSE(doorOpr->execute(botOprClients));
   }
 }
- /*******************************************************************************
+/*******************************************************************************/
 
 TEST (BotBehaviorAffectHAScene, Construction) {
   // Define the operation parameters for this test
@@ -438,7 +439,7 @@ TEST (BotBehaviorAffectHAScene, Construction) {
   // And self-validate through polymorphism/virtual function
   EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
- /*******************************************************************************
+/*******************************************************************************/
 
 TEST (BotBehaviorAffectHAScene, Execution) {
   // Define the operation parameters based on the Request Server initialization
@@ -517,7 +518,7 @@ TEST (BotBehaviorAffectHAScene, Execution) {
     EXPECT_FALSE(sceneOpr->execute(botOprClients));
   }
 }
- /*******************************************************************************
+/*******************************************************************************/
 
 TEST (BotBehaviorAffectHAShade, Construction) {
   // Define the operation parameters for this test
@@ -549,7 +550,7 @@ TEST (BotBehaviorAffectHAShade, Construction) {
   // And self-validate through polymorphism/virtual function
   EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
- /*******************************************************************************
+/*******************************************************************************/
 
 TEST (BotBehaviorAffectHAShade, Execution) {
   // Define the operation parameters based on the Request Server initialization
@@ -664,17 +665,19 @@ TEST (BotBehavior, MoveBaseBehaviors) {
 
   // Create a node handle since we are running as a ROS node with rosconsole
   ros::NodeHandle nh;
+
   // Spin up some clients
   BotOprClients botOprClients;
 
-  // Create a behavior
+  // Create a behavior NOTE: THE COORDINATES ARE EXECUTED IN REAL TIME AT 1 meter/sec
+  // The distances must remain small or else THE TEST TIMES OUT AND FAILS
   BotBehavior botBehav("TrundleAround", opParams);
   EXPECT_EQ("TrundleAround", botBehav.getName());
   EXPECT_TRUE(
       botBehav.insert("prelim BotMoveBase 1.0 1.0 0.0 0.0 0.0 0.0 0.0"));  // Goto (1,1);
   EXPECT_TRUE(
-      botBehav.insert("prelim BotMoveBase 2.0 -1.0 0.0 0.0 0.0 0.0 0.0"));  // Goto (2,-1);
-  EXPECT_TRUE(botBehav.insert("main BotMoveBase -1.0 2.0 0.0 0.0 0.0 0.0 0.0"));  // Goto (-1,2);
+      botBehav.insert("prelim BotMoveBase 1.0 -1.0 0.0 0.0 0.0 0.0 0.0"));  // Goto (1,-1);
+  EXPECT_TRUE(botBehav.insert("main BotMoveBase -1.0 1.0 0.0 0.0 0.0 0.0 0.0"));  // Goto (-1,1);
   EXPECT_TRUE(
       botBehav.insert("main BotMoveBase -1.0 -1.0 0.0 0.0 0.0 0.0 0.0"));  // Goto (-1,-1);
   EXPECT_TRUE(botBehav.insert("post BotMoveBase 1.0 1.0 0.0 0.0 0.0 0.0 0.0"));  // Goto (1,1);

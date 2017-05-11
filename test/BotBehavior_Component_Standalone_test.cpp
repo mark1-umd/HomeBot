@@ -44,6 +44,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include "boost/shared_ptr.hpp"
 #include "gtest/gtest.h"
 #include "ros/ros.h"
 
@@ -56,15 +57,19 @@
 #include "homebot/BotOprClients.hpp"
 
 
+// These are not comprehensive tests; they exist merely to establish that the basic
+// function of the class is operational.  Detailed testing, including testing of
+// conditions that should result in failure, is conducted in the non-standalone
+// version of the BotBehavior_Component tests.
+
 /*******************************************************************************/
 TEST (HomeBotBehavior, BotOprClients) {
 
   // Instantiate the BotOprClients object; NO SERVERS SHOULD BE RUNNING FOR THIS TEST
+  BotOprClients botOprClients;
 
-//  BotOprClients botOprClients;
-
-// The clients should be reported as not available
-//  EXPECT_FALSE(botOprClients.allStarted());
+  // The clients should be reported as not available
+  EXPECT_FALSE(botOprClients.allStarted());
 }
 
 /*******************************************************************************/
@@ -100,14 +105,15 @@ TEST (HomeBotBehavior, BotMoveBase) {
   EXPECT_EQ(wOrient, goal.target_pose.pose.orientation.w);
 
   // The operation should pass validation
-  EXPECT_TRUE(mbOpr.isValid(opParams));
+  EXPECT_TRUE(mbOpr.isExecutable(opParams));
 
-  // But the clients should not be started
-//  BotOprClients botOprClients;
-//  EXPECT_FALSE(botOprClients.allStarted());
+  // But the clients should not have any servers because these are standalone tests
+  // Note: we can't repeat this test in any other sections or else the test times out
+  BotOprClients botOprClients;
+  EXPECT_FALSE(botOprClients.allStarted());
 
   // And so the operation should not be able to execute
-//  EXPECT_FALSE(mbOpr.execute(botOprClients));
+  EXPECT_FALSE(mbOpr.execute(botOprClients));
 }
 
 /*******************************************************************************/
@@ -117,7 +123,6 @@ TEST (HomeBotBehavior, BotAffectHADoor) {
   ros::NodeHandle nh;
   // Specify some parameters to use in testing operation validity
   OperationParameters opParams(5, 15, 8);  // 5 doors, 15 scenes, and 8 shades
-  ros::Duration(2).sleep();
 
   std::string oprCode = "HADoor";
   int doorNumber(1);
@@ -131,25 +136,26 @@ TEST (HomeBotBehavior, BotAffectHADoor) {
   EXPECT_EQ(action, doorReq.action);
 
   // The operation should pass validation
-  EXPECT_TRUE(doorOpr.isValid(opParams));
+  EXPECT_TRUE(doorOpr.isExecutable(opParams));
 
+  /***********************************************
+   * Cannot execute these tests or else gtest times out
   // But the clients should not be started
-//  BotOprClients botOprClients;
-//  EXPECT_FALSE(botOprClients.allStarted());
+  BotOprClients botOprClients;
+  EXPECT_FALSE(botOprClients.allStarted());
 
   // And so the operation should not be able to execute
-//  EXPECT_FALSE(doorOpr.execute(botOprClients));
+  EXPECT_FALSE(doorOpr.execute(botOprClients));
+   ************************************************/
 
   // Now create an operation through the base class
-  std::stringstream operationComponents("HADoor 1 2");
-  operationComponents << oprCode << " " << doorNumber << " " << action;
-  BotOperation emptyBaseOpr;
-  BotOperation aDerivedOprInBase = emptyBaseOpr.makeOpr(operationComponents,
-                                                        opParams);
+  std::string operationComponents("HADoor 1 2");
+  BotOperation baseOpr(operationComponents);
+  boost::shared_ptr<BotOperation> aDerivedOprInBase = baseOpr.transform(
+      opParams);
 
   // And self-validate through polymorphism/virtual function
-  bool success = aDerivedOprInBase.isValid(opParams);
-  EXPECT_TRUE(success);
+  EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
 
 /*******************************************************************************/
@@ -172,24 +178,26 @@ TEST (HomeBotBehavior, BotAffectHAScene) {
   EXPECT_EQ(action, sceneReq.action);
 
   // The operation should pass validation
-  EXPECT_TRUE(sceneOpr.isValid(opParams));
+  EXPECT_TRUE(sceneOpr.isExecutable(opParams));
 
+  /***********************************************
+   * Cannot execute these tests or else gtest times out
   // But the clients should not be started
-//  BotOprClients botOprClients;
-//  EXPECT_FALSE(botOprClients.allStarted());
+  BotOprClients botOprClients;
+  EXPECT_FALSE(botOprClients.allStarted());
 
   // And so the operation should not be able to execute
-//  EXPECT_FALSE(sceneOpr.execute(botOprClients));
+  EXPECT_FALSE(sceneOpr.execute(botOprClients));
+   ************************************************/
 
   // Now create an operation through the base class
-  std::stringstream operationComponents("HAScene 3 1");
-  operationComponents << oprCode << " " << sceneNumber << " " << action;
-  BotOperation emptyBaseOpr;
-  BotOperation aDerivedOprInBase = emptyBaseOpr.makeOpr(operationComponents,
-                                                        opParams);
+  std::string operationComponents("HAScene 3 1");
+  BotOperation baseOpr(operationComponents);
+  boost::shared_ptr<BotOperation> aDerivedOprInBase = baseOpr.transform(
+      opParams);
 
   // And self-validate through polymorphism/virtual function
-  EXPECT_TRUE(aDerivedOprInBase.isValid(opParams));
+  EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
 
 /*******************************************************************************/
@@ -212,24 +220,26 @@ TEST (HomeBotBehavior, BotAffectHAShade) {
   EXPECT_EQ(action, shadeReq.action);
 
   // The operation should pass validation
-  EXPECT_TRUE(shadeOpr.isValid(opParams));
+  EXPECT_TRUE(shadeOpr.isExecutable(opParams));
 
+  /***********************************************
+   * Cannot execute these tests or else gtest times out
   // But the clients should not be started
-//  BotOprClients botOprClients;
-//  EXPECT_FALSE(botOprClients.allStarted());
+  BotOprClients botOprClients;
+  EXPECT_FALSE(botOprClients.allStarted());
 
   // And so the operation should not be able to execute
-//  EXPECT_FALSE(shadeOpr.execute(botOprClients));
+  EXPECT_FALSE(shadeOpr.execute(botOprClients));
+   ************************************************/
 
   // Now create an operation through the base class
-  std::stringstream operationComponents("HAShade 5 1");
-  operationComponents << oprCode << " " << shadeNumber << " " << action;
-  BotOperation emptyBaseOpr;
-  BotOperation aDerivedOprInBase = emptyBaseOpr.makeOpr(operationComponents,
-                                                        opParams);
+  std::string operationComponents("HAShade 5 1");
+  BotOperation baseOpr(operationComponents);
+  boost::shared_ptr<BotOperation> aDerivedOprInBase = baseOpr.transform(
+      opParams);
 
   // And self-validate through polymorphism/virtual function
-  EXPECT_TRUE(aDerivedOprInBase.isValid(opParams));
+  EXPECT_TRUE(aDerivedOprInBase->isExecutable(opParams));
 }
 
 /*******************************************************************************/
