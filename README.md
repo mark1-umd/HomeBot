@@ -138,12 +138,12 @@ file to go along with it; for these the HomeBot_System_uni.launch file makes it 
 
 The operations available for defining behaviors are currently limited to the following:
 
-- HADoor <doorNumber> <0=close, 1=open>
-- HAScene <sceneNumber> <0=off, 1=on>
-- HAShade <shadeNumber> <0=raise, 1=lower>
-- BotMoveBase <frame_id> <posX> <posY> <posZ> <orientX> <orientY> <orientZ> <orientW>
+- HADoor number action (0=close, 1=open)
+- HAScene number action (0=turnoff, 1=turnon)
+- HAShade number action (0=raise, 1=lower)
+- BotMoveBase frame_id posX posY posZ orientX orientY orientZ orientW (Quaternions, only posX and PosY are current used in FakeMoveBase, but all can be defined in the behavior)
 
-Creating new operation types currently requires creating a new C++ class for that operation, derived from base class BotOperation, and adding the operation compilation instructions to the BotOperation::transform method.  The activity of each operation is defined in the "execute" method for the operation.
+Creating new operation codes currently requires creating a new C++ class for that operation, derived from base class BotOperation, and adding the operation compilation instructions to the BotOperation::transform method.  The activity of each operation is defined in the "execute" method for the operation.  There is nothing limiting the types of arguments to the operation codes to be numeric; these were simply the easiest to implement quickly.
 
 [Future work - provide the ability to launch multiple HomeBots in a single system invocation; requires remapping some of the namespace so that a single HARequestServer/HAHvacActionServer can be launched with multiple
 Bot nodes.]
