@@ -121,7 +121,9 @@ Level 2 integration testing of ROS nodes uses the Google Test framework combined
 - BotActor.test: Verifies the function of the BotActor class (the behavior action server) in conjunction with many other components (BotBehavior, Repertoire); requires HARequestServer and FakeMoveBaseServer for testing. THIS TEST HAS HARD CODED FILEPATHS in the Repertoire_test.cpp source code because no ready method was apparent to pass arguments in through the rostest/gtest execution framework to the code inside of the test macros.
 
 ### General testing instructions:
-  To invoke a test at the command line:
+The use of these test capabilities assumes a basic familiarity with the ROS sytem, including the rostest capability.  Once the homebot package has been integrated into a catkin workspace, the following commands can be used.
+
+To invoke a test at the command line:
 
     - rostest homebot HARequestServer.test
     
