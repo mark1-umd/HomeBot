@@ -102,7 +102,7 @@ The HARequestServer provides a way for ROS nodes to request services from a Home
 
 ### HAHVAC Action Server
 
-The HA HVAC Action server shows how a goal-oriented Home Automation capability (setting heat/cool modes with desired temperatures) can be integrated into the ROS system.  None of the currently demonstrated behaviors currently take advantage of this capability.
+The HA HVAC Action server shows how a goal-oriented Home Automation capability (setting heat/cool modes with desired temperatures) can be integrated into the ROS system.  None of the currently demonstrated behaviors take advantage of this capability.  It is more likely that it would be exercised by an indepedent routing operating on a service robot, such as the ButtleBot, which might use it if a room it was monitoring grew too cold or too warm and it was programmed to adjust the whole house temperature accordingly.
 
 ### HomeBot_Node
 
@@ -120,10 +120,34 @@ The FakeMoveBaseServer is a stop-gap measure created to work around a limitation
 
 ## Demonstrations
 
-Two demonstrations are currently provided:
+Two demonstrations are currently provided, with two different ways to lauch them:
 
 - HomeBot_System_ButtleBot.launch: starts up a HomeBot system using a ButtleBot repertoire for the HomeBot Node.
 - HomeBot_System_WatchBot.launch: starts up a HomeBot system using a WatchBot repertoire for the HomeBot_Node.
+- HomeBot_System_uni.launch BotType:=WatchBot (or ButtleBot) - starts up the requested HomeBot system as above
+
+Once a HomeBot system exists, the Bot in that system can be asked to perform behaviors using the ROS service "/ha_demo", such as:
+
+- rosservice call /ha_demo "PatrolCW" 3 (tells a WatchBot to perform the PatrolCW behavior 3 times)
+- rosservice call /ha_demo "PatrolCCW" 2 (tells WatchBot to PatrolCCW 2 times)
+- rosservice call /ha_demo "AnswerFrontDoor" 1 (tells ButtleBot to answer the front door)
+- rosservice call /ha_demo "CloseForNight" 1 (tells ButtleBot to close down the house for the night)
+
+Behaviors can be added to each Robot type by editing the repertoire (.rpt) file found in the repertoire subdirectory of the homebot package.  New HomeBot types can be added by creating the name and a repertoire
+file to go along with it; for these the HomeBot_System_uni.launch file makes it easy to invoke them without creating a new .launch file specific to the service robot type.
+
+The operations available for defining behaviors are currently limited to the following:
+
+- HADoor <doorNumber> <0=close, 1=open>
+- HAScene <sceneNumber> <0=off, 1=on>
+- HAShade <shadeNumber> <0=raise, 1=lower>
+- BotMoveBase <frame_id> <posX> <posY> <posZ> <orientX> <orientY> <orientZ> <orientW>
+
+Creating new operation types currently requires creating a new C++ class for that operation, derived from base class BotOperation, and adding the operation compilation instructions to the BotOperation::transform method.  The activity of each operation is defined in the "execute" method for the operation.
+
+[Future work - provide the ability to launch multiple HomeBots in a single system invocation; requires remapping some of the namespace so that a single HARequestServer/HAHvacActionServer can be launched with multiple
+Bot nodes.]
+
 ## Testing using rostest
 
 Level 2 integration testing of ROS nodes uses the Google Test framework combined with the rostest tool to run the ROS nodes individually or in groups.  This package uses the testing capability extensively, both for testing individual components and for testing combinations of components.

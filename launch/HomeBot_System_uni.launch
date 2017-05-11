@@ -1,0 +1,44 @@
+<launch>
+  <!-- HomeBot system unibot launch - Copyright 2017 Mark Jenkins, ENPM808X -->
+  
+  <!-- Invoke with "roslaunch homebot HomeBot_System_uni.launch BotType:=WatchBoT" (for example) -->
+  
+  <!-- Launch file to start up a HomeBot_System with just one service robot type
+       Starting multiple service robots requires changing some names so that single HARequestServer
+       and HAHvacActionServer can provide services to multiple service robots                        -->
+       
+  <!-- HomeBot service robot type -->
+    <arg name="BotType" default="WatchBot" />
+    
+  <!-- Define default settings for Home Automation system limits (doors, scenes, and shades) -->
+    <arg name="doors" default="5" />
+    <arg name="scenes" default="15" />
+    <arg name="shades" default="8" />
+ 
+   <!-- Start the Home Automation Request server
+        Provide ROS nodes with the ability to command Home Automation systems -->
+    <node pkg="homebot" name="HARequestServer" type="HARequestServer"
+        args="-doors $(arg doors) -scenes $(arg scenes) -shades $(arg shades)" />
+
+   <!-- Start the Home Automation HVAC Action server
+        Provide ROS nodes with the ability to set an action goal for heat/cool to a temperature-->
+   <node pkg="homebot" name="HAHvacActionServer" type="HAHvacActionServer" />
+   
+   <!-- Start the simulated Bot for this service robot
+        Provides a HomeBot_Node with a "move_base" action server to command for movement -->
+   <node pkg="homebot" name="FakeMoveBaseServer" type="FakeMoveBaseServer" />
+   
+   <!-- Start a HomeBot_Node for the HomeBot service robot specified in launch argument BotType
+        Provides a service robot with a repertoire of behaviors that can interact with both
+        a robot (through "move_base") and a Home Automation system (through the HA Request server) -->
+     <node pkg="homebot" name="HomeBot_Node" type="HomeBot_Node"
+        args="-doors $(arg doors) -scenes $(arg scenes) -shades $(arg shades) -botType $(arg BotType) -rptFile $(find homebot)/repertoire/$(arg BotType).rpt" />     
+ 
+   <!-- Start a HAHomeBotClient_Node
+        Provides the interface for a Home Automation system into ROS for setting behavior action goals
+        Currently provides a ROS service interface to permit rosservice command line invocation of
+        Bot behaviors in place of the actual Home Automation system
+        Behaviors are invoked from the command line with "rosservice call /ha_demo "<behavior> <repetitions>" -->      
+    <node pkg="homebot" name="HAHomeBotClient_Node" type="HAHomeBotClient_Node" />
+
+</launch>
