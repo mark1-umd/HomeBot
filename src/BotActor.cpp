@@ -66,6 +66,8 @@ void BotActor::actionExecuteCB(const homebot::HBBehaviorGoalConstPtr &goal) {
   // Avoid problems with funny message definitions from ROS and stream processing
   std::string behaviorName = goal->behavior;
   int repsGoal = goal->repetitions;
+  ROS_ERROR_STREAM(
+      "HomeBot-BotActor(actionExecuteCB): Goal is behavior '" << behaviorName << "' executed " << repsGoal << " time(s)");
 
   // See if the behavior is in our repertoire
   BotBehavior botBehavior = repertoire.getBehavior(behaviorName);
@@ -83,6 +85,7 @@ void BotActor::actionExecuteCB(const homebot::HBBehaviorGoalConstPtr &goal) {
         "HomeBot-BotActor(actionExecuteCB): Behavior '" << behaviorName << "' cannot be repeated " << repsGoal << " times; aborting");
     result.repetitions = 0;
     as.setAborted(result);
+    return;
   }
 
   // Begin the behavior if we haven't been preempted already
@@ -99,16 +102,18 @@ void BotActor::actionExecuteCB(const homebot::HBBehaviorGoalConstPtr &goal) {
   }
 
   // Now perform the main behavior the requested number of repetitions
-  int repsPerformed;
-  for (repsPerformed = 1; repsPerformed <= repsGoal; repsPerformed++) {
+  int repsAttempted, repsPerformed(0);
+  for (repsAttempted = 1; repsAttempted <= repsGoal; repsAttempted++) {
     if (!as.isPreemptRequested() && ros::ok()) {
-      ROS_INFO_STREAM(
-          "HomeBot-BotActor(actionExecuteCB): Behavior '" << behaviorName << "' main phase, repetition " << repsPerformed);
+      ROS_ERROR_STREAM(
+          "HomeBot-BotActor(actionExecuteCB): Behavior '" << behaviorName << "' main phase, repetition " << repsAttempted);
       botBehavior.performMain(oprClients);
+      repsPerformed++;
       feedback.repetitions = repsPerformed;
       as.publishFeedback(feedback);
     } else {
-      repsPerformed--;
+      ROS_ERROR_STREAM(
+          "HomeBot-BotActor(actionExecuteCB): Preempt or error occured while executing behavior '" << behaviorName << "' in the main phase, repetition " << repsPerformed);
       break;
     }
   }
@@ -116,15 +121,18 @@ void BotActor::actionExecuteCB(const homebot::HBBehaviorGoalConstPtr &goal) {
   // Regardless of whether the behavior has been pre-empted, if we did the preliminary
   // phase of the behavior, we have to do the post phase of the behavior
   if (ros::ok()) {
-    ROS_INFO_STREAM(
+    ROS_ERROR_STREAM(
         "HomeBot-BotActor(actionExecuteCB): Behavior '" << behaviorName << "' post phase");
     botBehavior.performPost(oprClients);
   }
 
   // Did we achieve our goal?
+  ROS_ERROR_STREAM(
+      "HomeBot-BotActor(actionExecuteCB): Goal check - performed " << repsPerformed << " out of " << repsGoal);
   if (repsPerformed == repsGoal) {
     result.repetitions = repsPerformed;
     as.setSucceeded(result);
+    return;
   } else if (as.isPreemptRequested()) {
     as.setPreempted();
     return;
@@ -133,5 +141,7 @@ void BotActor::actionExecuteCB(const homebot::HBBehaviorGoalConstPtr &goal) {
   // If we get here something is confused, so signal an error
   ROS_ERROR_STREAM(
       "HomeBot-BotActor(actionExecuteCB): returning without success or preemption");
+  result.repetitions = repsPerformed;
+  as.setAborted(result);
   return;
 }

@@ -58,7 +58,7 @@
 #include "move_base_msgs/MoveBaseAction.h"
 #include "actionlib/client/simple_action_client.h"
 
-/** @brief <brief description>
+/** @brief An object to hold ROS action/service clients needed to perform Bot operations in the HomeBot system
  */
 
 class BotOprClients {

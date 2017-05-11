@@ -174,10 +174,10 @@ bool BotBehavior::performPost(BotOprClients& oprClients) {
   for (std::vector<boost::shared_ptr<BotOperation> >::size_type i = 0;
       i < postOprs.size(); i++) {
     ROS_ERROR_STREAM(
-        "BotBehavior(performPost): Executing '" << mainOprs[i]->getCode() << "'operation in this phase of behavior '" << name << "'");
-    if (!mainOprs[i]->execute(oprClients)) {
+        "BotBehavior(performPost): Executing '" << postOprs[i]->getCode() << "'operation in this phase of behavior '" << name << "'");
+    if (!postOprs[i]->execute(oprClients)) {
       ROS_ERROR_STREAM(
-          "HomeBot-BotBehavior(performPost): Failed to execute '" << mainOprs[i]->getCode() << "' operation in this phase of behavior '" << name << "'");
+          "HomeBot-BotBehavior(performPost): Failed to execute '" << postOprs[i]->getCode() << "' operation in this phase of behavior '" << name << "'");
       allGood = false;
     }
   }
@@ -185,11 +185,11 @@ bool BotBehavior::performPost(BotOprClients& oprClients) {
   // Signal whether we were all good or not
   if (allGood) {
     ROS_ERROR_STREAM(
-        "HomeBot-BotBehavior(performMain): All operations in this phase of behavior '" << name << "' executed with no problems");
+        "HomeBot-BotBehavior(performPost): All operations in this phase of behavior '" << name << "' executed with no problems");
     return true;
   } else {
     ROS_WARN_STREAM(
-        "HomeBot-BotBehavior(performMain): At least one failed operation in this phase of behavior '" << name << "'");
+        "HomeBot-BotBehavior(performPost): At least one failed operation in this phase of behavior '" << name << "'");
     return false;
   }
 }
