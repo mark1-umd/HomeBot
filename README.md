@@ -62,9 +62,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 - [future] Coveralls coverage monitoring (in development)
 
 ## Dependencies
+At this stage of development, HomeBot depends on standard ROS components, including:
+- roscpp
+- actionlib
+- std_msgs
+- geometry_msgs
+- move_base_msgs
+- message_generation
 
+In the future, integration with the Turtlebot Gazebo simulation environment is envisioned as a way to visualize and demonstrate HomeBot service robot behaviors.
 
 ## Status
+
+HomeBot has been developed to the point where it is a technology demonstration that shows what could be possible as an integration between Home Automation systems and service robots.  Integration with an actual Home Automation system, and with physical robots acting in the real world, is a future effort.
 
 ## Prerequisites
 
@@ -83,7 +93,19 @@ To import the project into your catkin workspace, clone or download it into the 
 
 ### HARequestServer
 
-The HARequestServer is a ROS node that manages service requests from ROS nodes representing HomeBot service robots to the integrated Home Automation system.  Integration capability is currently provided for opening/closing doors,  turning lighting scenes on/off, and and lowering/raising window shades.
+The HARequestServer provides a way for ROS nodes to request services from a Home Automation system.  Integration capabilities currently demonstrated are include opening/closing doors,  turning lighting scenes on/off, and and lowering/raising window shades.
+
+### HAHVAC Action Server
+
+The HA HVAC Action server shows how a goal-oriented Home Automation capability (setting heat/cool modes with desired temperatures) can be integrated into the ROS system.  None of the currently demonstrated behaviors currently take advantage of this capability.
+
+### HomeBot_Node
+
+The HomeBot Node is the behavior action server for the HomeBot service robots.  When fully developed, an individual HomeBot_Node will be present in the HomeBot system for each HomeBot service robot.  The behavior action server loads a Repertoire of custom behaviors for each service robot, then exposes the behaviors through a ROS action server.  A Home Automation system, interfacing with the HomeBot system through a HABotBehaviorClient, can signal HomeBot service robots to perform behaviors either on schedule (such as taking trash out to the curb for pickup), or in response to sensors that the Home Automation system manages (such as a doorbell being pressed by a visitor causing a ButtleBot to answer the door, or a disturbance in the yard causing a WatchBot to perform a perimeter patrol.
+
+### HABotBehaviorClient
+
+The HABotBehaviorClient integrates a Home Automation system into the HomeBot system by providing a pathway for behaviors requested by the Home Automation system to be activated (as a ROS action protocol goal) on a particular HomeBot service robot.  Once the behaviors are activated on a HomeBot_Node belonging to a particular service robot, the behaviors may act both on the robot (such as move_base goals that direct the robot to different locations), or back on the Home Automation system (allowing a behavior to perform tasks such as opening doors, turning lights on and off, or raising/lowering shades).  It is this last capability that reduces the need for a highly-capable robot mechanism capable of operating in the human world. The HomeBot service robots actuate things through the Home Automation system when necessary, instead of having local manipulators capable of interacting with the wide variety of human to touch interfaces.
 
 ## Testing using rostest
 
