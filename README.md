@@ -107,6 +107,10 @@ The HomeBot Node is the behavior action server for the HomeBot service robots.  
 
 The HABotBehaviorClient integrates a Home Automation system into the HomeBot system by providing a pathway for behaviors requested by the Home Automation system to be activated (as a ROS action protocol goal) on a particular HomeBot service robot.  Once the behaviors are activated on a HomeBot_Node belonging to a particular service robot, the behaviors may act both on the robot (such as move_base goals that direct the robot to different locations), or back on the Home Automation system (allowing a behavior to perform tasks such as opening doors, turning lights on and off, or raising/lowering shades).  It is this last capability that reduces the need for a highly-capable robot mechanism capable of operating in the human world. The HomeBot service robots actuate things through the Home Automation system when necessary, instead of having local manipulators capable of interacting with the wide variety of human to touch interfaces.
 
+### FakeMoveBaseServer
+
+The FakeMoveBaseServer is a stop-gap measure created to work around a limitation of using Gazebo/Turtlebot on my development ROS VM.  Transform publishing did not work properly, so navigation of the simulated Turtlebot was not possible.  FakeMoveBaseServer provides a "move_base" action server that crudely represents what the real move_base action server provides with an actual navigation system.  It accepts full Pose goals, but only uses the (X,Y) component.  It initializes at location (0,0), then tracks/maintains state of its location as it is directed to different locations using move_base goals.  It simulates a physical robot moving at 1 meter/second (can be changed in the source code), providing position feedback at 10 Hz from when a goal is requested to when the goal is reached.
+
 ## Testing using rostest
 
 Level 2 integration testing of ROS nodes uses the Google Test framework combined with the rostest tool to run the ROS nodes individually or in groups.  This package uses the testing capability extensively, both for testing individual components and for testing combinations of components.
