@@ -96,7 +96,7 @@ void FakeMoveBaseAction::actionExecuteCB(
   double deltaP = baseVel / fbFreq;
 
   // While the base is not at the goal location [(X,Y) only] plan our next move
-  while ((posX != goalX) && (posY != goalY)) {
+  while ((posX != goalX) || (posY != goalY)) {
     ROS_DEBUG_STREAM(
         "FakeMoveBase(actionExecuteCB): Not at goal; planning move");
     // Bail out if this action has been preempted or ROS is not running
@@ -115,6 +115,7 @@ void FakeMoveBaseAction::actionExecuteCB(
       posX = goalX;
       posY = goalY;
     } else {
+      // Find angle to goal, then the deltaX and deltaY, and go there
       double theta = atan2((goalY - posY), (goalX - posX));
       double deltaX = cos(theta) * deltaP;
       double deltaY = sin(theta) * deltaP;
