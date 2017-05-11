@@ -5,7 +5,7 @@
  * @author MJenkins, ENPM 808X Spring 2017
  * @date Apr 25, 2017 - Creation
  *
- * @brief Translate Home Automation service requests from the HomeBot system into Home Automation commands
+ * @brief [Deprecated] Translate Home Automation service requests from the HomeBot system into Home Automation commands
  *
  * HomeBot entities that need services provided by an external Home Automation system
  * that has been interfaced to the HomeBot system use the ROS Action Protocol to request the
@@ -50,6 +50,11 @@
 
 typedef actionlib::SimpleActionServer<homebot::HAOpenDoorAction> ServerType;
 
+/**
+ * @brief ROS action execute callback to open/close a door [deprecated; using service now]
+ * @param goal object defined by the HAOpenDoor action definition
+ * @param as
+ */
 void execute(const homebot::HAOpenDoorGoalConstPtr& goal, ServerType* as) {
   ROS_INFO_STREAM(
       "Home Automation Open Door command to open door " << goal->door << " sent");

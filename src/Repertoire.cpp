@@ -59,29 +59,34 @@ Repertoire::~Repertoire() {
 /**
  * @brief Determine whether a particular behavior is in a repertoire of behaviors
  * @param [in] pName a string with a behavior name
- * @param [out] pBehavior the BotBehavior identified by the behavior name pName
- * @return
+ * @return Behavior the BotBehavior identified by the behavior name pName
  */
 BotBehavior Repertoire::getBehavior(const std::string& pName) {
-  ROS_ERROR_STREAM(
+  ROS_INFO_STREAM(
       "HomeBot-Repertoire(getBehavior): Behavior '" << pName << "' requested for '" << botType << "'");
   for (std::vector<BotBehavior>::size_type i = 0; i < behaviors.size(); i++) {
     if (behaviors[i].getName() == pName) {
       return behaviors[i];
     }
   }
-  ROS_ERROR_STREAM(
+  ROS_WARN_STREAM(
       "HomeBot-Repertoire(getBehavior): Behavior '" << pName << "' not found for '" << botType << "'");
   BotBehavior nullBehavior("", operationParameters);
   return nullBehavior;
 }
 
+/**
+ * @brief Load this repertoire with the operations contained in a repertoire file
+ * @param [in] pFilename that specifies which file to get the behaviors from
+ * @param [in] pOpParams that specify limits on operations; used to validate operations as read in from file
+ * @return bool indicating whether the behaviors were loaded successfully
+ */
 bool Repertoire::load(const std::string& pFilename,
                       const OperationParameters& pOpParams) {
   // Update our memory of the operation parameters and clear out any old behaviors
   operationParameters = pOpParams;
   behaviors.clear();
-  ROS_ERROR_STREAM(
+  ROS_INFO_STREAM(
       "HomeBot-Repertoire(load): Loading repertoire for BotType '" << botType << "' from file '" << pFilename << "'");
 
   std::ifstream rptFile(pFilename.c_str());
@@ -124,7 +129,7 @@ bool Repertoire::load(const std::string& pFilename,
     getline(ssRepertoire, textPhasedBehavior);
     if (textPhasedBehavior.length() == 0) {
       // We don't like behaviors on a line without an actual operation, but we will tolerate them
-      ROS_ERROR_STREAM(
+      ROS_WARN_STREAM(
           "HomeBot-Repertoire(load): Skipping blank operation for behavior << '" << behaviorName << "'");
       break;
     }
@@ -138,7 +143,7 @@ bool Repertoire::load(const std::string& pFilename,
     }
     // If it doesn't, add it as a new behavior
     if (index == behaviors.size()) {
-      ROS_ERROR_STREAM(
+      ROS_INFO_STREAM(
           "HomeBot-Repertoire(load): Adding new behavior '" << behaviorName << "'");
       BotBehavior newBehavior(behaviorName, operationParameters);
       behaviors.push_back(newBehavior);
@@ -155,7 +160,7 @@ bool Repertoire::load(const std::string& pFilename,
     operationCount++;
     // End of while(getLine)
   }
-  ROS_ERROR_STREAM(
+  ROS_INFO_STREAM(
       "HomeBot-Repertoire(load): Loaded repertoire for '" << botType << "' from file '" << pFilename << "'; " << operationCount << " operations in " << behaviorCount << " behaviors");
   rptFile.close();
   return true;

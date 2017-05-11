@@ -46,13 +46,9 @@
 #include "homebot/HASceneService.hpp"
 
 HASceneService::HASceneService() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
-
 }
 
 HASceneService::~HASceneService() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
-
 }
 
 /**
@@ -66,7 +62,7 @@ bool HASceneService::callback(homebot::HAScene::Request& req,
   // Validate that the scene number is between 1 and the number of scenes (inclusive)
   if (req.sceneNumber < 1 || req.sceneNumber > sceneState[0]) {
     ROS_WARN_STREAM(
-        "Non-existent scene " << int(req.sceneNumber) << " specified for HAScene service action " << int(req.action) << ", no action taken");
+        "HomeBot-HASceneService(callback): Non-existent scene " << int(req.sceneNumber) << " specified for HAScene service action " << int(req.action) << ", no action taken");
     rsp.sceneNumber = req.sceneNumber;
     rsp.state = req.action;
     return false;
@@ -75,7 +71,7 @@ bool HASceneService::callback(homebot::HAScene::Request& req,
   if (req.action < homebot::HASceneRequest::TURNOFF
       || req.action > homebot::HASceneRequest::STATUS) {
     ROS_WARN_STREAM(
-        "Non-existent action " << int(req.action) << " specified for HAScene service on scene " << int(req.sceneNumber) << ", no action taken");
+        "HomeBot-HASceneService(callback): Non-existent action " << int(req.action) << " specified for HAScene service on scene " << int(req.sceneNumber) << ", no action taken");
     rsp.sceneNumber = req.sceneNumber;
     rsp.state = req.action;
     return false;
@@ -86,17 +82,17 @@ bool HASceneService::callback(homebot::HAScene::Request& req,
   switch (req.action) {
     case homebot::HASceneRequest::TURNOFF:
       ROS_INFO_STREAM(
-          "Sending Close Scene command for scene " << int(req.sceneNumber) << " to Home Automation system");
+          "HomeBot-HASceneService(callback): Sending Close Scene command for scene " << int(req.sceneNumber) << " to Home Automation system");
       sceneState[req.sceneNumber] = homebot::HASceneResponse::OFF;
       break;
     case homebot::HASceneRequest::TURNON:
       ROS_INFO_STREAM(
-          "Sending Open Scene command for scene " << int(req.sceneNumber) << " to Home Automation system");
+          "HomeBot-HASceneService(callback): Sending Open Scene command for scene " << int(req.sceneNumber) << " to Home Automation system");
       sceneState[req.sceneNumber] = homebot::HASceneResponse::ON;
       break;
     case homebot::HASceneRequest::STATUS:
       ROS_INFO_STREAM(
-          "Sending Scene Status command for scene " << int(req.sceneNumber) << " to Home Automation system");
+          "HomeBot-HASceneService(callback): Sending Scene Status command for scene " << int(req.sceneNumber) << " to Home Automation system");
       break;
   }
   rsp.sceneNumber = req.sceneNumber;
@@ -110,13 +106,14 @@ bool HASceneService::callback(homebot::HAScene::Request& req,
  */
 void HASceneService::init(int numberOfScenes) {
   ROS_INFO_STREAM(
-      "HASceneService initializing; " << numberOfScenes << " scenes to initialize.");
+      "HomeBot-HASceneService(init): HASceneService initializing; " << numberOfScenes << " scenes to initialize.");
   // Store the number of scenes in the first element of the scene state vector
   sceneState.push_back(numberOfScenes);
   for (int d = 1; d <= numberOfScenes; d++) {
     // Initialize all of the scene states to closed
     sceneState.push_back(homebot::HASceneResponse::OFF);
-    ROS_INFO_STREAM("Scene " << d << " initialized to state " << sceneState[d]);
+    ROS_INFO_STREAM(
+        "HomeBot-HASceneService(init): Scene " << d << " initialized to state " << sceneState[d]);
   }
   // Set the service server object using the node handle's advertiseService method,
   // the service name, and the callback method from this object

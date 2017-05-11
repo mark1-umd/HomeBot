@@ -73,7 +73,7 @@ double FakeMoveBaseAction::distance(double x1, double y1, double x2,
 }
 
 /**
- * @brief Executes whenever the action server receives a goal from an action client
+ * @brief Executes when the action server receives a pose goal from an action client; moves to new pose
  * @param goal
  */
 void FakeMoveBaseAction::actionExecuteCB(

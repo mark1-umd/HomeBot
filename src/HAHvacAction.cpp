@@ -54,9 +54,12 @@ HAHvacAction::HAHvacAction()
 }
 
 HAHvacAction::~HAHvacAction() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
 }
 
+/**
+ * @brief ROS action protocol execute callback that acts to reach a specified goal (HVAC mode and temperature)
+ * @param [in] goal defined by the HAHvac action
+ */
 void HAHvacAction::actionExecuteCB(const homebot::HAHvacGoalConstPtr &goal) {
   homebot::HAHvacFeedback feedback;
   homebot::HAHvacResult result;
@@ -69,7 +72,7 @@ void HAHvacAction::actionExecuteCB(const homebot::HAHvacGoalConstPtr &goal) {
     hvacMode = "Heat";
   else {
     ROS_WARN_STREAM(
-        "HAHvac Action: Aborted; invalid goal mode " << int(goal->mode) << " specified");
+        "HomeBot-HAHvacAction(actionExecuteCB): Aborted; invalid goal mode " << int(goal->mode) << " specified");
     result.tempDegF = homeTempDegF;
     as.setAborted(result);
     return;
@@ -79,7 +82,7 @@ void HAHvacAction::actionExecuteCB(const homebot::HAHvacGoalConstPtr &goal) {
   if (goal->tempDegF < homebot::HAHvacGoal::MINTEMPDEGF
       || goal->tempDegF > homebot::HAHvacGoal::MAXTEMPDEGF) {
     ROS_WARN_STREAM(
-        "HAHvac Action: Aborted; goal temperature outside range " << double(homebot::HAHvacGoal::MINTEMPDEGF) << " to " << double(homebot::HAHvacGoal::MAXTEMPDEGF) << " degrees F");
+        "HomeBot-HAHvacAction(actionExecuteCB): Aborted; goal temperature outside range " << double(homebot::HAHvacGoal::MINTEMPDEGF) << " to " << double(homebot::HAHvacGoal::MAXTEMPDEGF) << " degrees F");
     result.tempDegF = homeTempDegF;
     as.setAborted(result);
     return;
@@ -87,7 +90,7 @@ void HAHvacAction::actionExecuteCB(const homebot::HAHvacGoalConstPtr &goal) {
 
   // Simulate command to Home Automation system for HVAC temperature change
   ROS_INFO_STREAM(
-      "HAHvac Action: Commanding Home Automation system to set " << hvacMode << " mode to " << goal->tempDegF << " degrees F");
+      "HomeBot-HAHvacAction(actionExecuteCB): Commanding Home Automation system to set " << hvacMode << " mode to " << goal->tempDegF << " degrees F");
 
   // Simulate the temperature changing in home due to Home Automation HVAC command
   // Establish a ros::rate object to create simulated time...  make deltaTempDegF change every 1 seconds
@@ -105,7 +108,7 @@ void HAHvacAction::actionExecuteCB(const homebot::HAHvacGoalConstPtr &goal) {
       || (homeTempDegF > (goal->tempDegF + tempToleranceDegF))) {
     // Bail out if this action has been preempted or ROS is not running
     if (as.isPreemptRequested() || !ros::ok()) {
-      ROS_INFO_STREAM("HAHvacAction: Preempted");
+      ROS_INFO_STREAM("HomeBot-HAHvacAction(actionExecuteCB): Preempted");
       as.setPreempted();
       return;
     }
@@ -113,7 +116,7 @@ void HAHvacAction::actionExecuteCB(const homebot::HAHvacGoalConstPtr &goal) {
     homeTempDegF += tempAdjustRate;
     feedback.tempDegF = homeTempDegF;
     ROS_INFO_STREAM(
-        "HAHvac Action: Feedback; current temperature is " << feedback.tempDegF << " degrees F");
+        "HomeBot-HAHvacAction(actionExecuteCB): Feedback; current temperature is " << feedback.tempDegF << " degrees F");
     as.publishFeedback(feedback);
     delay.sleep();
   }
@@ -121,7 +124,7 @@ void HAHvacAction::actionExecuteCB(const homebot::HAHvacGoalConstPtr &goal) {
   // Reached the goal, action completed
   result.tempDegF = homeTempDegF;
   ROS_INFO_STREAM(
-      "HAHvac Action: Success; achieved temperature of " << result.tempDegF << " degrees F");
+      "HomeBot-HAHvacAction(actionExecuteCB): Success; achieved temperature of " << result.tempDegF << " degrees F");
   as.setSucceeded(result);
   return;
 }

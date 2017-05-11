@@ -46,13 +46,9 @@
 #include "homebot/HADoorService.hpp"
 
 HADoorService::HADoorService() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
-
 }
 
 HADoorService::~HADoorService() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
-
 }
 
 /**
@@ -66,7 +62,7 @@ bool HADoorService::callback(homebot::HADoor::Request& req,
   // Validate that the door number is between 1 and the number of doors (inclusive)
   if (req.doorNumber < 1 || req.doorNumber > doorState[0]) {
     ROS_WARN_STREAM(
-        "Non-existent door " << int(req.doorNumber) << " specified for HADoor service action " << int(req.action) << ", no action taken");
+        "HomeBot-HADoorService(callback): Non-existent door " << int(req.doorNumber) << " specified for HADoor service action " << int(req.action) << ", no action taken");
     rsp.doorNumber = req.doorNumber;
     rsp.state = req.action;
     return false;
@@ -75,7 +71,7 @@ bool HADoorService::callback(homebot::HADoor::Request& req,
   if (req.action < homebot::HADoorRequest::CLOSE
       || req.action > homebot::HADoorRequest::STATUS) {
     ROS_WARN_STREAM(
-        "Non-existent action " << int(req.action) << " specified for HADoor service on door " << int(req.doorNumber) << ", no action taken");
+        "HomeBot-HADoorService(callback): Non-existent action " << int(req.action) << " specified for HADoor service on door " << int(req.doorNumber) << ", no action taken");
     rsp.doorNumber = req.doorNumber;
     rsp.state = req.action;
     return false;
@@ -86,17 +82,17 @@ bool HADoorService::callback(homebot::HADoor::Request& req,
   switch (req.action) {
     case homebot::HADoorRequest::CLOSE:
       ROS_INFO_STREAM(
-          "Sending Close Door command for door " << int(req.doorNumber) << " to Home Automation system");
+          "HomeBot-HADoorService(callback): Sending Close Door command for door " << int(req.doorNumber) << " to Home Automation system");
       doorState[req.doorNumber] = homebot::HADoorResponse::CLOSED;
       break;
     case homebot::HADoorRequest::OPEN:
       ROS_INFO_STREAM(
-          "Sending Open Door command for door " << int(req.doorNumber) << " to Home Automation system");
+          "HomeBot-HADoorService(callback): Sending Open Door command for door " << int(req.doorNumber) << " to Home Automation system");
       doorState[req.doorNumber] = homebot::HADoorResponse::OPENED;
       break;
     case homebot::HADoorRequest::STATUS:
       ROS_INFO_STREAM(
-          "Sending Door Status command for door " << int(req.doorNumber) << " to Home Automation system");
+          "HomeBot-HADoorService(callback): Sending Door Status command for door " << int(req.doorNumber) << " to Home Automation system");
       break;
   }
   rsp.doorNumber = req.doorNumber;
@@ -110,13 +106,14 @@ bool HADoorService::callback(homebot::HADoor::Request& req,
  */
 void HADoorService::init(int numberOfDoors) {
   ROS_INFO_STREAM(
-      "HADoorService initializing; " << numberOfDoors << " doors to initialize.");
+      "HomeBot-HADoorService(init): HADoorService initializing; " << numberOfDoors << " doors to initialize.");
   // Store the number of doors in the first element of the door state vector
   doorState.push_back(numberOfDoors);
   for (int d = 1; d <= numberOfDoors; d++) {
     // Initialize all of the door states to closed
     doorState.push_back(homebot::HADoorResponse::CLOSED);
-    ROS_INFO_STREAM("Door " << d << " initialized to state " << doorState[d]);
+    ROS_INFO_STREAM(
+        "HomeBot-HADoorService(init): Door " << d << " initialized to state " << doorState[d]);
   }
   // Set the service server object using the node handle's advertiseService method,
   // the service name, and the callback method from this object

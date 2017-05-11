@@ -205,7 +205,7 @@ boost::shared_ptr<BotOperation> BotOperation::transform(
     return newOpr;
 
   }
-  ROS_WARN_STREAM(
+  ROS_INFO_STREAM(
       "HomeBot-BotOperation(transform): Unrecognized operation '" << code << "', can't decode operation");
   // Return a non-executable base class object populated with what the current base class object contained
   return boost::shared_ptr<BotOperation>(new BotOperation(rawText, code));

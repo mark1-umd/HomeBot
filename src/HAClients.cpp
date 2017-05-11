@@ -55,7 +55,7 @@ HAClients::HAClients()
 
   // Check the move_base action server
   if (!acHBBehavior.waitForServer(ros::Duration(5.0)))
-    ROS_ERROR_STREAM(
+    ROS_WARN_STREAM(
         "HomeBot-HAClients: The bot_actor action server is not available");
 }
 

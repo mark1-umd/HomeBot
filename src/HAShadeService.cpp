@@ -46,13 +46,9 @@
 #include "homebot/HAShadeService.hpp"
 
 HAShadeService::HAShadeService() {
-  // TODO(Mark Jenkins): Auto-generated constructor stub
-
 }
 
 HAShadeService::~HAShadeService() {
-  // TODO(Mark Jenkins): Auto-generated destructor stub
-
 }
 
 /**
@@ -66,7 +62,7 @@ bool HAShadeService::callback(homebot::HAShade::Request& req,
   // Validate that the shade number is between 1 and the number of shades (inclusive)
   if (req.shadeNumber < 1 || req.shadeNumber > shadeState[0]) {
     ROS_WARN_STREAM(
-        "Non-existent shade " << int(req.shadeNumber) << " specified for HAShade service action " << int(req.action) << ", no action taken");
+        "HomeBot-HAShadeService(callback): Non-existent shade " << int(req.shadeNumber) << " specified for HAShade service action " << int(req.action) << ", no action taken");
     rsp.shadeNumber = req.shadeNumber;
     rsp.state = req.action;
     return false;
@@ -75,7 +71,7 @@ bool HAShadeService::callback(homebot::HAShade::Request& req,
   if (req.action < homebot::HAShadeRequest::RAISE
       || req.action > homebot::HAShadeRequest::STATUS) {
     ROS_WARN_STREAM(
-        "Non-existent action " << int(req.action) << " specified for HAShade service on shade " << int(req.shadeNumber) << ", no action taken");
+        "HomeBot-HAShadeService(callback): Non-existent action " << int(req.action) << " specified for HAShade service on shade " << int(req.shadeNumber) << ", no action taken");
     rsp.shadeNumber = req.shadeNumber;
     rsp.state = req.action;
     return false;
@@ -86,17 +82,17 @@ bool HAShadeService::callback(homebot::HAShade::Request& req,
   switch (req.action) {
     case homebot::HAShadeRequest::RAISE:
       ROS_INFO_STREAM(
-          "Sending Close Shade command for shade " << int(req.shadeNumber) << " to Home Automation system");
+          "HomeBot-HAShadeService(callback): Sending Close Shade command for shade " << int(req.shadeNumber) << " to Home Automation system");
       shadeState[req.shadeNumber] = homebot::HAShadeResponse::RAISED;
       break;
     case homebot::HAShadeRequest::LOWER:
       ROS_INFO_STREAM(
-          "Sending Open Shade command for shade " << int(req.shadeNumber) << " to Home Automation system");
+          "HomeBot-HAShadeService(callback): Sending Open Shade command for shade " << int(req.shadeNumber) << " to Home Automation system");
       shadeState[req.shadeNumber] = homebot::HAShadeResponse::LOWERED;
       break;
     case homebot::HAShadeRequest::STATUS:
       ROS_INFO_STREAM(
-          "Sending Shade Status command for shade " << int(req.shadeNumber) << " to Home Automation system");
+          "HomeBot-HAShadeService(callback): Sending Shade Status command for shade " << int(req.shadeNumber) << " to Home Automation system");
       break;
   }
   rsp.shadeNumber = req.shadeNumber;
@@ -110,13 +106,14 @@ bool HAShadeService::callback(homebot::HAShade::Request& req,
  */
 void HAShadeService::init(int numberOfShades) {
   ROS_INFO_STREAM(
-      "HAShadeService initializing; " << numberOfShades << " shades to initialize.");
+      "HomeBot-HAShadeService(init): HAShadeService initializing; " << numberOfShades << " shades to initialize.");
   // Store the number of shades in the first element of the shade state vector
   shadeState.push_back(numberOfShades);
   for (int d = 1; d <= numberOfShades; d++) {
     // Initialize all of the shade states to raised
     shadeState.push_back(homebot::HAShadeResponse::RAISED);
-    ROS_INFO_STREAM("Shade " << d << " initialized to state " << shadeState[d]);
+    ROS_INFO_STREAM(
+        "HomeBot-HAShadeService(init): Shade " << d << " initialized to state " << shadeState[d]);
   }
   // Set the service server object using the node handle's advertiseService method,
   // the service name, and the callback method from this object

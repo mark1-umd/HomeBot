@@ -57,7 +57,7 @@
 #include "OperationParameters.hpp"
 #include "homebot/BotBehavior.hpp"
 
-/** @brief A collection of HomeBot service robot behaviors
+/** @brief A collection of HomeBot service robot behaviors; used by a BotActor to find behaviors to execute
  */
 
 class Repertoire {
