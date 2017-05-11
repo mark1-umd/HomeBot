@@ -1,0 +1,10 @@
+<launch>
+    <node pkg="homebot" name="HAHvacActionServer" type="HAHvacActionServer" />
+    <node pkg="homebot" name="HARequestServer" type="HARequestServer"
+        args="-doors 5 -scenes 15 -shades 8" />
+    <node pkg="homebot" name="FakeMoveBaseServer" type="FakeMoveBaseServer" />
+    <node pkg="homebot" name="HAHomeBotClient_Node" type="HAHomeBotClient_Node" />
+        
+    <node pkg="homebot" name="HomeBot_Node" type="HomeBot_Node"
+        args="-doors 5 -scenes 15 -shades 8 -botType WatchBot -rptFile $(find homebot)/repertoire/WatchBot.rpt" />     
+</launch>
