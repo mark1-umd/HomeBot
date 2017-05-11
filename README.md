@@ -91,6 +91,10 @@ To import the project into your catkin workspace, clone or download it into the 
 
 ## Major Components
 
+This demonstration system is heavily-based on ROS in its current form.  ROS communications (services and the action protocol, which are themselves based on ROS publish/subscribe messaging) form the heart of the system.  Custom services and actions are defined (see the srv and action sub-directories) for HomeBot use, in addition to using standard and commonly available message types (such as the move_base_msgs).  A new type of subdirectory and file is added to this ROS package: the repertoire subdirectory, which contains the .rpt files that express behaviors as a series of operations within the HomeBot system.
+
+In addition to ROS, the major components of the system are described below.
+
 ### HARequestServer
 
 The HARequestServer provides a way for ROS nodes to request services from a Home Automation system.  Integration capabilities currently demonstrated are include opening/closing doors,  turning lighting scenes on/off, and and lowering/raising window shades.
@@ -113,6 +117,12 @@ The HABotBehaviorClient integrates a Home Automation system into the HomeBot sys
 
 The FakeMoveBaseServer is a stop-gap measure created to work around a limitation of using Gazebo/Turtlebot on my development ROS VM.  Transform publishing did not work properly, so navigation of the simulated Turtlebot was not possible.  FakeMoveBaseServer provides a "move_base" action server that crudely represents what the real move_base action server provides with an actual navigation system.  It accepts full Pose goals, but only uses the (X,Y) component.  It initializes at location (0,0), then tracks/maintains state of its location as it is directed to different locations using move_base goals.  It simulates a physical robot moving at 1 meter/second (can be changed in the source code), providing position feedback at 10 Hz from when a goal is requested to when the goal is reached.
 
+## Demonstrations
+
+Two demonstrations are currently provided:
+
+- HomeBot_System_ButtleBot.launch: starts up a HomeBot system using a ButtleBot repertoire for the HomeBot Node.
+- HomeBot_System_WatchBot.launch: starts up a HomeBot system using a WatchBot repertoire for the HomeBot_Node.
 ## Testing using rostest
 
 Level 2 integration testing of ROS nodes uses the Google Test framework combined with the rostest tool to run the ROS nodes individually or in groups.  This package uses the testing capability extensively, both for testing individual components and for testing combinations of components.
