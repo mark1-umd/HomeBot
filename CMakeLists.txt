@@ -64,6 +64,7 @@ add_service_files(
   HADoor.srv
   HAScene.srv
   HAShade.srv
+  HADemo.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -146,6 +147,9 @@ add_executable(HomeBot_Node src/HomeBot_Node.cpp
 add_executable(FakeMoveBaseServer src/FakeMoveBaseServer.cpp
                                   src/FakeMoveBaseAction.cpp)
 add_executable(FakeMoveBaseExerciser src/FakeMoveBaseExerciser.cpp)
+add_executable(HAHomeBotClient_Node src/HAHomeBotClient_Node.cpp
+                                    src/HAClients.cpp
+                                    src/HADemoService.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -156,6 +160,7 @@ add_dependencies(HAHvacActionServer homebot_generate_messages_cpp)
 add_dependencies(HARequestServer homebot_generate_messages_cpp)
 add_dependencies(HomeBot_Node homebot_generate_messages_cpp)
 add_dependencies(FakeMoveBaseServer homebot_generate_messages_cpp)
+add_dependencies(HAHomeBotClient_Node homebot_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(homebot_node
@@ -168,6 +173,7 @@ target_link_libraries(HAHvacActionServer ${catkin_LIBRARIES})
 target_link_libraries(HomeBot_Node ${catkin_LIBRARIES})
 target_link_libraries(FakeMoveBaseServer ${catkin_LIBRARIES})
 target_link_libraries(FakeMoveBaseExerciser ${catkin_LIBRARIES})
+target_link_libraries(HAHomeBotClient_Node ${catkin_LIBRARIES})
 
 #############
 ## Install ##
