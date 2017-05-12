@@ -1,4 +1,5 @@
 # HomeBot
+[![Build Status](https://travis-ci.org/mark1-umd/homebot.svg?branch=master)](https://travis-ci.org/mark1-umd/homebot.svg?branch=master)
 
 ## Overview
 
