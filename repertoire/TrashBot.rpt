@@ -1,8 +1,9 @@
 TrashBot
 TrashToCurb prelim HADoor 5 1
 TrashToCurb prelim BotMoveBase map 1.0 0.0 0.0 0.0 0.0 0.0 0.0
+TrashToCurb prelim HADoor 5 0
 TrashToCurb main BotMoveBase map 5.0 0.0 0.0 0.0 0.0 0.0 0.0
 ReturnEmptyBarrels main BotMoveBase map 1.0 0.0 0.0 0.0 0.0 0.0 0.0
-TrashToCurb post HADoor 5 1
-TrashToCurb post BotMoveBase map 0.0 0.0 0.0 0.0 0.0 0.0 0.0
-TrashToCurb post HADoor 5 0
+ReturnEmptyBarrels post HADoor 5 1
+ReturnEmptyBarrels post BotMoveBase map 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+ReturnEmptyBarrels post HADoor 5 0
