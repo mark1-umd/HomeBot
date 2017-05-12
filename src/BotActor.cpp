@@ -132,7 +132,7 @@ void BotActor::actionExecuteCB(const homebot::HBBehaviorGoalConstPtr &goal) {
 
   // Did we achieve our goal?
   ROS_INFO_STREAM(
-      "HomeBot-BotActor(actionExecuteCB): Performed behavior '" << behaviorName << "'" << repsPerformed << " time(s) out of " << repsGoal << " desired");
+      "HomeBot-BotActor(actionExecuteCB): Performed behavior '" << behaviorName << "' " << repsPerformed << " time(s) out of " << repsGoal << " desired");
   if (repsPerformed == repsGoal) {
     result.repetitions = repsPerformed;
     as.setSucceeded(result);

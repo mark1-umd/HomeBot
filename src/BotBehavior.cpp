@@ -144,7 +144,7 @@ bool BotBehavior::performPrelim(BotOprClients& oprClients) {
 
   // Signal whether we were all good or not
   if (allGood) {
-    ROS_INFO_STREAM(
+    ROS_DEBUG_STREAM(
         "HomeBot-BotBehavior(performPrelim): All operations in this phase of behavior '" << name << "' executed with no problems");
     return true;
   } else {
@@ -177,7 +177,7 @@ bool BotBehavior::performMain(BotOprClients& oprClients) {
 
   // Signal whether we were all good or not
   if (allGood) {
-    ROS_INFO_STREAM(
+    ROS_DEBUG_STREAM(
         "HomeBot-BotBehavior(performMain): All operations in this phase of behavior '" << name << "' executed with no problems");
     return true;
   } else {
@@ -210,7 +210,7 @@ bool BotBehavior::performPost(BotOprClients& oprClients) {
 
   // Signal whether we were all good or not
   if (allGood) {
-    ROS_INFO_STREAM(
+    ROS_DEBUG_STREAM(
         "HomeBot-BotBehavior(performPost): All operations in this phase of behavior '" << name << "' executed with no problems");
     return true;
   } else {
