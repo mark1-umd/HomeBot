@@ -77,10 +77,11 @@ In the future, integration with the Turtlebot Gazebo simulation environment is e
 
 HomeBot has been developed to the point where it is a technology demonstration that shows what could be possible as an integration between Home Automation systems and service robots.  Integration with an actual Home Automation system, and with physical robots acting in the real world, is a future effort.
 
+Due to problems I encountered using the Turtlebot Gazebo world with gmapping and the navigation stack, this version of HomeBot uses FakeMoveBaseServer, a stand-in "move_base" action server.  The Turtlebot Gazebo package *should* work virtually unchanged... (as I write this, I realize I probably don't have the current ROS time being injected into the pose goal messages, because FakeMoveBaseServer doesn't need them.  The real navigation stack will probably want to see them, though.  So a quick edit of the source might be required before it runs with the real "move_base".
+
 ## Prerequisites
 
-This ROS package has been built and tested for the Indigo-Igloo release of ROS.
-In order to build and use it, you will need to have ROS Indigo-Igloo installed on your system, along with the ROS dependencies identified in the package.xml manifest file (roscpp, rospy, std_msgs, message_generation, actionlib).  The instructions in this README.md file assume that you are familiar with ROS and the ROS catkin build system.
+This ROS package has been built and tested for the Indigo-Igloo release of ROS.  In order to build and use it, you will need to have ROS Indigo-Igloo installed on your system, along with the ROS dependencies identified in the package.xml manifest file (roscpp, rospy, std_msgs, message_generation, actionlib).  The instructions in this README.md file assume that you are familiar with ROS and the ROS catkin build system.
 
 To add the Turtlebot simulation stack to your ROS Indigo Igloo environment under Ubuntu 14.04:
 
