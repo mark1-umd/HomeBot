@@ -1,0 +1,69 @@
+\hypertarget{classHADoorService}{\section{H\-A\-Door\-Service Class Reference}
+\label{classHADoorService}\index{H\-A\-Door\-Service@{H\-A\-Door\-Service}}
+}
+
+
+Provides H\-A Door Service to a R\-O\-S node acting as a Home Automation Request Server.  
+
+
+
+
+{\ttfamily \#include $<$H\-A\-Door\-Service.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classHADoorService_afe7dcaf57f6350784dd1df5724719459}{callback} (homebot\-::\-H\-A\-Door\-::\-Request \&req, homebot\-::\-H\-A\-Door\-::\-Response \&rsp)
+\begin{DoxyCompactList}\small\item\em Service callback for the Home Automation Door service -\/ handles service calls. \end{DoxyCompactList}\item 
+void \hyperlink{classHADoorService_a5486fe40d0145da762b4453d8659bee0}{init} (int number\-Of\-Doors)
+\begin{DoxyCompactList}\small\item\em Called to start the actual service; advertises the service and establishes callback. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides H\-A Door Service to a R\-O\-S node acting as a Home Automation Request Server. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classHADoorService_afe7dcaf57f6350784dd1df5724719459}{\index{H\-A\-Door\-Service@{H\-A\-Door\-Service}!callback@{callback}}
+\index{callback@{callback}!HADoorService@{H\-A\-Door\-Service}}
+\subsubsection[{callback}]{\setlength{\rightskip}{0pt plus 5cm}bool H\-A\-Door\-Service\-::callback (
+\begin{DoxyParamCaption}
+\item[{homebot\-::\-H\-A\-Door\-::\-Request \&}]{req, }
+\item[{homebot\-::\-H\-A\-Door\-::\-Response \&}]{rsp}
+\end{DoxyParamCaption}
+)}}\label{classHADoorService_afe7dcaf57f6350784dd1df5724719459}
+
+
+Service callback for the Home Automation Door service -\/ handles service calls. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em req} & data specifying the request details (door number, action to take) \\
+\hline
+\mbox{\tt out}  & {\em rsp} & data going back to the service requestor (door number, door state) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean success or failure of the service call 
+\end{DoxyReturn}
+\hypertarget{classHADoorService_a5486fe40d0145da762b4453d8659bee0}{\index{H\-A\-Door\-Service@{H\-A\-Door\-Service}!init@{init}}
+\index{init@{init}!HADoorService@{H\-A\-Door\-Service}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void H\-A\-Door\-Service\-::init (
+\begin{DoxyParamCaption}
+\item[{int}]{number\-Of\-Doors}
+\end{DoxyParamCaption}
+)}}\label{classHADoorService_a5486fe40d0145da762b4453d8659bee0}
+
+
+Called to start the actual service; advertises the service and establishes callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em number\-Of\-Doors} & used to size the number of door states to track \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/homebot/\hyperlink{HADoorService_8hpp}{H\-A\-Door\-Service.\-hpp}\item 
+src/\hyperlink{HADoorService_8cpp}{H\-A\-Door\-Service.\-cpp}\end{DoxyCompactItemize}

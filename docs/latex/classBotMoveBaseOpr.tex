@@ -1,0 +1,103 @@
+\hypertarget{classBotMoveBaseOpr}{\section{Bot\-Move\-Base\-Opr Class Reference}
+\label{classBotMoveBaseOpr}\index{Bot\-Move\-Base\-Opr@{Bot\-Move\-Base\-Opr}}
+}
+
+
+Provides a service robot \char`\"{}move\-\_\-base\char`\"{} operation (move to frame\-\_\-id/\-Pose); derived from \hyperlink{classBotOperation}{Bot\-Operation}.  
+
+
+
+
+{\ttfamily \#include $<$Bot\-Move\-Base\-Opr.\-hpp$>$}
+
+Inheritance diagram for Bot\-Move\-Base\-Opr\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classBotMoveBaseOpr}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classBotMoveBaseOpr_a269ba342770db907481955adb5bd9cec}{{\bfseries Bot\-Move\-Base\-Opr} (const std\-::string p\-Code, const std\-::string p\-Frame\-\_\-id, const double p\-X\-Pos, const double p\-Y\-Pos, const double p\-Z\-Pos, const double p\-X\-Orient, const double p\-Y\-Orient, const double p\-Z\-Orient, const double p\-W\-Orient)}\label{classBotMoveBaseOpr_a269ba342770db907481955adb5bd9cec}
+
+\item 
+move\-\_\-base\-\_\-msgs\-::\-Move\-Base\-Goal \hyperlink{classBotMoveBaseOpr_ad03fb9f3398b557549408752690e7d58}{details} ()
+\begin{DoxyCompactList}\small\item\em Provides access to operation details for testing purposes. \end{DoxyCompactList}\item 
+bool \hyperlink{classBotMoveBaseOpr_ae6a4ed7325d3bc728b6934250171178d}{is\-Executable} (const \hyperlink{classOperationParameters}{Operation\-Parameters} \&op\-Params)
+\begin{DoxyCompactList}\small\item\em Validates that an operation is within acceptable parameters. \end{DoxyCompactList}\item 
+bool \hyperlink{classBotMoveBaseOpr_aebac9f650a9960e132dccc61e54b8c93}{execute} (\hyperlink{classBotOprClients}{Bot\-Opr\-Clients} \&clients)
+\begin{DoxyCompactList}\small\item\em Performs the behavior embedded in this operation (Bot\-Move\-Base moves a robot base via its navigation system. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Provides a service robot \char`\"{}move\-\_\-base\char`\"{} operation (move to frame\-\_\-id/\-Pose); derived from \hyperlink{classBotOperation}{Bot\-Operation}. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classBotMoveBaseOpr_ad03fb9f3398b557549408752690e7d58}{\index{Bot\-Move\-Base\-Opr@{Bot\-Move\-Base\-Opr}!details@{details}}
+\index{details@{details}!BotMoveBaseOpr@{Bot\-Move\-Base\-Opr}}
+\subsubsection[{details}]{\setlength{\rightskip}{0pt plus 5cm}move\-\_\-base\-\_\-msgs\-::\-Move\-Base\-Goal Bot\-Move\-Base\-Opr\-::details (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classBotMoveBaseOpr_ad03fb9f3398b557549408752690e7d58}
+
+
+Provides access to operation details for testing purposes. 
+
+\begin{DoxyReturn}{Returns}
+goal formatted according to the R\-O\-S action definition for Move\-Base 
+\end{DoxyReturn}
+\hypertarget{classBotMoveBaseOpr_aebac9f650a9960e132dccc61e54b8c93}{\index{Bot\-Move\-Base\-Opr@{Bot\-Move\-Base\-Opr}!execute@{execute}}
+\index{execute@{execute}!BotMoveBaseOpr@{Bot\-Move\-Base\-Opr}}
+\subsubsection[{execute}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Move\-Base\-Opr\-::execute (
+\begin{DoxyParamCaption}
+\item[{{\bf Bot\-Opr\-Clients} \&}]{clients}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classBotMoveBaseOpr_aebac9f650a9960e132dccc61e54b8c93}
+
+
+Performs the behavior embedded in this operation (Bot\-Move\-Base moves a robot base via its navigation system. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em clients} & object containing the action/service clients used by Bot\-Operations to carry out their function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool indicating whether the operation executed successfully 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classBotOperation_ae1e806e3c0044dc0177e73a7d05711ba}{Bot\-Operation}.
+
+\hypertarget{classBotMoveBaseOpr_ae6a4ed7325d3bc728b6934250171178d}{\index{Bot\-Move\-Base\-Opr@{Bot\-Move\-Base\-Opr}!is\-Executable@{is\-Executable}}
+\index{is\-Executable@{is\-Executable}!BotMoveBaseOpr@{Bot\-Move\-Base\-Opr}}
+\subsubsection[{is\-Executable}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Move\-Base\-Opr\-::is\-Executable (
+\begin{DoxyParamCaption}
+\item[{const {\bf Operation\-Parameters} \&}]{op\-Params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classBotMoveBaseOpr_ae6a4ed7325d3bc728b6934250171178d}
+
+
+Validates that an operation is within acceptable parameters. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em op\-Params} & provides operational parameters for the system used to verify this operation can execute \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool value indicating whether this operation can execute within the current Home\-Bot system 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classBotOperation_a0ed080d4c88b9ee0422666de169fb4a6}{Bot\-Operation}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/homebot/\hyperlink{BotMoveBaseOpr_8hpp}{Bot\-Move\-Base\-Opr.\-hpp}\item 
+src/\hyperlink{BotMoveBaseOpr_8cpp}{Bot\-Move\-Base\-Opr.\-cpp}\end{DoxyCompactItemize}

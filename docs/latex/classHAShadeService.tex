@@ -1,0 +1,69 @@
+\hypertarget{classHAShadeService}{\section{H\-A\-Shade\-Service Class Reference}
+\label{classHAShadeService}\index{H\-A\-Shade\-Service@{H\-A\-Shade\-Service}}
+}
+
+
+Provides H\-A Shade Service to a R\-O\-S node acting as a Home Automation Request Server.  
+
+
+
+
+{\ttfamily \#include $<$H\-A\-Shade\-Service.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classHAShadeService_afb00b476dd2c9bf9e5cc8ba349d7bc1f}{callback} (homebot\-::\-H\-A\-Shade\-::\-Request \&req, homebot\-::\-H\-A\-Shade\-::\-Response \&rsp)
+\begin{DoxyCompactList}\small\item\em Service callback for the Home Automation Shade service -\/ handles service calls. \end{DoxyCompactList}\item 
+void \hyperlink{classHAShadeService_aaf2aed9dc0d79a7dbfbfe6537e624e24}{init} (int number\-Of\-Shades)
+\begin{DoxyCompactList}\small\item\em Called to start the actual service; advertises the service and establishes callback. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides H\-A Shade Service to a R\-O\-S node acting as a Home Automation Request Server. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classHAShadeService_afb00b476dd2c9bf9e5cc8ba349d7bc1f}{\index{H\-A\-Shade\-Service@{H\-A\-Shade\-Service}!callback@{callback}}
+\index{callback@{callback}!HAShadeService@{H\-A\-Shade\-Service}}
+\subsubsection[{callback}]{\setlength{\rightskip}{0pt plus 5cm}bool H\-A\-Shade\-Service\-::callback (
+\begin{DoxyParamCaption}
+\item[{homebot\-::\-H\-A\-Shade\-::\-Request \&}]{req, }
+\item[{homebot\-::\-H\-A\-Shade\-::\-Response \&}]{rsp}
+\end{DoxyParamCaption}
+)}}\label{classHAShadeService_afb00b476dd2c9bf9e5cc8ba349d7bc1f}
+
+
+Service callback for the Home Automation Shade service -\/ handles service calls. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em req} & data specifying the request details (shade number, action to take) \\
+\hline
+\mbox{\tt out}  & {\em rsp} & data going back to the service requestor (shade number, shade state) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean success or failure of the service call 
+\end{DoxyReturn}
+\hypertarget{classHAShadeService_aaf2aed9dc0d79a7dbfbfe6537e624e24}{\index{H\-A\-Shade\-Service@{H\-A\-Shade\-Service}!init@{init}}
+\index{init@{init}!HAShadeService@{H\-A\-Shade\-Service}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void H\-A\-Shade\-Service\-::init (
+\begin{DoxyParamCaption}
+\item[{int}]{number\-Of\-Shades}
+\end{DoxyParamCaption}
+)}}\label{classHAShadeService_aaf2aed9dc0d79a7dbfbfe6537e624e24}
+
+
+Called to start the actual service; advertises the service and establishes callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em number\-Of\-Shades} & used to size the number of shade states to track \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/homebot/\hyperlink{HAShadeService_8hpp}{H\-A\-Shade\-Service.\-hpp}\item 
+src/\hyperlink{HAShadeService_8cpp}{H\-A\-Shade\-Service.\-cpp}\end{DoxyCompactItemize}

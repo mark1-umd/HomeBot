@@ -1,0 +1,103 @@
+\hypertarget{classBotAffectHAShadeOpr}{\section{Bot\-Affect\-H\-A\-Shade\-Opr Class Reference}
+\label{classBotAffectHAShadeOpr}\index{Bot\-Affect\-H\-A\-Shade\-Opr@{Bot\-Affect\-H\-A\-Shade\-Opr}}
+}
+
+
+Provides a Home Automation \char`\"{}shade\char`\"{} operation (lower/raise); derived from \hyperlink{classBotOperation}{Bot\-Operation}.  
+
+
+
+
+{\ttfamily \#include $<$Bot\-Affect\-H\-A\-Shade\-Opr.\-hpp$>$}
+
+Inheritance diagram for Bot\-Affect\-H\-A\-Shade\-Opr\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classBotAffectHAShadeOpr}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classBotAffectHAShadeOpr_a84f68ccbc995adb8bcb8bb06c2c615ee}{{\bfseries Bot\-Affect\-H\-A\-Shade\-Opr} (const std\-::string p\-Code, const int p\-Shade\-Number, const int p\-Action)}\label{classBotAffectHAShadeOpr_a84f68ccbc995adb8bcb8bb06c2c615ee}
+
+\item 
+homebot\-::\-H\-A\-Shade\-::\-Request \hyperlink{classBotAffectHAShadeOpr_a45e3809806091e342492d66e8fade1a6}{details} ()
+\begin{DoxyCompactList}\small\item\em Proides access tooperation details for testing purposes. \end{DoxyCompactList}\item 
+bool \hyperlink{classBotAffectHAShadeOpr_af37862e410311c38fd41994c51138cf6}{is\-Executable} (const \hyperlink{classOperationParameters}{Operation\-Parameters} \&op\-Params)
+\begin{DoxyCompactList}\small\item\em Validates that an operation is within acceptable parameters. \end{DoxyCompactList}\item 
+bool \hyperlink{classBotAffectHAShadeOpr_aab37d71a095f66554ee9958057c71356}{execute} (\hyperlink{classBotOprClients}{Bot\-Opr\-Clients} \&clients)
+\begin{DoxyCompactList}\small\item\em Performs the behavior embedded in this operation (H\-A\-Scene lower/raises shades via the Home Automation system) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Provides a Home Automation \char`\"{}shade\char`\"{} operation (lower/raise); derived from \hyperlink{classBotOperation}{Bot\-Operation}. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classBotAffectHAShadeOpr_a45e3809806091e342492d66e8fade1a6}{\index{Bot\-Affect\-H\-A\-Shade\-Opr@{Bot\-Affect\-H\-A\-Shade\-Opr}!details@{details}}
+\index{details@{details}!BotAffectHAShadeOpr@{Bot\-Affect\-H\-A\-Shade\-Opr}}
+\subsubsection[{details}]{\setlength{\rightskip}{0pt plus 5cm}homebot\-::\-H\-A\-Shade\-::\-Request Bot\-Affect\-H\-A\-Shade\-Opr\-::details (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classBotAffectHAShadeOpr_a45e3809806091e342492d66e8fade1a6}
+
+
+Proides access tooperation details for testing purposes. 
+
+\begin{DoxyReturn}{Returns}
+request formated according to the R\-O\-S service definition for H\-A\-Shade 
+\end{DoxyReturn}
+\hypertarget{classBotAffectHAShadeOpr_aab37d71a095f66554ee9958057c71356}{\index{Bot\-Affect\-H\-A\-Shade\-Opr@{Bot\-Affect\-H\-A\-Shade\-Opr}!execute@{execute}}
+\index{execute@{execute}!BotAffectHAShadeOpr@{Bot\-Affect\-H\-A\-Shade\-Opr}}
+\subsubsection[{execute}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Affect\-H\-A\-Shade\-Opr\-::execute (
+\begin{DoxyParamCaption}
+\item[{{\bf Bot\-Opr\-Clients} \&}]{clients}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classBotAffectHAShadeOpr_aab37d71a095f66554ee9958057c71356}
+
+
+Performs the behavior embedded in this operation (H\-A\-Scene lower/raises shades via the Home Automation system) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em clients} & object containing the action/service clients used by Bot\-Operations to carry out their function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool indicating whether the operation executed successfully 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classBotOperation_ae1e806e3c0044dc0177e73a7d05711ba}{Bot\-Operation}.
+
+\hypertarget{classBotAffectHAShadeOpr_af37862e410311c38fd41994c51138cf6}{\index{Bot\-Affect\-H\-A\-Shade\-Opr@{Bot\-Affect\-H\-A\-Shade\-Opr}!is\-Executable@{is\-Executable}}
+\index{is\-Executable@{is\-Executable}!BotAffectHAShadeOpr@{Bot\-Affect\-H\-A\-Shade\-Opr}}
+\subsubsection[{is\-Executable}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Affect\-H\-A\-Shade\-Opr\-::is\-Executable (
+\begin{DoxyParamCaption}
+\item[{const {\bf Operation\-Parameters} \&}]{op\-Params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classBotAffectHAShadeOpr_af37862e410311c38fd41994c51138cf6}
+
+
+Validates that an operation is within acceptable parameters. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em op\-Params} & provides operational parameters for the system used to verify this operation can execute \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool value indicating whether this operation can execute within the current Home\-Bot system 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classBotOperation_a0ed080d4c88b9ee0422666de169fb4a6}{Bot\-Operation}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/homebot/Bot\-Affect\-H\-A\-Shade\-Opr.\-hpp\item 
+src/Bot\-Affect\-H\-A\-Shade\-Opr.\-cpp\end{DoxyCompactItemize}

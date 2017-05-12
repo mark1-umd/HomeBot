@@ -1,0 +1,130 @@
+\hypertarget{classBotBehavior}{\section{Bot\-Behavior Class Reference}
+\label{classBotBehavior}\index{Bot\-Behavior@{Bot\-Behavior}}
+}
+
+
+Collection of operations used to perform a behavior.  
+
+
+
+
+{\ttfamily \#include $<$Bot\-Behavior.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classBotBehavior_a07b5a5aa8e4318002515477f1d1405c5}{{\bfseries Bot\-Behavior} (const std\-::string p\-Name, const \hyperlink{classOperationParameters}{Operation\-Parameters} \&p\-Op\-Params)}\label{classBotBehavior_a07b5a5aa8e4318002515477f1d1405c5}
+
+\item 
+std\-::string \hyperlink{classBotBehavior_a7a79661c4afeab6fee0388fe84c6c45a}{get\-Name} ()
+\begin{DoxyCompactList}\small\item\em Provides access to the behavior's name. \end{DoxyCompactList}\item 
+bool \hyperlink{classBotBehavior_a2814c74acdbb8e527b24d67de90d393d}{insert} (const std\-::string text\-Phased\-Opr)
+\begin{DoxyCompactList}\small\item\em Adds an executable (transformed) operation to a phase of a behavior (phases are prelim(inary), main, and post) \end{DoxyCompactList}\item 
+bool \hyperlink{classBotBehavior_aebab943aa7ebb3a8ea540d8eccf929e3}{perform\-Prelim} (\hyperlink{classBotOprClients}{Bot\-Opr\-Clients} \&opr\-Clients)
+\begin{DoxyCompactList}\small\item\em Execute the operations in the preliminary phase of this behavior. \end{DoxyCompactList}\item 
+bool \hyperlink{classBotBehavior_add170f17aa5aa70014bb5dd23d1f0f50}{perform\-Main} (\hyperlink{classBotOprClients}{Bot\-Opr\-Clients} \&opr\-Clients)
+\begin{DoxyCompactList}\small\item\em Execute the operations in the main phase of this behavior. \end{DoxyCompactList}\item 
+bool \hyperlink{classBotBehavior_a6326a763ff29158e41201b2957004b9b}{perform\-Post} (\hyperlink{classBotOprClients}{Bot\-Opr\-Clients} \&opr\-Clients)
+\begin{DoxyCompactList}\small\item\em Execute the operations in the post phase of this behavior. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Collection of operations used to perform a behavior. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classBotBehavior_a7a79661c4afeab6fee0388fe84c6c45a}{\index{Bot\-Behavior@{Bot\-Behavior}!get\-Name@{get\-Name}}
+\index{get\-Name@{get\-Name}!BotBehavior@{Bot\-Behavior}}
+\subsubsection[{get\-Name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Bot\-Behavior\-::get\-Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classBotBehavior_a7a79661c4afeab6fee0388fe84c6c45a}
+
+
+Provides access to the behavior's name. 
+
+\begin{DoxyReturn}{Returns}
+string representing the behavior's name 
+\end{DoxyReturn}
+\hypertarget{classBotBehavior_a2814c74acdbb8e527b24d67de90d393d}{\index{Bot\-Behavior@{Bot\-Behavior}!insert@{insert}}
+\index{insert@{insert}!BotBehavior@{Bot\-Behavior}}
+\subsubsection[{insert}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Behavior\-::insert (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{text\-Phased\-Opr}
+\end{DoxyParamCaption}
+)}}\label{classBotBehavior_a2814c74acdbb8e527b24d67de90d393d}
+
+
+Adds an executable (transformed) operation to a phase of a behavior (phases are prelim(inary), main, and post) 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em text\-Phased\-Opr} & containing an operation phase and an operation code and details \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool indicating whether the operation was inserted successfully 
+\end{DoxyReturn}
+\hypertarget{classBotBehavior_add170f17aa5aa70014bb5dd23d1f0f50}{\index{Bot\-Behavior@{Bot\-Behavior}!perform\-Main@{perform\-Main}}
+\index{perform\-Main@{perform\-Main}!BotBehavior@{Bot\-Behavior}}
+\subsubsection[{perform\-Main}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Behavior\-::perform\-Main (
+\begin{DoxyParamCaption}
+\item[{{\bf Bot\-Opr\-Clients} \&}]{opr\-Clients}
+\end{DoxyParamCaption}
+)}}\label{classBotBehavior_add170f17aa5aa70014bb5dd23d1f0f50}
+
+
+Execute the operations in the main phase of this behavior. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em opr\-Clients} & object containing the action/service clients used by Bot\-Operations to carry out their function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool indicating whether the phase completed successfully 
+\end{DoxyReturn}
+\hypertarget{classBotBehavior_a6326a763ff29158e41201b2957004b9b}{\index{Bot\-Behavior@{Bot\-Behavior}!perform\-Post@{perform\-Post}}
+\index{perform\-Post@{perform\-Post}!BotBehavior@{Bot\-Behavior}}
+\subsubsection[{perform\-Post}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Behavior\-::perform\-Post (
+\begin{DoxyParamCaption}
+\item[{{\bf Bot\-Opr\-Clients} \&}]{opr\-Clients}
+\end{DoxyParamCaption}
+)}}\label{classBotBehavior_a6326a763ff29158e41201b2957004b9b}
+
+
+Execute the operations in the post phase of this behavior. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em opr\-Clients} & object containing the action/service clients used by Bot\-Operations to carry out their function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool indicating whether the phase completed successfully 
+\end{DoxyReturn}
+\hypertarget{classBotBehavior_aebab943aa7ebb3a8ea540d8eccf929e3}{\index{Bot\-Behavior@{Bot\-Behavior}!perform\-Prelim@{perform\-Prelim}}
+\index{perform\-Prelim@{perform\-Prelim}!BotBehavior@{Bot\-Behavior}}
+\subsubsection[{perform\-Prelim}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Behavior\-::perform\-Prelim (
+\begin{DoxyParamCaption}
+\item[{{\bf Bot\-Opr\-Clients} \&}]{opr\-Clients}
+\end{DoxyParamCaption}
+)}}\label{classBotBehavior_aebab943aa7ebb3a8ea540d8eccf929e3}
+
+
+Execute the operations in the preliminary phase of this behavior. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em opr\-Clients} & object containing the action/service clients used by Bot\-Operations to carry out their function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool indicating whether the phase completed successfully 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/homebot/\hyperlink{BotBehavior_8hpp}{Bot\-Behavior.\-hpp}\item 
+src/\hyperlink{BotBehavior_8cpp}{Bot\-Behavior.\-cpp}\end{DoxyCompactItemize}

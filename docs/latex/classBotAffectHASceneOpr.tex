@@ -1,0 +1,103 @@
+\hypertarget{classBotAffectHASceneOpr}{\section{Bot\-Affect\-H\-A\-Scene\-Opr Class Reference}
+\label{classBotAffectHASceneOpr}\index{Bot\-Affect\-H\-A\-Scene\-Opr@{Bot\-Affect\-H\-A\-Scene\-Opr}}
+}
+
+
+Provides a home Automation \char`\"{}scene\char`\"{} (lighting) operation (turnon/turnoff); derived from \hyperlink{classBotOperation}{Bot\-Operation}.  
+
+
+
+
+{\ttfamily \#include $<$Bot\-Affect\-H\-A\-Scene\-Opr.\-hpp$>$}
+
+Inheritance diagram for Bot\-Affect\-H\-A\-Scene\-Opr\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classBotAffectHASceneOpr}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classBotAffectHASceneOpr_a7b924f64c28de823aae0591ac9b0d6ff}{{\bfseries Bot\-Affect\-H\-A\-Scene\-Opr} (const std\-::string p\-Code, const int p\-Scene\-Number, const int p\-Action)}\label{classBotAffectHASceneOpr_a7b924f64c28de823aae0591ac9b0d6ff}
+
+\item 
+homebot\-::\-H\-A\-Scene\-::\-Request \hyperlink{classBotAffectHASceneOpr_a78d554b4969e6d1f64cd5b812662153b}{details} ()
+\begin{DoxyCompactList}\small\item\em Provides access to operation details for testing purposes. \end{DoxyCompactList}\item 
+bool \hyperlink{classBotAffectHASceneOpr_ada2804cb3287adacbfe0c1d5015842c8}{is\-Executable} (const \hyperlink{classOperationParameters}{Operation\-Parameters} \&op\-Params)
+\begin{DoxyCompactList}\small\item\em Validates that an operation is within acceptable parameters. \end{DoxyCompactList}\item 
+bool \hyperlink{classBotAffectHASceneOpr_a1ea965477504ea6a7e3d7c89ced15b3b}{execute} (\hyperlink{classBotOprClients}{Bot\-Opr\-Clients} \&clients)
+\begin{DoxyCompactList}\small\item\em Performs the behavior embedded in this operation (H\-A\-Scene turnon/turnoff via the Home Automation system. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Provides a home Automation \char`\"{}scene\char`\"{} (lighting) operation (turnon/turnoff); derived from \hyperlink{classBotOperation}{Bot\-Operation}. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classBotAffectHASceneOpr_a78d554b4969e6d1f64cd5b812662153b}{\index{Bot\-Affect\-H\-A\-Scene\-Opr@{Bot\-Affect\-H\-A\-Scene\-Opr}!details@{details}}
+\index{details@{details}!BotAffectHASceneOpr@{Bot\-Affect\-H\-A\-Scene\-Opr}}
+\subsubsection[{details}]{\setlength{\rightskip}{0pt plus 5cm}homebot\-::\-H\-A\-Scene\-::\-Request Bot\-Affect\-H\-A\-Scene\-Opr\-::details (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classBotAffectHASceneOpr_a78d554b4969e6d1f64cd5b812662153b}
+
+
+Provides access to operation details for testing purposes. 
+
+\begin{DoxyReturn}{Returns}
+request formatted according to the R\-O\-S service definition for H\-A\-Scene 
+\end{DoxyReturn}
+\hypertarget{classBotAffectHASceneOpr_a1ea965477504ea6a7e3d7c89ced15b3b}{\index{Bot\-Affect\-H\-A\-Scene\-Opr@{Bot\-Affect\-H\-A\-Scene\-Opr}!execute@{execute}}
+\index{execute@{execute}!BotAffectHASceneOpr@{Bot\-Affect\-H\-A\-Scene\-Opr}}
+\subsubsection[{execute}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Affect\-H\-A\-Scene\-Opr\-::execute (
+\begin{DoxyParamCaption}
+\item[{{\bf Bot\-Opr\-Clients} \&}]{clients}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classBotAffectHASceneOpr_a1ea965477504ea6a7e3d7c89ced15b3b}
+
+
+Performs the behavior embedded in this operation (H\-A\-Scene turnon/turnoff via the Home Automation system. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em clients} & object containing the action/service clients used by Bot\-Operations to carry out their functions \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool indicating whetherthe operation executed successfully 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classBotOperation_ae1e806e3c0044dc0177e73a7d05711ba}{Bot\-Operation}.
+
+\hypertarget{classBotAffectHASceneOpr_ada2804cb3287adacbfe0c1d5015842c8}{\index{Bot\-Affect\-H\-A\-Scene\-Opr@{Bot\-Affect\-H\-A\-Scene\-Opr}!is\-Executable@{is\-Executable}}
+\index{is\-Executable@{is\-Executable}!BotAffectHASceneOpr@{Bot\-Affect\-H\-A\-Scene\-Opr}}
+\subsubsection[{is\-Executable}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Affect\-H\-A\-Scene\-Opr\-::is\-Executable (
+\begin{DoxyParamCaption}
+\item[{const {\bf Operation\-Parameters} \&}]{op\-Params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classBotAffectHASceneOpr_ada2804cb3287adacbfe0c1d5015842c8}
+
+
+Validates that an operation is within acceptable parameters. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em op\-Params} & provides oprational parameters for the system used to verify this operation can execute \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool value indicating whether this operation can execute within the current Home\-Bot system 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classBotOperation_a0ed080d4c88b9ee0422666de169fb4a6}{Bot\-Operation}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/homebot/\hyperlink{BotAffectHASceneOpr_8hpp}{Bot\-Affect\-H\-A\-Scene\-Opr.\-hpp}\item 
+src/Bot\-Affect\-H\-A\-Scene\-Opr.\-cpp\end{DoxyCompactItemize}

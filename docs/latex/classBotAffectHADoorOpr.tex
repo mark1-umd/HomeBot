@@ -1,0 +1,103 @@
+\hypertarget{classBotAffectHADoorOpr}{\section{Bot\-Affect\-H\-A\-Door\-Opr Class Reference}
+\label{classBotAffectHADoorOpr}\index{Bot\-Affect\-H\-A\-Door\-Opr@{Bot\-Affect\-H\-A\-Door\-Opr}}
+}
+
+
+Provides a Home Automation \char`\"{}door\char`\"{} operation (open/close); derived from \hyperlink{classBotOperation}{Bot\-Operation}.  
+
+
+
+
+{\ttfamily \#include $<$Bot\-Affect\-H\-A\-Door\-Opr.\-hpp$>$}
+
+Inheritance diagram for Bot\-Affect\-H\-A\-Door\-Opr\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classBotAffectHADoorOpr}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classBotAffectHADoorOpr_aaf986c676dad29e1c151df36e42f3fc3}{{\bfseries Bot\-Affect\-H\-A\-Door\-Opr} (const std\-::string p\-Code, const int p\-Door\-Number, const int p\-Action)}\label{classBotAffectHADoorOpr_aaf986c676dad29e1c151df36e42f3fc3}
+
+\item 
+homebot\-::\-H\-A\-Door\-::\-Request \hyperlink{classBotAffectHADoorOpr_a25eed68370708f33963cb962b8e23580}{details} ()
+\begin{DoxyCompactList}\small\item\em Provides access to operation details for testing purposes. \end{DoxyCompactList}\item 
+bool \hyperlink{classBotAffectHADoorOpr_a6a82af8cbb0f8c48abbc04dc3f63811b}{is\-Executable} (const \hyperlink{classOperationParameters}{Operation\-Parameters} \&op\-Params)
+\begin{DoxyCompactList}\small\item\em Validates that an operation is within acceptable parameters. \end{DoxyCompactList}\item 
+bool \hyperlink{classBotAffectHADoorOpr_ae6ea9d64ffdb7f2c5622500109a545b7}{execute} (\hyperlink{classBotOprClients}{Bot\-Opr\-Clients} \&clients)
+\begin{DoxyCompactList}\small\item\em Performs the behavior embedded in this operation (H\-A\-Door opens/closes doors via the Home Automation system) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Provides a Home Automation \char`\"{}door\char`\"{} operation (open/close); derived from \hyperlink{classBotOperation}{Bot\-Operation}. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classBotAffectHADoorOpr_a25eed68370708f33963cb962b8e23580}{\index{Bot\-Affect\-H\-A\-Door\-Opr@{Bot\-Affect\-H\-A\-Door\-Opr}!details@{details}}
+\index{details@{details}!BotAffectHADoorOpr@{Bot\-Affect\-H\-A\-Door\-Opr}}
+\subsubsection[{details}]{\setlength{\rightskip}{0pt plus 5cm}homebot\-::\-H\-A\-Door\-::\-Request Bot\-Affect\-H\-A\-Door\-Opr\-::details (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classBotAffectHADoorOpr_a25eed68370708f33963cb962b8e23580}
+
+
+Provides access to operation details for testing purposes. 
+
+\begin{DoxyReturn}{Returns}
+request formatted according to the R\-O\-S service definition for H\-A\-Door 
+\end{DoxyReturn}
+\hypertarget{classBotAffectHADoorOpr_ae6ea9d64ffdb7f2c5622500109a545b7}{\index{Bot\-Affect\-H\-A\-Door\-Opr@{Bot\-Affect\-H\-A\-Door\-Opr}!execute@{execute}}
+\index{execute@{execute}!BotAffectHADoorOpr@{Bot\-Affect\-H\-A\-Door\-Opr}}
+\subsubsection[{execute}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Affect\-H\-A\-Door\-Opr\-::execute (
+\begin{DoxyParamCaption}
+\item[{{\bf Bot\-Opr\-Clients} \&}]{clients}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classBotAffectHADoorOpr_ae6ea9d64ffdb7f2c5622500109a545b7}
+
+
+Performs the behavior embedded in this operation (H\-A\-Door opens/closes doors via the Home Automation system) 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em clients} & object containing the action/service clients used by Bot\-Operations to carry out their function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool indicating whether the operation executed successfully 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classBotOperation_ae1e806e3c0044dc0177e73a7d05711ba}{Bot\-Operation}.
+
+\hypertarget{classBotAffectHADoorOpr_a6a82af8cbb0f8c48abbc04dc3f63811b}{\index{Bot\-Affect\-H\-A\-Door\-Opr@{Bot\-Affect\-H\-A\-Door\-Opr}!is\-Executable@{is\-Executable}}
+\index{is\-Executable@{is\-Executable}!BotAffectHADoorOpr@{Bot\-Affect\-H\-A\-Door\-Opr}}
+\subsubsection[{is\-Executable}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Affect\-H\-A\-Door\-Opr\-::is\-Executable (
+\begin{DoxyParamCaption}
+\item[{const {\bf Operation\-Parameters} \&}]{op\-Params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classBotAffectHADoorOpr_a6a82af8cbb0f8c48abbc04dc3f63811b}
+
+
+Validates that an operation is within acceptable parameters. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em op\-Params} & provides operational parameters for the system used to verify this operation can execute \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool value indicating whether this operation can execute within the current Home\-Bot system 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classBotOperation_a0ed080d4c88b9ee0422666de169fb4a6}{Bot\-Operation}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/homebot/\hyperlink{BotAffectHADoorOpr_8hpp}{Bot\-Affect\-H\-A\-Door\-Opr.\-hpp}\item 
+src/\hyperlink{BotAffectHADoorOpr_8cpp}{Bot\-Affect\-H\-A\-Door\-Opr.\-cpp}\end{DoxyCompactItemize}

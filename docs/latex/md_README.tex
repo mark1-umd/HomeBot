@@ -1,0 +1,192 @@
+\subsection*{Overview}
+
+The Home\-Bot family of home automation robots is a product line concept for A\-C\-M\-E robots. The Home\-Bot system integrates best-\/of-\/breed individual robotic capabilities with each other, home automation systems, and humans. Rather than trying to make a single robot with a too-\/versatile set of capabilities, elevating its cost and complexity, the Home\-Bot system uses best-\/of-\/breed robotic systems working together and in conjunction with household systems managed by home automation to manage domestic environments from small to large.
+
+The Home\-Bot system can include products such as\-:
+
+
+\begin{DoxyItemize}
+\item Buttle\-Bot – automated butler services (answers the door, greets guests, provides tele-\/presence, takes packages, delivers objects from room to room, and more)
+\item Trash\-Bot – takes the trash out and down to the road for pickup by city services
+\item Lawn\-Bot – keeps lawns looking fresh cut
+\item Watch\-Bot – patrols estate perimeters day and night from the ground or (future product) from the air
+\end{DoxyItemize}
+
+The key to the Home\-Bot system is a R\-O\-S node that can interface one or more Home\-Bot robotic products with a home automation system, allowing them to interact bi-\/directionally; the robots can make requests of and send notifications to the home automation system, and the home automation system can make requests of and send notifications to the robotic systems. These communications take place through the R\-O\-S Actionlib, a non-\/blocking service interface well-\/suited for this type of integration.
+
+
+\begin{DoxyItemize}
+\item S\-I\-P process metrics required for my final project development period (limited access)\-: \href{https://docs.google.com/spreadsheets/d/1AOjCXkzn5bVNjql5yxMNhNj-ozG26R38qnCTTYffQp0/edit?usp=sharing}{\tt https\-://docs.\-google.\-com/spreadsheets/d/1\-A\-Oj\-C\-Xkzn5b\-V\-Njql5yx\-M\-Nh\-Nj-\/oz\-G26\-R38qn\-C\-T\-T\-Yff\-Qp0/edit?usp=sharing}
+\item S\-I\-P process planning/review notes required for my final project development period (limited access)\-: \href{https://docs.google.com/document/d/1ytfDb1QFfRs0qY4guM0NiX4fi4OJUcFbAuXwF2xlH6Q/edit?usp=sharing}{\tt https\-://docs.\-google.\-com/document/d/1ytf\-Db1\-Q\-Ff\-Rs0q\-Y4gu\-M0\-Ni\-X4fi4\-O\-J\-Uc\-Fb\-Au\-Xw\-F2xl\-H6\-Q/edit?usp=sharing}
+\end{DoxyItemize}
+
+\subsection*{License}
+
+B\-S\-D 3-\/\-Clause License
+
+Copyright (c) 2017, Mark Jenkins All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met\-:
+
+
+\begin{DoxyItemize}
+\item Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+\item Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+\item Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+\end{DoxyItemize}
+
+T\-H\-I\-S S\-O\-F\-T\-W\-A\-R\-E I\-S P\-R\-O\-V\-I\-D\-E\-D B\-Y T\-H\-E C\-O\-P\-Y\-R\-I\-G\-H\-T H\-O\-L\-D\-E\-R\-S A\-N\-D C\-O\-N\-T\-R\-I\-B\-U\-T\-O\-R\-S \char`\"{}\-A\-S I\-S\char`\"{} A\-N\-D A\-N\-Y E\-X\-P\-R\-E\-S\-S O\-R I\-M\-P\-L\-I\-E\-D W\-A\-R\-R\-A\-N\-T\-I\-E\-S, I\-N\-C\-L\-U\-D\-I\-N\-G, B\-U\-T N\-O\-T L\-I\-M\-I\-T\-E\-D T\-O, T\-H\-E I\-M\-P\-L\-I\-E\-D W\-A\-R\-R\-A\-N\-T\-I\-E\-S O\-F M\-E\-R\-C\-H\-A\-N\-T\-A\-B\-I\-L\-I\-T\-Y A\-N\-D F\-I\-T\-N\-E\-S\-S F\-O\-R A P\-A\-R\-T\-I\-C\-U\-L\-A\-R P\-U\-R\-P\-O\-S\-E A\-R\-E D\-I\-S\-C\-L\-A\-I\-M\-E\-D. I\-N N\-O E\-V\-E\-N\-T S\-H\-A\-L\-L T\-H\-E C\-O\-P\-Y\-R\-I\-G\-H\-T H\-O\-L\-D\-E\-R O\-R C\-O\-N\-T\-R\-I\-B\-U\-T\-O\-R\-S B\-E L\-I\-A\-B\-L\-E F\-O\-R A\-N\-Y D\-I\-R\-E\-C\-T, I\-N\-D\-I\-R\-E\-C\-T, I\-N\-C\-I\-D\-E\-N\-T\-A\-L, S\-P\-E\-C\-I\-A\-L, E\-X\-E\-M\-P\-L\-A\-R\-Y, O\-R C\-O\-N\-S\-E\-Q\-U\-E\-N\-T\-I\-A\-L D\-A\-M\-A\-G\-E\-S (I\-N\-C\-L\-U\-D\-I\-N\-G, B\-U\-T N\-O\-T L\-I\-M\-I\-T\-E\-D T\-O, P\-R\-O\-C\-U\-R\-E\-M\-E\-N\-T O\-F S\-U\-B\-S\-T\-I\-T\-U\-T\-E G\-O\-O\-D\-S O\-R S\-E\-R\-V\-I\-C\-E\-S; L\-O\-S\-S O\-F U\-S\-E, D\-A\-T\-A, O\-R P\-R\-O\-F\-I\-T\-S; O\-R B\-U\-S\-I\-N\-E\-S\-S I\-N\-T\-E\-R\-R\-U\-P\-T\-I\-O\-N) H\-O\-W\-E\-V\-E\-R C\-A\-U\-S\-E\-D A\-N\-D O\-N A\-N\-Y T\-H\-E\-O\-R\-Y O\-F L\-I\-A\-B\-I\-L\-I\-T\-Y, W\-H\-E\-T\-H\-E\-R I\-N C\-O\-N\-T\-R\-A\-C\-T, S\-T\-R\-I\-C\-T L\-I\-A\-B\-I\-L\-I\-T\-Y, O\-R T\-O\-R\-T (I\-N\-C\-L\-U\-D\-I\-N\-G N\-E\-G\-L\-I\-G\-E\-N\-C\-E O\-R O\-T\-H\-E\-R\-W\-I\-S\-E) A\-R\-I\-S\-I\-N\-G I\-N A\-N\-Y W\-A\-Y O\-U\-T O\-F T\-H\-E U\-S\-E O\-F T\-H\-I\-S S\-O\-F\-T\-W\-A\-R\-E, E\-V\-E\-N I\-F A\-D\-V\-I\-S\-E\-D O\-F T\-H\-E P\-O\-S\-S\-I\-B\-I\-L\-I\-T\-Y O\-F S\-U\-C\-H D\-A\-M\-A\-G\-E.
+
+\subsection*{Technology}
+
+
+\begin{DoxyItemize}
+\item Ubuntu Linux 14.\-04 as a Virtual\-Box guest O/\-S on a mac\-O\-S 10.\-12 host O/\-S as the development platform
+\item git version control system with Git\-Hub as a centralized repo host
+\item The Robot Operating System (R\-O\-S) version Indigo Igloo
+\item \mbox{[}future\mbox{]} Gazebo 3\-D rigid body simulator integrated with R\-O\-S
+\item \mbox{[}future\mbox{]} Turtlebot simulation stack for Indigo Igloo
+\item C++ language using the gcc compiler with C++11/14 syntax and extensions
+\item cmake build system
+\item googletest testing
+\item \mbox{[}future\mbox{]} Travis Continual Integration
+\item \mbox{[}future\mbox{]} Coveralls coverage monitoring (in development)
+\end{DoxyItemize}
+
+\subsection*{Dependencies}
+
+At this stage of development, Home\-Bot depends on standard R\-O\-S components, including\-:
+\begin{DoxyItemize}
+\item roscpp
+\item actionlib
+\item std\-\_\-msgs
+\item geometry\-\_\-msgs
+\item move\-\_\-base\-\_\-msgs
+\item message\-\_\-generation
+\end{DoxyItemize}
+
+In the future, integration with the Turtlebot Gazebo simulation environment is envisioned as a way to visualize and demonstrate Home\-Bot service robot behaviors.
+
+\subsection*{Status}
+
+Home\-Bot has been developed to the point where it is a technology demonstration that shows what could be possible as an integration between Home Automation systems and service robots. Integration with an actual Home Automation system, and with physical robots acting in the real world, is a future effort.
+
+\subsection*{Prerequisites}
+
+This R\-O\-S package has been built and tested for the Indigo-\/\-Igloo release of R\-O\-S. In order to build and use it, you will need to have R\-O\-S Indigo-\/\-Igloo installed on your system, along with the R\-O\-S dependencies identified in the package.\-xml manifest file (roscpp, rospy, std\-\_\-msgs, message\-\_\-generation, actionlib). The instructions in this R\-E\-A\-D\-M\-E.\-md file assume that you are familiar with R\-O\-S and the R\-O\-S catkin build system.
+
+To add the Turtlebot simulation stack to your R\-O\-S Indigo Igloo environment under Ubuntu 14.\-04\-:
+
+
+\begin{DoxyItemize}
+\item \$ sudo apt-\/get install ros-\/indigo-\/turtlebot-\/gazebo ros-\/indigo-\/turtlebot-\/apps ros-\/indogo-\/turtlebot-\/rviz-\/launchers
+\end{DoxyItemize}
+
+\subsection*{Import Home\-Bot into your R\-O\-S catkin workspace}
+
+To import the project into your catkin workspace, clone or download it into the src subdirectory of your catkin workspace directory. Once this package is part of your catkin workspace, it will build along with any other packages you have in that workspace using the \char`\"{}catkin\-\_\-make\char`\"{} command executed at the top-\/level directory of your catkin workspace.
+
+\subsection*{Major Components}
+
+This demonstration system is heavily-\/based on R\-O\-S in its current form. R\-O\-S communications (services and the action protocol, which are themselves based on R\-O\-S publish/subscribe messaging) form the heart of the system. Custom services and actions are defined (see the srv and action sub-\/directories) for Home\-Bot use, in addition to using standard and commonly available message types (such as the move\-\_\-base\-\_\-msgs). A new type of subdirectory and file is added to this R\-O\-S package\-: the repertoire subdirectory, which contains the .rpt files that express behaviors as a series of operations within the Home\-Bot system.
+
+In addition to R\-O\-S, the major components of the system are described below.
+
+\subsubsection*{H\-A\-Request\-Server}
+
+The H\-A\-Request\-Server provides a way for R\-O\-S nodes to request services from a Home Automation system. Integration capabilities currently demonstrated are include opening/closing doors, turning lighting scenes on/off, and and lowering/raising window shades.
+
+\subsubsection*{H\-A\-H\-V\-A\-C Action Server}
+
+The H\-A H\-V\-A\-C Action server shows how a goal-\/oriented Home Automation capability (setting heat/cool modes with desired temperatures) can be integrated into the R\-O\-S system. None of the currently demonstrated behaviors take advantage of this capability. It is more likely that it would be exercised by an indepedent routing operating on a service robot, such as the Buttle\-Bot, which might use it if a room it was monitoring grew too cold or too warm and it was programmed to adjust the whole house temperature accordingly.
+
+\subsubsection*{Home\-Bot\-\_\-\-Node}
+
+The Home\-Bot Node is the behavior action server for the Home\-Bot service robots. When fully developed, an individual Home\-Bot\-\_\-\-Node will be present in the Home\-Bot system for each Home\-Bot service robot. The behavior action server loads a Repertoire of custom behaviors for each service robot, then exposes the behaviors through a R\-O\-S action server. A Home Automation system, interfacing with the Home\-Bot system through a H\-A\-Bot\-Behavior\-Client, can signal Home\-Bot service robots to perform behaviors either on schedule (such as taking trash out to the curb for pickup), or in response to sensors that the Home Automation system manages (such as a doorbell being pressed by a visitor causing a Buttle\-Bot to answer the door, or a disturbance in the yard causing a Watch\-Bot to perform a perimeter patrol.
+
+The Home\-Bot\-\_\-\-Node represents the major technology implementation in the demonstration package. It creates a Home\-Bot operation instruction capability. The operations are grouped together to form behaviors. Behaviors are grouped together to form a repertoire for each service robot. The behaviors are stored in a file, then loaded into working memory as a repertoire when the Home\-Bot\-\_\-\-Node for a service robot is started up. Once the service and action clients have been started on the Home\-Bot\-\_\-\-Node, and the repertoire of behavior has been loaded, the Home\-Bot\-\_\-\-Node exposes the interface to its repertoire of behaviors through a custom action protocol that expresses a behavior as a goal, with a requested number of repetitions of the behavior to be performed. Once a requester has initiated a behavior in this manner, the Home\-Bot\-\_\-\-Node executes the operation instructions in sequence to perform the behavior.
+
+\subsubsection*{H\-A\-Bot\-Behavior\-Client}
+
+The H\-A\-Bot\-Behavior\-Client integrates a Home Automation system into the Home\-Bot system by providing a pathway for behaviors requested by the Home Automation system to be activated (as a R\-O\-S action protocol goal) on a particular Home\-Bot service robot. Once the behaviors are activated on a Home\-Bot\-\_\-\-Node belonging to a particular service robot, the behaviors may act both on the robot (such as move\-\_\-base goals that direct the robot to different locations), or back on the Home Automation system (allowing a behavior to perform tasks such as opening doors, turning lights on and off, or raising/lowering shades). It is this last capability that reduces the need for a highly-\/capable robot mechanism capable of operating in the human world. The Home\-Bot service robots actuate things through the Home Automation system when necessary, instead of having local manipulators capable of interacting with the wide variety of human to touch interfaces.
+
+\subsubsection*{Fake\-Move\-Base\-Server}
+
+The Fake\-Move\-Base\-Server is a stop-\/gap measure created to work around a limitation of using Gazebo/\-Turtlebot on my development R\-O\-S V\-M. Transform publishing did not work properly, so navigation of the simulated Turtlebot was not possible. Fake\-Move\-Base\-Server provides a \char`\"{}move\-\_\-base\char`\"{} action server that crudely represents what the real move\-\_\-base action server provides with an actual navigation system. It accepts full Pose goals, but only uses the (X,Y) component. It initializes at location (0,0), then tracks/maintains state of its location as it is directed to different locations using move\-\_\-base goals. It simulates a physical robot moving at 1 meter/second (can be changed in the source code), providing position feedback at 10 Hz from when a goal is requested to when the goal is reached.
+
+\subsection*{Demonstrations}
+
+Two demonstrations are currently provided, with three different example ways of how to launch them\-:
+
+
+\begin{DoxyItemize}
+\item Home\-Bot\-\_\-\-System\-\_\-\-Buttle\-Bot.\-launch\-: starts up a Home\-Bot system using a Buttle\-Bot repertoire for the Home\-Bot Node.
+\item Home\-Bot\-\_\-\-System\-\_\-\-Watch\-Bot.\-launch\-: starts up a Home\-Bot system using a Watch\-Bot repertoire for the Home\-Bot\-\_\-\-Node.
+\item Home\-Bot\-\_\-\-System\-\_\-uni.\-launch Bot\-Type\-:=Watch\-Bot (or Buttle\-Bot) -\/ starts up the requested Home\-Bot system as above; this launch file is included in the Home\-Bot\-\_\-\-System\-\_\-multi.\-launch capability (below) with a different Bot\-Type argument for each Home\-Bot to be launched simultaneously.
+\item roslaunch homebot Home\-Bot\-\_\-\-System\-\_\-multi.\-launch\-: starts up a Home\-Bot system with all available homebots, each in their own namespace; remapping ensures that the Home\-Bots can still reach the H\-A\-Request\-Server services \char`\"{}/ha\-\_\-door\char`\"{}, \char`\"{}/ha\-\_\-scene\char`\"{}, and \char`\"{}/ha\-\_\-shade\char`\"{}
+\end{DoxyItemize}
+
+Once a Home\-Bot system exists, the Bot in that system can be asked to perform behaviors using the R\-O\-S service \char`\"{}/ha\-\_\-demo\char`\"{}, such as\-:
+
+
+\begin{DoxyItemize}
+\item rosservice call /ha\-\_\-demo \char`\"{}\-Patrol\-C\-W\char`\"{} 3 (tells a Watch\-Bot to perform the Patrol\-C\-W behavior 3 times)
+\item rosservice call /ha\-\_\-demo \char`\"{}\-Patrol\-C\-C\-W\char`\"{} 2 (tells Watch\-Bot to Patrol\-C\-C\-W 2 times)
+\item rosservice call /ha\-\_\-demo \char`\"{}\-Answer\-Front\-Door\char`\"{} 1 (tells Buttle\-Bot to answer the front door)
+\item rosservice call /ha\-\_\-demo \char`\"{}\-Close\-For\-Night\char`\"{} 1 (tells Buttle\-Bot to close down the house for the night)
+\end{DoxyItemize}
+
+If the Home\-Bot\-\_\-\-System\-\_\-multi.\-launch launch file has been used to launch multiple Home\-Bots simultaneously, the rosservice call must be modified to include the namespace of the robot being tasked\-:
+
+-\/rosservice call /\-Watch\-Bot/ha\-\_\-demo \char`\"{}\-Patrol\-C\-W\char`\"{} 2 -\/rosservice call /\-Buttle\-Bot/ha\-\_\-demo \char`\"{}\-Answer\-Front\-Door\char`\"{} 1
+
+Behaviors can be added to each Robot type by editing the repertoire (.rpt) file found in the repertoire subdirectory of the homebot package. New Home\-Bot types can be added by creating the name and a repertoire file to go along with it; for these the Home\-Bot\-\_\-\-System\-\_\-uni.\-launch file makes it easy to invoke them without creating a new .launch file specific to the service robot type. Note that the Home\-Bot\-\_\-\-System\-\_\-multi.\-launch file must be edited to add each new robot type.
+
+The operations available for defining behaviors are currently limited to the following\-:
+
+
+\begin{DoxyItemize}
+\item H\-A\-Door number action (0=close, 1=open)
+\item H\-A\-Scene number action (0=turnoff, 1=turnon)
+\item H\-A\-Shade number action (0=raise, 1=lower)
+\item Bot\-Move\-Base frame\-\_\-id pos\-X pos\-Y pos\-Z orient\-X orient\-Y orient\-Z orient\-W (Quaternions, only pos\-X and Pos\-Y are current used in Fake\-Move\-Base, but all can be defined in the behavior)
+\end{DoxyItemize}
+
+Creating new operation codes currently requires creating a new C++ class for that operation, derived from base class Bot\-Operation, and adding the operation compilation instructions to the Bot\-Operation\-::transform method. The activity of each operation is defined in the \char`\"{}execute\char`\"{} method for the operation. There is nothing limiting the types of arguments to the operation codes to be numeric; these were simply the easiest to implement quickly.
+
+\mbox{[}Future work -\/ provide the ability to launch multiple Home\-Bots in a single system invocation; requires remapping some of the namespace so that a single H\-A\-Request\-Server/\-H\-A\-Hvac\-Action\-Server can be launched with multiple Bot nodes.\mbox{]}
+
+\subsection*{Testing using rostest}
+
+Level 2 integration testing of R\-O\-S nodes uses the Google Test framework combined with the rostest tool to run the R\-O\-S nodes individually or in groups. This package uses the testing capability extensively, both for testing individual components and for testing combinations of components.
+
+\subsubsection*{Tests available}
+
+
+\begin{DoxyItemize}
+\item H\-A\-Request\-Server.\-test\-: Verifies the function of the H\-A\-Request\-Server node using a R\-O\-S test node to drive the H\-A\-Request\-Server node
+\item H\-A\-Hvac\-Action\-Server.\-test\-: Verifies the function of the H\-A\-Hvac\-Action\-Server node using a R\-O\-S test node to drive the H\-A\-Hvac\-Action\-Server node
+\item Bot\-Behavior\-\_\-\-Component\-\_\-\-Standalone.\-test\-: Verifies the function of multiple components that together make up the Bot\-Behavior capability when they are operated without the R\-O\-S nodes that provide interaction support
+\item Bot\-Behavior\-\_\-\-Component.\-test\-: Verifies the function of multiple components that together make up the Bot\-Behavior capability when operated with other R\-O\-S nodes that interact with the components
+\item Repertoire.\-test\-: Verifies the function of the Repertoire component, which depends upon the Bot\-Behavior components; does not use any other nodes. T\-H\-I\-S T\-E\-S\-T H\-A\-S H\-A\-R\-D C\-O\-D\-E\-D F\-I\-L\-E\-P\-A\-T\-H\-S in the Repertoire\-\_\-test.\-cpp source code because no ready method was apparent to pass arguments in through the rostest/gtest execution framework to the code inside of the test macros.
+\item Bot\-Actor.\-test\-: Verifies the function of the Bot\-Actor class (the behavior action server) in conjunction with many other components (Bot\-Behavior, Repertoire); requires H\-A\-Request\-Server and Fake\-Move\-Base\-Server for testing. T\-H\-I\-S T\-E\-S\-T H\-A\-S H\-A\-R\-D C\-O\-D\-E\-D F\-I\-L\-E\-P\-A\-T\-H\-S in the Repertoire\-\_\-test.\-cpp source code because no ready method was apparent to pass arguments in through the rostest/gtest execution framework to the code inside of the test macros.
+\end{DoxyItemize}
+
+\subsubsection*{General testing instructions\-:}
+
+The use of these test capabilities assumes a basic familiarity with the R\-O\-S sytem, including the rostest capability. Once the homebot package has been integrated into a catkin workspace, the following commands can be used.
+
+To invoke a test at the command line\-: \begin{DoxyVerb}- rostest homebot HARequestServer.test
+\end{DoxyVerb}
+
+
+The output from this command is placed into a specially formatted X\-M\-L file. For debugging purposes, the output can be sent directly to the terminal using this form of the command\-: \begin{DoxyVerb}- rostest --text HomeBot xxxxxxxxxxxxx.test
+\end{DoxyVerb}
+
+
+The rostest capability is baked into the package's C\-Make\-Lists.\-txt build configuration file. To build the test nodes, invoke the catkin workspace build command with the target \char`\"{}tests\char`\"{}\-: \begin{DoxyVerb}- catkin_make tests
+\end{DoxyVerb}
+
+
+To both build the test nodes and run the tests as part of the catkin build system, use\-: \begin{DoxyVerb}- catkin_make run_tests\end{DoxyVerb}
+ 

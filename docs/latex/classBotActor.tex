@@ -1,0 +1,48 @@
+\hypertarget{classBotActor}{\section{Bot\-Actor Class Reference}
+\label{classBotActor}\index{Bot\-Actor@{Bot\-Actor}}
+}
+
+
+An actionlib action server that receives bot behavior actions and carries them out using its repertoire.  
+
+
+
+
+{\ttfamily \#include $<$Bot\-Actor.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classBotActor_a4eeb9f0ee88968768d7bb9ff5355b2dd}{{\bfseries Bot\-Actor} (\hyperlink{classRepertoire}{Repertoire} \&p\-Repertoire, \hyperlink{classBotOprClients}{Bot\-Opr\-Clients} \&p\-Opr\-Clients)}\label{classBotActor_a4eeb9f0ee88968768d7bb9ff5355b2dd}
+
+\item 
+void \hyperlink{classBotActor_af0bcbb0676bc52bb16e1274c7398bf09}{action\-Execute\-C\-B} (const homebot\-::\-H\-B\-Behavior\-Goal\-Const\-Ptr \&goal)
+\begin{DoxyCompactList}\small\item\em R\-O\-S Action Protocol execute callback that receives and pursues \hyperlink{classBotBehavior}{Bot\-Behavior} goals. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+An actionlib action server that receives bot behavior actions and carries them out using its repertoire. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classBotActor_af0bcbb0676bc52bb16e1274c7398bf09}{\index{Bot\-Actor@{Bot\-Actor}!action\-Execute\-C\-B@{action\-Execute\-C\-B}}
+\index{action\-Execute\-C\-B@{action\-Execute\-C\-B}!BotActor@{Bot\-Actor}}
+\subsubsection[{action\-Execute\-C\-B}]{\setlength{\rightskip}{0pt plus 5cm}void Bot\-Actor\-::action\-Execute\-C\-B (
+\begin{DoxyParamCaption}
+\item[{const homebot\-::\-H\-B\-Behavior\-Goal\-Const\-Ptr \&}]{goal}
+\end{DoxyParamCaption}
+)}}\label{classBotActor_af0bcbb0676bc52bb16e1274c7398bf09}
+
+
+R\-O\-S Action Protocol execute callback that receives and pursues \hyperlink{classBotBehavior}{Bot\-Behavior} goals. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em goal} & specified by the action definition \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/homebot/\hyperlink{BotActor_8hpp}{Bot\-Actor.\-hpp}\item 
+src/\hyperlink{BotActor_8cpp}{Bot\-Actor.\-cpp}\end{DoxyCompactItemize}

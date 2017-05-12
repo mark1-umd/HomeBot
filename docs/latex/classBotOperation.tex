@@ -1,0 +1,138 @@
+\hypertarget{classBotOperation}{\section{Bot\-Operation Class Reference}
+\label{classBotOperation}\index{Bot\-Operation@{Bot\-Operation}}
+}
+
+
+Base class for all operations; used to create new instances of derived classes from text-\/based source.  
+
+
+
+
+{\ttfamily \#include $<$Bot\-Operation.\-hpp$>$}
+
+Inheritance diagram for Bot\-Operation\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.891892cm]{classBotOperation}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classBotOperation_a05997cf0f5d8b6d8a0621f6ccfd463ae}{{\bfseries Bot\-Operation} (const std\-::string p\-Raw\-Text)}\label{classBotOperation_a05997cf0f5d8b6d8a0621f6ccfd463ae}
+
+\item 
+\hypertarget{classBotOperation_a4acc1fc67e0bbbbda2df061c77b67bfa}{{\bfseries Bot\-Operation} (const std\-::string p\-Raw\-Text, const std\-::string p\-Code)}\label{classBotOperation_a4acc1fc67e0bbbbda2df061c77b67bfa}
+
+\item 
+std\-::string \hyperlink{classBotOperation_a768d7dabd43ccbabb72c4ed10dd98ffa}{get\-Code} ()
+\begin{DoxyCompactList}\small\item\em Provides access to the code in an operation through the base class -\/ primarily for testing purposes. \end{DoxyCompactList}\item 
+\hypertarget{classBotOperation_af178b91062e8844822122599331dfd0b}{std\-::string {\bfseries get\-Raw\-Text} ()}\label{classBotOperation_af178b91062e8844822122599331dfd0b}
+
+\item 
+virtual bool \hyperlink{classBotOperation_a0ed080d4c88b9ee0422666de169fb4a6}{is\-Executable} (const \hyperlink{classOperationParameters}{Operation\-Parameters} \&op\-Params)
+\begin{DoxyCompactList}\small\item\em Determine as closely as possible whether an operation is valid (can be executed) \end{DoxyCompactList}\item 
+virtual bool \hyperlink{classBotOperation_ae1e806e3c0044dc0177e73a7d05711ba}{execute} (\hyperlink{classBotOprClients}{Bot\-Opr\-Clients} \&clients)
+\begin{DoxyCompactList}\small\item\em \hyperlink{classBotOperation}{Bot\-Operation} objects are self-\/executing themselves; but a base class object should not be executed. \end{DoxyCompactList}\item 
+boost\-::shared\-\_\-ptr$<$ \hyperlink{classBotOperation}{Bot\-Operation} $>$ \hyperlink{classBotOperation_a894e399d0cc8e564831dc4cecd363c09}{transform} (const \hyperlink{classOperationParameters}{Operation\-Parameters} \&op\-Params)
+\begin{DoxyCompactList}\small\item\em Base class method to construct a derived class object from source text (inserted by constructor) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classBotOperation_ae5b6b68a246f5d55b67f0f26939a5f95}{std\-::string {\bfseries code}}\label{classBotOperation_ae5b6b68a246f5d55b67f0f26939a5f95}
+
+\item 
+\hypertarget{classBotOperation_a256d5a82958cdd1f00d441c2e5ae6a37}{std\-::string {\bfseries raw\-Text}}\label{classBotOperation_a256d5a82958cdd1f00d441c2e5ae6a37}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for all operations; used to create new instances of derived classes from text-\/based source. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classBotOperation_ae1e806e3c0044dc0177e73a7d05711ba}{\index{Bot\-Operation@{Bot\-Operation}!execute@{execute}}
+\index{execute@{execute}!BotOperation@{Bot\-Operation}}
+\subsubsection[{execute}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Operation\-::execute (
+\begin{DoxyParamCaption}
+\item[{{\bf Bot\-Opr\-Clients} \&}]{clients}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classBotOperation_ae1e806e3c0044dc0177e73a7d05711ba}
+
+
+\hyperlink{classBotOperation}{Bot\-Operation} objects are self-\/executing themselves; but a base class object should not be executed. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \hyperlink{classBotOprClients}{Bot\-Opr\-Clients}} & clients to use for executing the operation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool indication of whether the execution was successful (true) or not (false) 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{classBotMoveBaseOpr_aebac9f650a9960e132dccc61e54b8c93}{Bot\-Move\-Base\-Opr}, \hyperlink{classBotAffectHADoorOpr_ae6ea9d64ffdb7f2c5622500109a545b7}{Bot\-Affect\-H\-A\-Door\-Opr}, \hyperlink{classBotAffectHASceneOpr_a1ea965477504ea6a7e3d7c89ced15b3b}{Bot\-Affect\-H\-A\-Scene\-Opr}, and \hyperlink{classBotAffectHAShadeOpr_aab37d71a095f66554ee9958057c71356}{Bot\-Affect\-H\-A\-Shade\-Opr}.
+
+\hypertarget{classBotOperation_a768d7dabd43ccbabb72c4ed10dd98ffa}{\index{Bot\-Operation@{Bot\-Operation}!get\-Code@{get\-Code}}
+\index{get\-Code@{get\-Code}!BotOperation@{Bot\-Operation}}
+\subsubsection[{get\-Code}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Bot\-Operation\-::get\-Code (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classBotOperation_a768d7dabd43ccbabb72c4ed10dd98ffa}
+
+
+Provides access to the code in an operation through the base class -\/ primarily for testing purposes. 
+
+\begin{DoxyReturn}{Returns}
+std\-::string code from this object 
+\end{DoxyReturn}
+\hypertarget{classBotOperation_a0ed080d4c88b9ee0422666de169fb4a6}{\index{Bot\-Operation@{Bot\-Operation}!is\-Executable@{is\-Executable}}
+\index{is\-Executable@{is\-Executable}!BotOperation@{Bot\-Operation}}
+\subsubsection[{is\-Executable}]{\setlength{\rightskip}{0pt plus 5cm}bool Bot\-Operation\-::is\-Executable (
+\begin{DoxyParamCaption}
+\item[{const {\bf Operation\-Parameters} \&}]{op\-Params}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classBotOperation_a0ed080d4c88b9ee0422666de169fb4a6}
+
+
+Determine as closely as possible whether an operation is valid (can be executed) 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em \hyperlink{classOperationParameters}{Operation\-Parameters}} & op\-Params that assist with validation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool value that indicates whether the operation can be executed 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{classBotMoveBaseOpr_ae6a4ed7325d3bc728b6934250171178d}{Bot\-Move\-Base\-Opr}, \hyperlink{classBotAffectHADoorOpr_a6a82af8cbb0f8c48abbc04dc3f63811b}{Bot\-Affect\-H\-A\-Door\-Opr}, \hyperlink{classBotAffectHASceneOpr_ada2804cb3287adacbfe0c1d5015842c8}{Bot\-Affect\-H\-A\-Scene\-Opr}, and \hyperlink{classBotAffectHAShadeOpr_af37862e410311c38fd41994c51138cf6}{Bot\-Affect\-H\-A\-Shade\-Opr}.
+
+\hypertarget{classBotOperation_a894e399d0cc8e564831dc4cecd363c09}{\index{Bot\-Operation@{Bot\-Operation}!transform@{transform}}
+\index{transform@{transform}!BotOperation@{Bot\-Operation}}
+\subsubsection[{transform}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::shared\-\_\-ptr$<$ {\bf Bot\-Operation} $>$ Bot\-Operation\-::transform (
+\begin{DoxyParamCaption}
+\item[{const {\bf Operation\-Parameters} \&}]{op\-Params}
+\end{DoxyParamCaption}
+)}}\label{classBotOperation_a894e399d0cc8e564831dc4cecd363c09}
+
+
+Base class method to construct a derived class object from source text (inserted by constructor) 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em op\-Params} & provides operational parameters for the system used to verify this operation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boost\-::shared\-\_\-ptr$<$\-Bot\-Operation$>$ for the derived class object (non-\/executable base object returned if transformation failed) 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/homebot/\hyperlink{BotOperation_8hpp}{Bot\-Operation.\-hpp}\item 
+src/\hyperlink{BotOperation_8cpp}{Bot\-Operation.\-cpp}\end{DoxyCompactItemize}

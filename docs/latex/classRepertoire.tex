@@ -1,0 +1,75 @@
+\hypertarget{classRepertoire}{\section{Repertoire Class Reference}
+\label{classRepertoire}\index{Repertoire@{Repertoire}}
+}
+
+
+A collection of Home\-Bot service robot behaviors; used by a \hyperlink{classBotActor}{Bot\-Actor} to find behaviors to execute.  
+
+
+
+
+{\ttfamily \#include $<$Repertoire.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classRepertoire_a9dd06d2b7804025aba51d5b371d32c28}{{\bfseries Repertoire} (const std\-::string \&p\-Bot\-Type)}\label{classRepertoire_a9dd06d2b7804025aba51d5b371d32c28}
+
+\item 
+\hyperlink{classBotBehavior}{Bot\-Behavior} \hyperlink{classRepertoire_a758b2c4e9c9c3b3ca18affa27bd6c48e}{get\-Behavior} (const std\-::string \&p\-Name)
+\begin{DoxyCompactList}\small\item\em Determine whether a particular behavior is in a repertoire of behaviors. \end{DoxyCompactList}\item 
+bool \hyperlink{classRepertoire_ac0da6e67b445515bd8786a10d50c29ad}{load} (const std\-::string \&p\-Filename, const \hyperlink{classOperationParameters}{Operation\-Parameters} \&p\-Op\-Params)
+\begin{DoxyCompactList}\small\item\em Load this repertoire with the operations contained in a repertoire file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A collection of Home\-Bot service robot behaviors; used by a \hyperlink{classBotActor}{Bot\-Actor} to find behaviors to execute. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classRepertoire_a758b2c4e9c9c3b3ca18affa27bd6c48e}{\index{Repertoire@{Repertoire}!get\-Behavior@{get\-Behavior}}
+\index{get\-Behavior@{get\-Behavior}!Repertoire@{Repertoire}}
+\subsubsection[{get\-Behavior}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Bot\-Behavior} Repertoire\-::get\-Behavior (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{p\-Name}
+\end{DoxyParamCaption}
+)}}\label{classRepertoire_a758b2c4e9c9c3b3ca18affa27bd6c48e}
+
+
+Determine whether a particular behavior is in a repertoire of behaviors. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em p\-Name} & a string with a behavior name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Behavior the \hyperlink{classBotBehavior}{Bot\-Behavior} identified by the behavior name p\-Name 
+\end{DoxyReturn}
+\hypertarget{classRepertoire_ac0da6e67b445515bd8786a10d50c29ad}{\index{Repertoire@{Repertoire}!load@{load}}
+\index{load@{load}!Repertoire@{Repertoire}}
+\subsubsection[{load}]{\setlength{\rightskip}{0pt plus 5cm}bool Repertoire\-::load (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{p\-Filename, }
+\item[{const {\bf Operation\-Parameters} \&}]{p\-Op\-Params}
+\end{DoxyParamCaption}
+)}}\label{classRepertoire_ac0da6e67b445515bd8786a10d50c29ad}
+
+
+Load this repertoire with the operations contained in a repertoire file. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em p\-Filename} & that specifies which file to get the behaviors from \\
+\hline
+\mbox{\tt in}  & {\em p\-Op\-Params} & that specify limits on operations; used to validate operations as read in from file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool indicating whether the behaviors were loaded successfully 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/homebot/\hyperlink{Repertoire_8hpp}{Repertoire.\-hpp}\item 
+src/\hyperlink{Repertoire_8cpp}{Repertoire.\-cpp}\end{DoxyCompactItemize}

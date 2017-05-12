@@ -1,0 +1,69 @@
+\hypertarget{classHASceneService}{\section{H\-A\-Scene\-Service Class Reference}
+\label{classHASceneService}\index{H\-A\-Scene\-Service@{H\-A\-Scene\-Service}}
+}
+
+
+Provides H\-A Scene Service to a R\-O\-S node acting as a Home Automation Request Server.  
+
+
+
+
+{\ttfamily \#include $<$H\-A\-Scene\-Service.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classHASceneService_a0422b927508ec812b9a4ab70d0fc349b}{callback} (homebot\-::\-H\-A\-Scene\-::\-Request \&req, homebot\-::\-H\-A\-Scene\-::\-Response \&rsp)
+\begin{DoxyCompactList}\small\item\em Service callback for the Home Automation Scene service -\/ handles service calls. \end{DoxyCompactList}\item 
+void \hyperlink{classHASceneService_a31dc3ff154500fe4d607f5114d01edcc}{init} (int number\-Of\-Scenes)
+\begin{DoxyCompactList}\small\item\em Called to start the actual service; advertises the service and establishes callback. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides H\-A Scene Service to a R\-O\-S node acting as a Home Automation Request Server. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classHASceneService_a0422b927508ec812b9a4ab70d0fc349b}{\index{H\-A\-Scene\-Service@{H\-A\-Scene\-Service}!callback@{callback}}
+\index{callback@{callback}!HASceneService@{H\-A\-Scene\-Service}}
+\subsubsection[{callback}]{\setlength{\rightskip}{0pt plus 5cm}bool H\-A\-Scene\-Service\-::callback (
+\begin{DoxyParamCaption}
+\item[{homebot\-::\-H\-A\-Scene\-::\-Request \&}]{req, }
+\item[{homebot\-::\-H\-A\-Scene\-::\-Response \&}]{rsp}
+\end{DoxyParamCaption}
+)}}\label{classHASceneService_a0422b927508ec812b9a4ab70d0fc349b}
+
+
+Service callback for the Home Automation Scene service -\/ handles service calls. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em req} & data specifying the request details (scene number, action to take) \\
+\hline
+\mbox{\tt out}  & {\em rsp} & data going back to the service requestor (scene number, scene state) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean success or failure of the service call 
+\end{DoxyReturn}
+\hypertarget{classHASceneService_a31dc3ff154500fe4d607f5114d01edcc}{\index{H\-A\-Scene\-Service@{H\-A\-Scene\-Service}!init@{init}}
+\index{init@{init}!HASceneService@{H\-A\-Scene\-Service}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}void H\-A\-Scene\-Service\-::init (
+\begin{DoxyParamCaption}
+\item[{int}]{number\-Of\-Scenes}
+\end{DoxyParamCaption}
+)}}\label{classHASceneService_a31dc3ff154500fe4d607f5114d01edcc}
+
+
+Called to start the actual service; advertises the service and establishes callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em number\-Of\-Scenes} & used to size the number of scene states to track \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/homebot/\hyperlink{HASceneService_8hpp}{H\-A\-Scene\-Service.\-hpp}\item 
+src/\hyperlink{HASceneService_8cpp}{H\-A\-Scene\-Service.\-cpp}\end{DoxyCompactItemize}

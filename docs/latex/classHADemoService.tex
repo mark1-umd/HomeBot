@@ -1,0 +1,57 @@
+\hypertarget{classHADemoService}{\section{H\-A\-Demo\-Service Class Reference}
+\label{classHADemoService}\index{H\-A\-Demo\-Service@{H\-A\-Demo\-Service}}
+}
+
+
+Provides H\-A Demo Service to a R\-O\-S node acting as a Home Automation Demo Server.  
+
+
+
+
+{\ttfamily \#include $<$H\-A\-Demo\-Service.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classHADemoService_ab811f36a7568e3db91376b9c020aa479}{{\bfseries H\-A\-Demo\-Service} (\hyperlink{classHAClients}{H\-A\-Clients} \&ha\-Clients)}\label{classHADemoService_ab811f36a7568e3db91376b9c020aa479}
+
+\item 
+bool \hyperlink{classHADemoService_ab774121c439c8787271da8184a11abf3}{callback} (homebot\-::\-H\-A\-Demo\-::\-Request \&req, homebot\-::\-H\-A\-Demo\-::\-Response \&rsp)
+\begin{DoxyCompactList}\small\item\em Service callback for the Home Automation Demo service -\/ handles service calls. \end{DoxyCompactList}\item 
+\hypertarget{classHADemoService_ab5ed73d4c2557de8f43c5aefdd5a2796}{void {\bfseries init} ()}\label{classHADemoService_ab5ed73d4c2557de8f43c5aefdd5a2796}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides H\-A Demo Service to a R\-O\-S node acting as a Home Automation Demo Server. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classHADemoService_ab774121c439c8787271da8184a11abf3}{\index{H\-A\-Demo\-Service@{H\-A\-Demo\-Service}!callback@{callback}}
+\index{callback@{callback}!HADemoService@{H\-A\-Demo\-Service}}
+\subsubsection[{callback}]{\setlength{\rightskip}{0pt plus 5cm}bool H\-A\-Demo\-Service\-::callback (
+\begin{DoxyParamCaption}
+\item[{homebot\-::\-H\-A\-Demo\-::\-Request \&}]{req, }
+\item[{homebot\-::\-H\-A\-Demo\-::\-Response \&}]{rsp}
+\end{DoxyParamCaption}
+)}}\label{classHADemoService_ab774121c439c8787271da8184a11abf3}
+
+
+Service callback for the Home Automation Demo service -\/ handles service calls. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em req} & data specifying the request details (behavior, repetitions) \\
+\hline
+\mbox{\tt out}  & {\em rsp} & data going back to the service requestor (result) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean success or failure of the service call 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+include/homebot/\hyperlink{HADemoService_8hpp}{H\-A\-Demo\-Service.\-hpp}\item 
+src/\hyperlink{HADemoService_8cpp}{H\-A\-Demo\-Service.\-cpp}\end{DoxyCompactItemize}
