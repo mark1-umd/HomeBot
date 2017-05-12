@@ -1,0 +1,43 @@
+<launch>
+  <!-- HomeBot system multibot launch - Copyright 2017 Mark Jenkins, ENPM808X -->
+  
+  <!-- Invoke with "roslaunch homebot HomeBot_System_multi.launch             -->
+  
+  <!-- Launch file to start up a HomeBot_System with multiple service robot types
+       Starting multiple service robots requires changing some names so that single HARequestServer
+       and HAHvacActionServer can provide services to multiple service robots                        -->
+    
+  <!-- Define default settings for Home Automation system limits (doors, scenes, and shades) -->
+    <arg name="doors" default="5" />
+    <arg name="scenes" default="15" />
+    <arg name="shades" default="8" />
+  
+   <!-- Start the Home Automation Request server
+        Provide ROS nodes with the ability to command Home Automation systems -->
+    <node pkg="homebot" name="HARequestServer" type="HARequestServer"
+        args="-doors $(arg doors) -scenes $(arg scenes) -shades $(arg shades)" />
+
+   <!-- Start the Home Automation HVAC Action server
+        Provide ROS nodes with the ability to set an action goal for heat/cool to a temperature-->
+   <node pkg="homebot" name="HAHvacActionServer" type="HAHvacActionServer" />
+     
+ <!-- Start up the task specific robots -->
+   
+ <include file="$(find homebot)/launch/HomeBot_unibot.launch" >
+  <!-- Set the BotType -->
+  <arg name="thisBotType" value="WatchBot" />
+  <arg name="sysDoors" value="$(arg doors)"/>
+  <arg name="sysScenes" value="$(arg scenes)"/>
+  <arg name="sysShades" value="$(arg shades)"/>  
+</include>
+
+ 
+ <include file="$(find homebot)/launch/HomeBot_unibot.launch" >
+  <!-- Set the BotType -->
+  <arg name="thisBotType" value="ButtleBot" />
+  <arg name="sysDoors" value="$(arg doors)"/>
+  <arg name="sysScenes" value="$(arg scenes)"/>
+  <arg name="sysShades" value="$(arg shades)"/>
+</include>
+
+</launch>

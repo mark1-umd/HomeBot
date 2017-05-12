@@ -120,11 +120,12 @@ The FakeMoveBaseServer is a stop-gap measure created to work around a limitation
 
 ## Demonstrations
 
-Two demonstrations are currently provided, with two different ways to lauch them:
+Two demonstrations are currently provided, with three different example ways of how to launch them:
 
 - HomeBot_System_ButtleBot.launch: starts up a HomeBot system using a ButtleBot repertoire for the HomeBot Node.
 - HomeBot_System_WatchBot.launch: starts up a HomeBot system using a WatchBot repertoire for the HomeBot_Node.
-- HomeBot_System_uni.launch BotType:=WatchBot (or ButtleBot) - starts up the requested HomeBot system as above
+- HomeBot_System_uni.launch BotType:=WatchBot (or ButtleBot) - starts up the requested HomeBot system as above; this launch file is included in the HomeBot_System_multi.launch capability (below) with a different BotType argument for each HomeBot to be launched simultaneously.
+- roslaunch homebot HomeBot_System_multi.launch: starts up a HomeBot system with all available homebots, each in their own namespace; remapping ensures that the HomeBots can still reach the HARequestServer services "/ha_door", "/ha_scene", and "/ha_shade"
 
 Once a HomeBot system exists, the Bot in that system can be asked to perform behaviors using the ROS service "/ha_demo", such as:
 
@@ -133,8 +134,13 @@ Once a HomeBot system exists, the Bot in that system can be asked to perform beh
 - rosservice call /ha_demo "AnswerFrontDoor" 1 (tells ButtleBot to answer the front door)
 - rosservice call /ha_demo "CloseForNight" 1 (tells ButtleBot to close down the house for the night)
 
+If the HomeBot_System_multi.launch launch file has been used to launch multiple HomeBots simultaneously, the rosservice call must be modified to include the namespace of the robot being tasked:
+
+-rosservice call /WatchBot/ha_demo "PatrolCW" 2
+-rosservice call /ButtleBot/ha_demo "AnswerFrontDoor" 1
+
 Behaviors can be added to each Robot type by editing the repertoire (.rpt) file found in the repertoire subdirectory of the homebot package.  New HomeBot types can be added by creating the name and a repertoire
-file to go along with it; for these the HomeBot_System_uni.launch file makes it easy to invoke them without creating a new .launch file specific to the service robot type.
+file to go along with it; for these the HomeBot_System_uni.launch file makes it easy to invoke them without creating a new .launch file specific to the service robot type.  Note that the HomeBot_System_multi.launch file must be edited to add each new robot type.
 
 The operations available for defining behaviors are currently limited to the following:
 
