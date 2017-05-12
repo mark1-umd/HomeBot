@@ -1,8 +1,18 @@
 <launch>
-
-  <!-- Launch file to start up a HomeBot Bot only (no other system components) for a specified
-       service robot type.
-       Requires that the "thisBotType" argument is defined to specify the robot to be created -->
+  <!-- HomeBot (non-system) unibot launch - Copyright 2017 Mark Jenkins, ENPM808X -->
+  <!--  Use when launching a one HomeBot as part of a system that is launched elsewhere
+        - specify HomeBot type and other parameters as arguments (see below for details on arguments -->
+  <!-- Typically invoked as an "included launch file", it pushes this HomeBot's namespace down a
+       level so that it won't interfere with other HomeBots in the system, then remaps this
+       HomeBot's names used to access system-level services (e.g., /ha_door) so that it can still
+       communicate with them.                                                                        -->
+  
+  <!-- Launch file to start up a single HomeBot service robot type with no other system components
+        - Requires that a single instance of the HARequestServer and HAHvacActionServer are
+          launched elsewhere
+       -  Requires that the "thisBotType" argument is defined to specify the robot to be created
+       -  Requires that the other arguments are defined to match how the other system components
+          were initialized                                                                            -->
        
   <!-- declare arg to be passed in -->
   <arg name="thisBotType" />
@@ -17,8 +27,11 @@
   <group ns="$(arg thisBotType)">
    
    <!-- Start the simulated Bot for this service robot
-        Provides a HomeBot_Node with a "move_base" action server to command for movement -->
-   <node pkg="homebot" name="FakeMoveBaseServer" type="FakeMoveBaseServer" />
+        Provides a HomeBot_Node with a "move_base" action server to command for movement
+        - feedback frequency of 4 (4 position updates per second)
+        - base velocity of 1.0 m/s (that's the velocity of the simulated robot base)        -->
+   <node pkg="homebot" name="FakeMoveBaseServer" type="FakeMoveBaseServer"
+           args="-freq 4 -vel 2.0" />
    
    <!-- Start a HomeBot_Node for the HomeBot service robot specified in launch argument BotType
         Provides a service robot with a repertoire of behaviors that can interact with both

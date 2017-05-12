@@ -55,6 +55,16 @@ FakeMoveBaseAction::FakeMoveBaseAction()
          false) {
   as.start();
 }
+FakeMoveBaseAction::FakeMoveBaseAction(double pFBFreq, double pBaseVel)
+    : fbFreq(pFBFreq),  // feedback frequency in Hz; also controls time for simulation
+      baseVel(pBaseVel),  // base velocity in units (assumed meters) per second
+      posX(0.0),          // X coordinate of current base location; starts at 0
+      posY(0.0),          // Y coordinate of current base location; starts at 0
+      posZ(0.0),          // Z coordinate of current base location; starts at 0
+      as(nh, "move_base",
+         boost::bind(&FakeMoveBaseAction::actionExecuteCB, this, _1), false) {
+  as.start();
+}
 
 FakeMoveBaseAction::~FakeMoveBaseAction() {
 }

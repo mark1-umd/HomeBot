@@ -1,8 +1,10 @@
 ButtleBot
 AnswerFrontDoor prelim HAScene 1 1
 AnswerFrontDoor prelim HADoor 1 1
+AnswerFrontDoor main BotMoveBase map 0.0 2.0 0.0 0.0 0.0 0.0 0.0
 AnswerFrontDoor main   HAScene 2 1
 AnswerFrontDoor main   HAScene 2 0
+AnswerFrontDoor main BotMoveBase map 0.0 0.0 0.0 0.0 0.0 0.0 0.0
 AnswerFrontDoor post   HADoor 1 0
 AnswerFrontDoor post   HAScene 1 0
 PrepareEveningEntertain main HAScene 1 1

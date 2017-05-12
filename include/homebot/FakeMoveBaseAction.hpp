@@ -56,6 +56,7 @@
 class FakeMoveBaseAction {
  public:
   FakeMoveBaseAction();
+  FakeMoveBaseAction(double pFBFreq, double pBaseVel);
   virtual ~FakeMoveBaseAction();
   void actionExecuteCB(const move_base_msgs::MoveBaseGoalConstPtr &goal);
  private:

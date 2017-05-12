@@ -48,7 +48,28 @@
 int main(int argc, char** argv) {
   ros::init(argc, argv, "hb_fake_move_base");
 
-  FakeMoveBaseAction fakeMoveBaseAction;
+  // Process command line arguments left after ROS strips off remapping arguments
+  double feedbackFrequency = 10.0;
+  double baseVelocity = 1.0;
+
+  for (int i = 1; i < argc; i++) {
+    if (i + 1 != argc) {
+      // If we match the parameter
+      if (strcmp(argv[i], "-freq") == 0) {
+        // Grab the number of doors for the HADoorService; should be an integer
+        feedbackFrequency = atof(argv[i + 1]);
+        // Skip the parameter value
+        i++;
+      } else if (strcmp(argv[i], "-vel") == 0) {
+        // Grab the number of scenes for the HASceneService; should be an integer
+        baseVelocity = atof(argv[i + 1]);
+        // Skip the parameter value
+        i++;
+      }
+    }
+  }
+
+  FakeMoveBaseAction fakeMoveBaseAction(feedbackFrequency, baseVelocity);
   // ROS startup happens when first node handle is created; shutdown should occur
   // automatically when last node handle is destroyed or SIGINT captures Ctrl-C
   ROS_INFO_STREAM(

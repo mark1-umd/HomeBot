@@ -40,4 +40,13 @@
   <arg name="sysShades" value="$(arg shades)"/>
 </include>
 
+ <include file="$(find homebot)/launch/HomeBot_unibot.launch" >
+  <!-- Set the BotType -->
+  <arg name="thisBotType" value="TrashBot" />
+  <arg name="sysDoors" value="$(arg doors)"/>
+  <arg name="sysScenes" value="$(arg scenes)"/>
+  <arg name="sysShades" value="$(arg shades)"/>
+</include>
+
+
 </launch>

@@ -139,8 +139,12 @@ If the HomeBot_System_multi.launch launch file has been used to launch multiple 
 -rosservice call /WatchBot/ha_demo "PatrolCW" 2
 -rosservice call /ButtleBot/ha_demo "AnswerFrontDoor" 1
 
-Behaviors can be added to each Robot type by editing the repertoire (.rpt) file found in the repertoire subdirectory of the homebot package.  New HomeBot types can be added by creating the name and a repertoire
-file to go along with it; for these the HomeBot_System_uni.launch file makes it easy to invoke them without creating a new .launch file specific to the service robot type.  Note that the HomeBot_System_multi.launch file must be edited to add each new robot type.
+### Expanding the system
+
+Behaviors can be added to each Robot type by editing the repertoire (.rpt) file found in the repertoire subdirectory of the homebot package.  Each new behavior can have a prelim phase, a main phase, and a post phase.  Each phase consists of a series of operations, currently limted to HADoor, HAScene, HAShade, and BotMoveBase.
+
+New HomeBot types can be added by specifying a unique robot name, creating a repertoire
+file for the robot in the homebot/repertoire directory, and adding a new "include" statement to the launch/HomeBot_System_multi.launch file.  Each robot's "include" statement uses the HomeBot_uni.launch file with an argument to specify the HomeBot robot type.  If a standalone test system for the new robot type is required, then using the HomeBot_System_uni.launch with the argument BotType:=newbotname is all that is needed.
 
 The operations available for defining behaviors are currently limited to the following:
 
@@ -150,9 +154,6 @@ The operations available for defining behaviors are currently limited to the fol
 - BotMoveBase frame_id posX posY posZ orientX orientY orientZ orientW (Quaternions, only posX and PosY are current used in FakeMoveBase, but all can be defined in the behavior)
 
 Creating new operation codes currently requires creating a new C++ class for that operation, derived from base class BotOperation, and adding the operation compilation instructions to the BotOperation::transform method.  The activity of each operation is defined in the "execute" method for the operation.  There is nothing limiting the types of arguments to the operation codes to be numeric; these were simply the easiest to implement quickly.
-
-[Future work - provide the ability to launch multiple HomeBots in a single system invocation; requires remapping some of the namespace so that a single HARequestServer/HAHvacActionServer can be launched with multiple
-Bot nodes.]
 
 ## Testing using rostest
 

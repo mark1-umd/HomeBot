@@ -1,11 +1,12 @@
 <launch>
   <!-- HomeBot system unibot launch - Copyright 2017 Mark Jenkins, ENPM808X -->
-  
+  <!--  Use when launching a complete system with just one HomeBot - specify HomeBot type as argument -->
   <!-- Invoke with "roslaunch homebot HomeBot_System_uni.launch BotType:=WatchBoT" (for example) -->
   
   <!-- Launch file to start up a HomeBot_System with just one service robot type
-       Starting multiple service robots requires changing some names so that single HARequestServer
-       and HAHvacActionServer can provide services to multiple service robots                        -->
+       Starting multiple service robots requires manipulating the ROS namespace a bit so that
+       the individual HomeBots don't conflict with each other, but can still communicate with
+       the single instance of the HARequestServer and HAHvacActionServer                        -->
        
   <!-- HomeBot service robot type -->
     <arg name="BotType" default="WatchBot" />
