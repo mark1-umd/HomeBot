@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>homebot</name>
-  <version>0.5.0</version>
+  <version>0.1.0</version>
   <description>The HomeBot home automation integration system merges HomeBot service robots
   	with home automation systems.  Through the HomeBot system, the home automation system can
   	send action goals for the execution of simple behaviors by the service robots.  In turn,
