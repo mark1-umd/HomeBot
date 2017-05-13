@@ -48,6 +48,10 @@
 
 #include "homebot/HADemoService.hpp"
 
+/**
+ * @brief Constructor for HADemoService that creates a demonstration service object populated with a service client and callback to use when service requests are received
+ * @param pHAClients
+ */
 HADemoService::HADemoService(HAClients& pHAClients)
     : haClients(pHAClients),
       nh() {

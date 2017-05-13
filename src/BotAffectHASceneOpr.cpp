@@ -45,9 +45,18 @@
 
 #include "homebot/BotAffectHASceneOpr.hpp"
 
+/**
+ * @brief Constructor with no arguments for BotAffectHASceneOpr; creates a useless object that won't execute
+ */
 BotAffectHASceneOpr::BotAffectHASceneOpr() {
 }
 
+/**
+ * @brief Constructor for BotAffectHASceneOpr; builds operation that may execute
+ * @param pCode std::string indicating operation code; must be HAScene for this to execute
+ * @param pSceneNumber integer for scene number to act on; must be within operational parameters to execute
+ * @param pAction integer for action to take; must be valid action for this to execute
+ */
 BotAffectHASceneOpr::BotAffectHASceneOpr(const std::string pCode,
                                          const int pSceneNumber,
                                          const int pAction)

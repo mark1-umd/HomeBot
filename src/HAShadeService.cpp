@@ -45,6 +45,9 @@
 
 #include "homebot/HAShadeService.hpp"
 
+/**
+ * @brief Contructor for HAShadeService; creates an HAShade Service object that must be initialized before it can be used
+ */
 HAShadeService::HAShadeService() {
 }
 

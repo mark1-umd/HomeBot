@@ -18,6 +18,8 @@ The key to the HomeBot system is a ROS node that can interface one or more HomeB
 
 - SIP process planning/review notes required for my final project development period (limited access): https://docs.google.com/document/d/1ytfDb1QFfRs0qY4guM0NiX4fi4OJUcFbAuXwF2xlH6Q/edit?usp=sharing
 
+- ENPM808X Final Project Presentation (limited access): https://docs.google.com/presentation/d/1I9U7rcB9PGK5DK-zVt0unqYJw5uZQXXxS9P1JMnZk9g/edit?usp=sharing
+
 ## License
 
 BSD 3-Clause License

@@ -44,6 +44,9 @@
  */
 #include "homebot/HAHvacAction.hpp"
 
+/**
+ * @brief Constructor for HAHvacAction; creates an Action Server with the actionExecuteCB callback for handling HVAC goal actions
+ */
 HAHvacAction::HAHvacAction()
     : homeTempDegF(70.0),
       tempToleranceDegF(0.2),  // Must be at least twice the deltaTempDegF

@@ -44,6 +44,9 @@
  */
 #include "homebot/FakeMoveBaseAction.hpp"
 
+/**
+ * @brief Constructor for FakeMoveBase object with an Action Server that can receive and act on Pose goals using a default feedback frequency and base velocity
+ */
 FakeMoveBaseAction::FakeMoveBaseAction()
     : fbFreq(10),  // feedback frequency in Hz; also controls time for simulation
       baseVel(1.0),       // base velocity in units (assumed meters) per second
@@ -55,6 +58,12 @@ FakeMoveBaseAction::FakeMoveBaseAction()
          false) {
   as.start();
 }
+
+/**
+ * @brief Constructor for FakeMoveBase object with an Action Server that can receive and act on Pose goals using the specified feedback frequency and base velocity
+ * @param pFBFreq
+ * @param pBaseVel
+ */
 FakeMoveBaseAction::FakeMoveBaseAction(double pFBFreq, double pBaseVel)
     : fbFreq(pFBFreq),  // feedback frequency in Hz; also controls time for simulation
       baseVel(pBaseVel),  // base velocity in units (assumed meters) per second

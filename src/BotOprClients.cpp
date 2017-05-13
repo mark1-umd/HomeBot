@@ -51,6 +51,9 @@
 
 #include "homebot/BotOprClients.hpp"
 
+/**
+ * @brief Constructor for BotOprClients; calling this constructor creates a series of service and action clients
+ */
 BotOprClients::BotOprClients()
     : totalClients(4),
       clientsStarted(0),

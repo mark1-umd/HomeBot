@@ -48,6 +48,9 @@
 
 #include "homebot/HAClients.hpp"
 
+/**
+ * @brief Constructor for HAClients that creates an object with an HBBehavior Action Client
+ */
 HAClients::HAClients()
     : nh(),
       acHBBehavior("bot_actor", true) {

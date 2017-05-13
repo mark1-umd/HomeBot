@@ -48,6 +48,10 @@
  */
 #include "homebot/Repertoire.hpp"
 
+/**
+ * @brief Constructor for Repertoire; creates a Repertoire customized for a specific HomeBot bot type
+ * @param pBotType std::string that specifies the type of HomeBot bot that this Repertoire is used for
+ */
 Repertoire::Repertoire(const std::string& pBotType)
     : botType(pBotType),
       operationParameters() {

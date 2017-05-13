@@ -45,6 +45,11 @@
  */
 #include "homebot/BotActor.hpp"
 
+/**
+ * @brief Constructor for BotActor; builds object and starts Action Server with actionExecuteCB callback
+ * @param [in] pRepertoire Repertoire of behaviors for this BotActor
+ * @param pOprClients BotOprClients for this BotActor to use to execute operations
+ */
 BotActor::BotActor(Repertoire& pRepertoire, BotOprClients& pOprClients)
     : repertoire(pRepertoire),
       oprClients(pOprClients),

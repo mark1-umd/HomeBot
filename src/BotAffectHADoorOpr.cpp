@@ -45,10 +45,19 @@
 
 #include "homebot/BotAffectHADoorOpr.hpp"
 
+/**
+ * @brief Constructor with no arguments for BotAffectHADoorOpr; creates a useless object that won't execute
+ */
 BotAffectHADoorOpr::BotAffectHADoorOpr() {
   // TODO(Mark Jenkins): Auto-generated constructor stub
 }
 
+/**
+ * @brief Constructor for BotAffectHADoorOpr; builds operation that may execute
+ * @param pCode std::string indicating operation code; must be HADoor for this to execute
+ * @param pDoorNumber integer for door number to act on; must be within operational parameters to execute
+ * @param pAction integer for action to take; must be valid action for this to execute
+ */
 BotAffectHADoorOpr::BotAffectHADoorOpr(const std::string pCode,
                                        const int pDoorNumber, const int pAction)
     : BotOperation("", pCode) {

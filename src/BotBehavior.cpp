@@ -48,13 +48,21 @@
  */
 #include "homebot/BotBehavior.hpp"
 
+/**
+ * @brief Constructor for BotBehavior; will create a useless BotBehavior because it won't have a name
+ */
+BotBehavior::~BotBehavior() {
+}
+
+/**
+ * @brief Constructor for BotBehavior; constructs a functional BotBehavior using the parameters
+ * @param [in] pName std::string name for this behavior
+ * @param [in] pOpParams OperationalParameters for this behavior
+ */
 BotBehavior::BotBehavior(const std::string pName,
                          const OperationParameters& pOpParams)
     : name(pName),
       opParams(pOpParams) {
-}
-
-BotBehavior::~BotBehavior() {
 }
 
 /**

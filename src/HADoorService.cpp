@@ -45,6 +45,9 @@
 
 #include "homebot/HADoorService.hpp"
 
+/**
+ * @brief Constructor for HADoorService; creates an object for the HADoor Service that must be initialized before it can be used
+ */
 HADoorService::HADoorService() {
 }
 

@@ -45,9 +45,31 @@
 
 #include "homebot/BotMoveBaseOpr.hpp"
 
+/**
+ * @brief Constructor with no arguments for BotMoveBaseOpr; creates a useless object that won't execute
+ */
 BotMoveBaseOpr::BotMoveBaseOpr() {
 }
 
+/**
+ * @brief Constructor for BotMoveBaseOpr; builds operation that may execute
+ * @param pCode std::string indicating operation code; must be BotMoveBase for this to execute
+ * @param pSceneNumber integer for scene number to act on; must be within operational parameters to execute
+ * @param pAction integer for action to take; must be valid action for this to execute
+ */
+
+/**
+ * @brief Constructor for BotMoveBaseOpr; builds operation that may execute
+ * @param pCode std::string indicating operation code; must be BotMoveBase for this to execute
+ * @param pFrame_id std::string for the move_base frame_id within which the pose is to be executed
+ * @param pXPos double pose X position
+ * @param pYPos double pose Y position
+ * @param pZPos double pose Z position
+ * @param pXOrient double X orientation (Quaternion)
+ * @param pYOrient double Y orientation (Quaternion)
+ * @param pZOrient double Z orientation (Quaternion)
+ * @param pWOrient double W orientation (Quaternion)
+ */
 BotMoveBaseOpr::BotMoveBaseOpr(const std::string pCode,
                                const std::string pFrame_id, const double pXPos,
                                const double pYPos, const double pZPos,

@@ -45,12 +45,21 @@
  */
 #include "homebot/OperationParameters.hpp"
 
+/**
+ * @brief Constructor for OperationParameters; creates an object that is all zeros and so can't be used in a working system
+ */
 OperationParameters::OperationParameters()
     : maxDoorNumber(0),
       maxSceneNumber(0),
       maxShadeNumber(0) {
 }
 
+/**
+ * @brief Constructor for OperationParameters; creates a useful object (assuming that the parameters are good)
+ * @param doors integer representing the number of doors in a Home Automation system; used to validate HADoor operations
+ * @param scenes integer representing the number of scenes in a Home Automation system; used to validate HAScene operations
+ * @param shades integer representing the number of shades in a Home Automation system; used to validate HAShade operations
+ */
 OperationParameters::OperationParameters(int doors, int scenes, int shades)
     : maxDoorNumber(doors),
       maxSceneNumber(scenes),

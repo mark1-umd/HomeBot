@@ -45,6 +45,9 @@
 
 #include "homebot/HASceneService.hpp"
 
+/**
+ * @brief Constructor for HASceneService; creates an HAScene Service object that must be initialized before it is used
+ */
 HASceneService::HASceneService() {
 }
 

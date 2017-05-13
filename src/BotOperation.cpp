@@ -50,16 +50,27 @@
 #include "homebot/BotAffectHASceneOpr.hpp"
 #include "homebot/BotAffectHAShadeOpr.hpp"
 
-
+/**
+ * Constructor for BotOperation; with no arguments it creates a BotOperation that is a null base object (not executable)
+ */
 BotOperation::BotOperation()
     : code(""),
       rawText("") {
 }
 
+/**
+ * @brief Constructor for BotOperation; creates an instance of the base class that is possibly capable of being transformed into a derived class executable object
+ * @param pRawText std::string containing a possible operation code and details that could be transformed into an executable operation
+ */
 BotOperation::BotOperation(const std::string pRawText)
     : rawText(pRawText) {
 }
 
+/**
+ * Constructor for BotOperation; creates an instance of the base class that is possibly capable of being transformed into a derived class object that executable
+ * @param pRawText std::string containing only the details of the operation specified in the pCode parameter
+ * @param pCode std::string containing an operation code that may be recognized as a valid operation code during transformation
+ */
 BotOperation::BotOperation(const std::string pRawText, const std::string pCode)
     : code(pCode),
       rawText(pRawText) {
