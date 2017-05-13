@@ -31,6 +31,8 @@ before_install:
   # Prepare rosdep
   - sudo rosdep init
   - rosdep update
+  # Grab lcov
+  - sudo apt-get lcov
 
 install:
   # Create catkin workspace
