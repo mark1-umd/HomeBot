@@ -59,10 +59,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 - The Robot Operating System (ROS) version Indigo Igloo
 - [future] Gazebo 3D rigid body simulator integrated with ROS
 - [future] Turtlebot simulation stack for Indigo Igloo
-- C++ language using the gcc compiler with C++11/14 syntax and extensions
+- C++ language using the gcc compiler with C++03 syntax and extensions
 - cmake build system
 - googletest testing
-- [future] Travis Continual Integration
+- Travis Continual Integration
 - [future] Coveralls coverage monitoring (in development)
 
 ## Dependencies
