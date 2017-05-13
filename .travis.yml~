@@ -60,7 +60,7 @@ script:
   - source devel/setup.bash
   - catkin run_tests --no-status -p1 -i --summary
   #- catkin_test_results --all ~/catkin_ws/build
-  # See if we can get coverage information
+  # See if we can get coverage information (from github.com/hcrlab/wiki/blob/master/software_engineering/code_coverage.md)
   - cd ~/catkin_ws/build
   - lcov --directory . --capture --output-file coverage.info
   - lcov --remove coverage.info '/opt/*' '/usr/*' '*/devel/*' '*test_*' '*_test*' --output-file coverage.info
