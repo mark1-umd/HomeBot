@@ -50,7 +50,7 @@
 
 /*******************************************************************************/
 
-TEST (Repertoire, Repertoire) {
+TEST(Repertoire, Repertoire) {
   // Define the operation parameters for this test
   // doors = 5, scenes = 15, shades = 8
   OperationParameters opParams(5, 15, 8);

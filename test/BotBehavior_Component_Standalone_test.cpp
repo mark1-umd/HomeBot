@@ -47,7 +47,6 @@
 #include "boost/shared_ptr.hpp"
 #include "gtest/gtest.h"
 #include "ros/ros.h"
-
 #include "homebot/BotOperation.hpp"
 #include "homebot/OperationParameters.hpp"
 #include "homebot/BotMoveBaseOpr.hpp"
@@ -63,7 +62,7 @@
 // version of the BotBehavior_Component tests.
 
 /*******************************************************************************/
-TEST (HomeBotBehavior, BotOprClients) {
+TEST(HomeBotBehavior, BotOprClients) {
 
   // Instantiate the BotOprClients object; NO SERVERS SHOULD BE RUNNING FOR THIS TEST
   BotOprClients botOprClients;
@@ -73,7 +72,7 @@ TEST (HomeBotBehavior, BotOprClients) {
 }
 
 /*******************************************************************************/
-TEST (HomeBotBehavior, BotMoveBase) {
+TEST(HomeBotBehavior, BotMoveBase) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
@@ -117,7 +116,7 @@ TEST (HomeBotBehavior, BotMoveBase) {
 }
 
 /*******************************************************************************/
-TEST (HomeBotBehavior, BotAffectHADoor) {
+TEST(HomeBotBehavior, BotAffectHADoor) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
@@ -159,7 +158,7 @@ TEST (HomeBotBehavior, BotAffectHADoor) {
 }
 
 /*******************************************************************************/
-TEST (HomeBotBehavior, BotAffectHAScene) {
+TEST(HomeBotBehavior, BotAffectHAScene) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;
@@ -201,7 +200,7 @@ TEST (HomeBotBehavior, BotAffectHAScene) {
 }
 
 /*******************************************************************************/
-TEST (HomeBotBehavior, BotAffectHAShade) {
+TEST(HomeBotBehavior, BotAffectHAShade) {
 
   // Create a node handle since we are running as a ROS node
   ros::NodeHandle nh;

@@ -13,9 +13,11 @@ Holds system parameters used to ensure Operations are built to respect the limit
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classOperationParameters_a6612fc100361e96ad9dc3310d3033f44}{{\bfseries Operation\-Parameters} (int doors, int scenes, int shades)}\label{classOperationParameters_a6612fc100361e96ad9dc3310d3033f44}
+\hypertarget{classOperationParameters_a7cc8e713b7a6cc12c9eef42c88ec1109}{\hyperlink{classOperationParameters_a7cc8e713b7a6cc12c9eef42c88ec1109}{Operation\-Parameters} ()}\label{classOperationParameters_a7cc8e713b7a6cc12c9eef42c88ec1109}
 
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Constructor for \hyperlink{classOperationParameters}{Operation\-Parameters}; creates an object that is all zeros and so can't be used in a working system. \end{DoxyCompactList}\item 
+\hyperlink{classOperationParameters_a6612fc100361e96ad9dc3310d3033f44}{Operation\-Parameters} (int doors, int scenes, int shades)
+\begin{DoxyCompactList}\small\item\em Constructor for \hyperlink{classOperationParameters}{Operation\-Parameters}; creates a useful object (assuming that the parameters are good) \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -32,6 +34,31 @@ Holds system parameters used to ensure Operations are built to respect the limit
 
 \subsection{Detailed Description}
 Holds system parameters used to ensure Operations are built to respect the limits of the system. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classOperationParameters_a6612fc100361e96ad9dc3310d3033f44}{\index{Operation\-Parameters@{Operation\-Parameters}!Operation\-Parameters@{Operation\-Parameters}}
+\index{Operation\-Parameters@{Operation\-Parameters}!OperationParameters@{Operation\-Parameters}}
+\subsubsection[{Operation\-Parameters}]{\setlength{\rightskip}{0pt plus 5cm}Operation\-Parameters\-::\-Operation\-Parameters (
+\begin{DoxyParamCaption}
+\item[{int}]{doors, }
+\item[{int}]{scenes, }
+\item[{int}]{shades}
+\end{DoxyParamCaption}
+)}}\label{classOperationParameters_a6612fc100361e96ad9dc3310d3033f44}
+
+
+Constructor for \hyperlink{classOperationParameters}{Operation\-Parameters}; creates a useful object (assuming that the parameters are good) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em doors} & integer representing the number of doors in a Home Automation system; used to validate H\-A\-Door operations \\
+\hline
+{\em scenes} & integer representing the number of scenes in a Home Automation system; used to validate H\-A\-Scene operations \\
+\hline
+{\em shades} & integer representing the number of shades in a Home Automation system; used to validate H\-A\-Shade operations \\
+\hline
+\end{DoxyParams}
+
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 

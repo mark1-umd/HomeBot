@@ -50,7 +50,7 @@
 // Set up the HARequestServer HADoor service test using the GoogleTest macros
 // This test assumes that the HARequestServer has been initialized with 5 doors
 // (argument -doors 5)
-TEST (HARequestServer, HADoorService) {
+TEST(HARequestServer, HADoorService) {
   // Set the number of doors in the server to be tested
   int doorCount = 5;
 
@@ -125,7 +125,7 @@ TEST (HARequestServer, HADoorService) {
 // Set up the HARequestServer HAScene service test using the GoogleTest macros
 // This test assumes that the HARequestServer has been initialized with 15 scenes
 // (argument -scenes 15)
-TEST (HARequestServer, HASceneService) {
+TEST(HARequestServer, HASceneService) {
   // Set the number of scenes in the server to be tested
   int sceneCount = 15;
 
@@ -200,7 +200,7 @@ TEST (HARequestServer, HASceneService) {
 // Set up the HARequestServer HAShade service test using the GoogleTest macros
 // This test assumes that the HARequestServer has been initialized with 8 shades
 // (argument -shades 8)
-TEST (HARequestServer, HAShadeService) {
+TEST(HARequestServer, HAShadeService) {
   // Set the number of shades in the server to be tested
   int shadeCount = 8;
 

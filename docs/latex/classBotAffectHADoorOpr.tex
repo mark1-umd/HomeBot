@@ -19,9 +19,11 @@ Inheritance diagram for Bot\-Affect\-H\-A\-Door\-Opr\-:\begin{figure}[H]
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classBotAffectHADoorOpr_aaf986c676dad29e1c151df36e42f3fc3}{{\bfseries Bot\-Affect\-H\-A\-Door\-Opr} (const std\-::string p\-Code, const int p\-Door\-Number, const int p\-Action)}\label{classBotAffectHADoorOpr_aaf986c676dad29e1c151df36e42f3fc3}
+\hypertarget{classBotAffectHADoorOpr_a385c1a210b4fc2af8772af1082200c44}{\hyperlink{classBotAffectHADoorOpr_a385c1a210b4fc2af8772af1082200c44}{Bot\-Affect\-H\-A\-Door\-Opr} ()}\label{classBotAffectHADoorOpr_a385c1a210b4fc2af8772af1082200c44}
 
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor with no arguments for \hyperlink{classBotAffectHADoorOpr}{Bot\-Affect\-H\-A\-Door\-Opr}; creates a useless object that won't execute. \end{DoxyCompactList}\item 
+\hyperlink{classBotAffectHADoorOpr_aaf986c676dad29e1c151df36e42f3fc3}{Bot\-Affect\-H\-A\-Door\-Opr} (const std\-::string p\-Code, const int p\-Door\-Number, const int p\-Action)
+\begin{DoxyCompactList}\small\item\em Constructor for \hyperlink{classBotAffectHADoorOpr}{Bot\-Affect\-H\-A\-Door\-Opr}; builds operation that may execute. \end{DoxyCompactList}\item 
 homebot\-::\-H\-A\-Door\-::\-Request \hyperlink{classBotAffectHADoorOpr_a25eed68370708f33963cb962b8e23580}{details} ()
 \begin{DoxyCompactList}\small\item\em Provides access to operation details for testing purposes. \end{DoxyCompactList}\item 
 bool \hyperlink{classBotAffectHADoorOpr_a6a82af8cbb0f8c48abbc04dc3f63811b}{is\-Executable} (const \hyperlink{classOperationParameters}{Operation\-Parameters} \&op\-Params)
@@ -33,6 +35,31 @@ bool \hyperlink{classBotAffectHADoorOpr_ae6ea9d64ffdb7f2c5622500109a545b7}{execu
 
 \subsection{Detailed Description}
 Provides a Home Automation \char`\"{}door\char`\"{} operation (open/close); derived from \hyperlink{classBotOperation}{Bot\-Operation}. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classBotAffectHADoorOpr_aaf986c676dad29e1c151df36e42f3fc3}{\index{Bot\-Affect\-H\-A\-Door\-Opr@{Bot\-Affect\-H\-A\-Door\-Opr}!Bot\-Affect\-H\-A\-Door\-Opr@{Bot\-Affect\-H\-A\-Door\-Opr}}
+\index{Bot\-Affect\-H\-A\-Door\-Opr@{Bot\-Affect\-H\-A\-Door\-Opr}!BotAffectHADoorOpr@{Bot\-Affect\-H\-A\-Door\-Opr}}
+\subsubsection[{Bot\-Affect\-H\-A\-Door\-Opr}]{\setlength{\rightskip}{0pt plus 5cm}Bot\-Affect\-H\-A\-Door\-Opr\-::\-Bot\-Affect\-H\-A\-Door\-Opr (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{p\-Code, }
+\item[{const int}]{p\-Door\-Number, }
+\item[{const int}]{p\-Action}
+\end{DoxyParamCaption}
+)}}\label{classBotAffectHADoorOpr_aaf986c676dad29e1c151df36e42f3fc3}
+
+
+Constructor for \hyperlink{classBotAffectHADoorOpr}{Bot\-Affect\-H\-A\-Door\-Opr}; builds operation that may execute. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\-Code} & std\-::string indicating operation code; must be H\-A\-Door for this to execute \\
+\hline
+{\em p\-Door\-Number} & integer for door number to act on; must be within operational parameters to execute \\
+\hline
+{\em p\-Action} & integer for action to take; must be valid action for this to execute \\
+\hline
+\end{DoxyParams}
+
 
 \subsection{Member Function Documentation}
 \hypertarget{classBotAffectHADoorOpr_a25eed68370708f33963cb962b8e23580}{\index{Bot\-Affect\-H\-A\-Door\-Opr@{Bot\-Affect\-H\-A\-Door\-Opr}!details@{details}}

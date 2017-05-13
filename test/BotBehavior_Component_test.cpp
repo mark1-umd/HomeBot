@@ -57,7 +57,7 @@
 
 /*******************************************************************************/
 
-TEST (BotBehaviorOprClients, StartUp) {
+TEST(BotBehaviorOprClients, StartUp) {
   // Create a node handle since we are running as a ROS node and use rosconsole
   ros::NodeHandle nh;
 
@@ -70,7 +70,7 @@ TEST (BotBehaviorOprClients, StartUp) {
 }
 /*******************************************************************************/
 
-TEST (BotBehaviorBaseOpr, Construction) {
+TEST(BotBehaviorBaseOpr, Construction) {
   // Define the operation parameters for this test
   // doors = 5, scenes = 15, shades = 8
   OperationParameters opParams(5, 15, 8);
@@ -212,7 +212,7 @@ TEST (BotBehaviorBaseOpr, Construction) {
 }
 /******************************************************************************/
 
-TEST (BotBehaviorMoveBase, Construction) {
+TEST(BotBehaviorMoveBase, Construction) {
   // Define the operation parameters for this test
   // doors = 5, scenes = 15, shades = 8
   OperationParameters opParams(5, 15, 8);
@@ -257,7 +257,7 @@ TEST (BotBehaviorMoveBase, Construction) {
 }
 /*******************************************************************************/
 
-TEST (BotBehaviorMoveBase, Execution) {
+TEST(BotBehaviorMoveBase, Execution) {
   // Define the operation parameters based on the Request Server initialization
   // (Assume Request Server started with -doors 5 -scenes 15 -shades 8
   // doors = 5, scenes = 15, shades = 8
@@ -295,7 +295,7 @@ TEST (BotBehaviorMoveBase, Execution) {
 }
 /*******************************************************************************/
 
-TEST (BotBehaviorAffectHADoor, Construction) {
+TEST(BotBehaviorAffectHADoor, Construction) {
   // Define the operation parameters for this test
   // doors = 5, scenes = 15, shades = 8
   OperationParameters opParams(5, 15, 8);
@@ -327,7 +327,7 @@ TEST (BotBehaviorAffectHADoor, Construction) {
 }
 /*******************************************************************************/
 
-TEST (BotBehaviorAffectHADoor, Execution) {
+TEST(BotBehaviorAffectHADoor, Execution) {
   // Define the operation parameters based on the Request Server initialization
   // (Assume Request Server started with -doors 5 -scenes 15 -shades 8
   // doors = 5, scenes = 15, shades = 8
@@ -409,7 +409,7 @@ TEST (BotBehaviorAffectHADoor, Execution) {
 }
 /*******************************************************************************/
 
-TEST (BotBehaviorAffectHAScene, Construction) {
+TEST(BotBehaviorAffectHAScene, Construction) {
   // Define the operation parameters for this test
   // doors = 5, scenes = 15, shades = 8
   OperationParameters opParams(5, 15, 8);
@@ -441,7 +441,7 @@ TEST (BotBehaviorAffectHAScene, Construction) {
 }
 /*******************************************************************************/
 
-TEST (BotBehaviorAffectHAScene, Execution) {
+TEST(BotBehaviorAffectHAScene, Execution) {
   // Define the operation parameters based on the Request Server initialization
   // (Assume Request Server started with -doors 5 -scenes 15 -shades 8
   // doors = 5, scenes = 15, shades = 8
@@ -520,7 +520,7 @@ TEST (BotBehaviorAffectHAScene, Execution) {
 }
 /*******************************************************************************/
 
-TEST (BotBehaviorAffectHAShade, Construction) {
+TEST(BotBehaviorAffectHAShade, Construction) {
   // Define the operation parameters for this test
   // doors = 5, scenes = 15, shades = 8
   OperationParameters opParams(5, 15, 8);
@@ -552,7 +552,7 @@ TEST (BotBehaviorAffectHAShade, Construction) {
 }
 /*******************************************************************************/
 
-TEST (BotBehaviorAffectHAShade, Execution) {
+TEST(BotBehaviorAffectHAShade, Execution) {
   // Define the operation parameters based on the Request Server initialization
   // (Assume Request Server started with -doors 5 -scenes 15 -shades 8
   // doors = 5, scenes = 15, shades = 8
@@ -630,7 +630,7 @@ TEST (BotBehaviorAffectHAShade, Execution) {
 
 }
 /*******************************************************************************/
-TEST (BotBehavior, HAServiceBehaviors) {
+TEST(BotBehavior, HAServiceBehaviors) {
   // Define the operation parameters based on the Request Server initialization
   // (Assume Request Server started with -doors 5 -scenes 15 -shades 8
   // doors = 5, scenes = 15, shades = 8
@@ -657,7 +657,7 @@ TEST (BotBehavior, HAServiceBehaviors) {
   EXPECT_TRUE(botBehav.performPost(botOprClients));
 }
 /*******************************************************************************/
-TEST (BotBehavior, MoveBaseBehaviors) {
+TEST(BotBehavior, MoveBaseBehaviors) {
   // Define the operation parameters based on the Request Server initialization
   // (Assume Request Server started with -doors 5 -scenes 15 -shades 8
   // doors = 5, scenes = 15, shades = 8

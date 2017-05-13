@@ -19,9 +19,11 @@ Inheritance diagram for Bot\-Affect\-H\-A\-Scene\-Opr\-:\begin{figure}[H]
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classBotAffectHASceneOpr_a7b924f64c28de823aae0591ac9b0d6ff}{{\bfseries Bot\-Affect\-H\-A\-Scene\-Opr} (const std\-::string p\-Code, const int p\-Scene\-Number, const int p\-Action)}\label{classBotAffectHASceneOpr_a7b924f64c28de823aae0591ac9b0d6ff}
+\hypertarget{classBotAffectHASceneOpr_a5564fd349eeefe4f1ee96a06de755f4e}{\hyperlink{classBotAffectHASceneOpr_a5564fd349eeefe4f1ee96a06de755f4e}{Bot\-Affect\-H\-A\-Scene\-Opr} ()}\label{classBotAffectHASceneOpr_a5564fd349eeefe4f1ee96a06de755f4e}
 
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor with no arguments for \hyperlink{classBotAffectHASceneOpr}{Bot\-Affect\-H\-A\-Scene\-Opr}; creates a useless object that won't execute. \end{DoxyCompactList}\item 
+\hyperlink{classBotAffectHASceneOpr_a7b924f64c28de823aae0591ac9b0d6ff}{Bot\-Affect\-H\-A\-Scene\-Opr} (const std\-::string p\-Code, const int p\-Scene\-Number, const int p\-Action)
+\begin{DoxyCompactList}\small\item\em Constructor for \hyperlink{classBotAffectHASceneOpr}{Bot\-Affect\-H\-A\-Scene\-Opr}; builds operation that may execute. \end{DoxyCompactList}\item 
 homebot\-::\-H\-A\-Scene\-::\-Request \hyperlink{classBotAffectHASceneOpr_a78d554b4969e6d1f64cd5b812662153b}{details} ()
 \begin{DoxyCompactList}\small\item\em Provides access to operation details for testing purposes. \end{DoxyCompactList}\item 
 bool \hyperlink{classBotAffectHASceneOpr_ada2804cb3287adacbfe0c1d5015842c8}{is\-Executable} (const \hyperlink{classOperationParameters}{Operation\-Parameters} \&op\-Params)
@@ -33,6 +35,31 @@ bool \hyperlink{classBotAffectHASceneOpr_a1ea965477504ea6a7e3d7c89ced15b3b}{exec
 
 \subsection{Detailed Description}
 Provides a home Automation \char`\"{}scene\char`\"{} (lighting) operation (turnon/turnoff); derived from \hyperlink{classBotOperation}{Bot\-Operation}. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classBotAffectHASceneOpr_a7b924f64c28de823aae0591ac9b0d6ff}{\index{Bot\-Affect\-H\-A\-Scene\-Opr@{Bot\-Affect\-H\-A\-Scene\-Opr}!Bot\-Affect\-H\-A\-Scene\-Opr@{Bot\-Affect\-H\-A\-Scene\-Opr}}
+\index{Bot\-Affect\-H\-A\-Scene\-Opr@{Bot\-Affect\-H\-A\-Scene\-Opr}!BotAffectHASceneOpr@{Bot\-Affect\-H\-A\-Scene\-Opr}}
+\subsubsection[{Bot\-Affect\-H\-A\-Scene\-Opr}]{\setlength{\rightskip}{0pt plus 5cm}Bot\-Affect\-H\-A\-Scene\-Opr\-::\-Bot\-Affect\-H\-A\-Scene\-Opr (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{p\-Code, }
+\item[{const int}]{p\-Scene\-Number, }
+\item[{const int}]{p\-Action}
+\end{DoxyParamCaption}
+)}}\label{classBotAffectHASceneOpr_a7b924f64c28de823aae0591ac9b0d6ff}
+
+
+Constructor for \hyperlink{classBotAffectHASceneOpr}{Bot\-Affect\-H\-A\-Scene\-Opr}; builds operation that may execute. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\-Code} & std\-::string indicating operation code; must be H\-A\-Scene for this to execute \\
+\hline
+{\em p\-Scene\-Number} & integer for scene number to act on; must be within operational parameters to execute \\
+\hline
+{\em p\-Action} & integer for action to take; must be valid action for this to execute \\
+\hline
+\end{DoxyParams}
+
 
 \subsection{Member Function Documentation}
 \hypertarget{classBotAffectHASceneOpr_a78d554b4969e6d1f64cd5b812662153b}{\index{Bot\-Affect\-H\-A\-Scene\-Opr@{Bot\-Affect\-H\-A\-Scene\-Opr}!details@{details}}

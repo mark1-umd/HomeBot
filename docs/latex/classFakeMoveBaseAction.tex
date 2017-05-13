@@ -13,12 +13,39 @@ An object to hold the action server for faking move\-\_\-base actions in the Hom
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+\hypertarget{classFakeMoveBaseAction_a22f349e4529f573adf60f10cd41ee964}{\hyperlink{classFakeMoveBaseAction_a22f349e4529f573adf60f10cd41ee964}{Fake\-Move\-Base\-Action} ()}\label{classFakeMoveBaseAction_a22f349e4529f573adf60f10cd41ee964}
+
+\begin{DoxyCompactList}\small\item\em Constructor for Fake\-Move\-Base object with an Action Server that can receive and act on Pose goals using a default feedback frequency and base velocity. \end{DoxyCompactList}\item 
+\hyperlink{classFakeMoveBaseAction_ad77d47a9087245ab845589a7d1c4bb38}{Fake\-Move\-Base\-Action} (double p\-F\-B\-Freq, double p\-Base\-Vel)
+\begin{DoxyCompactList}\small\item\em Constructor for Fake\-Move\-Base object with an Action Server that can receive and act on Pose goals using the specified feedback frequency and base velocity. \end{DoxyCompactList}\item 
 void \hyperlink{classFakeMoveBaseAction_ab585af0c3bf936a84c074cc512e7a12c}{action\-Execute\-C\-B} (const move\-\_\-base\-\_\-msgs\-::\-Move\-Base\-Goal\-Const\-Ptr \&goal)
 \begin{DoxyCompactList}\small\item\em Executes when the action server receives a pose goal from an action client; moves to new pose. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 An object to hold the action server for faking move\-\_\-base actions in the Home\-Bot demo. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classFakeMoveBaseAction_ad77d47a9087245ab845589a7d1c4bb38}{\index{Fake\-Move\-Base\-Action@{Fake\-Move\-Base\-Action}!Fake\-Move\-Base\-Action@{Fake\-Move\-Base\-Action}}
+\index{Fake\-Move\-Base\-Action@{Fake\-Move\-Base\-Action}!FakeMoveBaseAction@{Fake\-Move\-Base\-Action}}
+\subsubsection[{Fake\-Move\-Base\-Action}]{\setlength{\rightskip}{0pt plus 5cm}Fake\-Move\-Base\-Action\-::\-Fake\-Move\-Base\-Action (
+\begin{DoxyParamCaption}
+\item[{double}]{p\-F\-B\-Freq, }
+\item[{double}]{p\-Base\-Vel}
+\end{DoxyParamCaption}
+)}}\label{classFakeMoveBaseAction_ad77d47a9087245ab845589a7d1c4bb38}
+
+
+Constructor for Fake\-Move\-Base object with an Action Server that can receive and act on Pose goals using the specified feedback frequency and base velocity. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\-F\-B\-Freq} & \\
+\hline
+{\em p\-Base\-Vel} & \\
+\hline
+\end{DoxyParams}
+
 
 \subsection{Member Function Documentation}
 \hypertarget{classFakeMoveBaseAction_ab585af0c3bf936a84c074cc512e7a12c}{\index{Fake\-Move\-Base\-Action@{Fake\-Move\-Base\-Action}!action\-Execute\-C\-B@{action\-Execute\-C\-B}}

@@ -19,9 +19,11 @@ Inheritance diagram for Bot\-Move\-Base\-Opr\-:\begin{figure}[H]
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classBotMoveBaseOpr_a269ba342770db907481955adb5bd9cec}{{\bfseries Bot\-Move\-Base\-Opr} (const std\-::string p\-Code, const std\-::string p\-Frame\-\_\-id, const double p\-X\-Pos, const double p\-Y\-Pos, const double p\-Z\-Pos, const double p\-X\-Orient, const double p\-Y\-Orient, const double p\-Z\-Orient, const double p\-W\-Orient)}\label{classBotMoveBaseOpr_a269ba342770db907481955adb5bd9cec}
+\hypertarget{classBotMoveBaseOpr_a777b4afcac42cfad28ece5d1962a50e8}{\hyperlink{classBotMoveBaseOpr_a777b4afcac42cfad28ece5d1962a50e8}{Bot\-Move\-Base\-Opr} ()}\label{classBotMoveBaseOpr_a777b4afcac42cfad28ece5d1962a50e8}
 
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor with no arguments for \hyperlink{classBotMoveBaseOpr}{Bot\-Move\-Base\-Opr}; creates a useless object that won't execute. \end{DoxyCompactList}\item 
+\hyperlink{classBotMoveBaseOpr_a269ba342770db907481955adb5bd9cec}{Bot\-Move\-Base\-Opr} (const std\-::string p\-Code, const std\-::string p\-Frame\-\_\-id, const double p\-X\-Pos, const double p\-Y\-Pos, const double p\-Z\-Pos, const double p\-X\-Orient, const double p\-Y\-Orient, const double p\-Z\-Orient, const double p\-W\-Orient)
+\begin{DoxyCompactList}\small\item\em Constructor for \hyperlink{classBotMoveBaseOpr}{Bot\-Move\-Base\-Opr}; builds operation that may execute. \end{DoxyCompactList}\item 
 move\-\_\-base\-\_\-msgs\-::\-Move\-Base\-Goal \hyperlink{classBotMoveBaseOpr_ad03fb9f3398b557549408752690e7d58}{details} ()
 \begin{DoxyCompactList}\small\item\em Provides access to operation details for testing purposes. \end{DoxyCompactList}\item 
 bool \hyperlink{classBotMoveBaseOpr_ae6a4ed7325d3bc728b6934250171178d}{is\-Executable} (const \hyperlink{classOperationParameters}{Operation\-Parameters} \&op\-Params)
@@ -33,6 +35,55 @@ bool \hyperlink{classBotMoveBaseOpr_aebac9f650a9960e132dccc61e54b8c93}{execute} 
 
 \subsection{Detailed Description}
 Provides a service robot \char`\"{}move\-\_\-base\char`\"{} operation (move to frame\-\_\-id/\-Pose); derived from \hyperlink{classBotOperation}{Bot\-Operation}. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classBotMoveBaseOpr_a269ba342770db907481955adb5bd9cec}{\index{Bot\-Move\-Base\-Opr@{Bot\-Move\-Base\-Opr}!Bot\-Move\-Base\-Opr@{Bot\-Move\-Base\-Opr}}
+\index{Bot\-Move\-Base\-Opr@{Bot\-Move\-Base\-Opr}!BotMoveBaseOpr@{Bot\-Move\-Base\-Opr}}
+\subsubsection[{Bot\-Move\-Base\-Opr}]{\setlength{\rightskip}{0pt plus 5cm}Bot\-Move\-Base\-Opr\-::\-Bot\-Move\-Base\-Opr (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{p\-Code, }
+\item[{const std\-::string}]{p\-Frame\-\_\-id, }
+\item[{const double}]{p\-X\-Pos, }
+\item[{const double}]{p\-Y\-Pos, }
+\item[{const double}]{p\-Z\-Pos, }
+\item[{const double}]{p\-X\-Orient, }
+\item[{const double}]{p\-Y\-Orient, }
+\item[{const double}]{p\-Z\-Orient, }
+\item[{const double}]{p\-W\-Orient}
+\end{DoxyParamCaption}
+)}}\label{classBotMoveBaseOpr_a269ba342770db907481955adb5bd9cec}
+
+
+Constructor for \hyperlink{classBotMoveBaseOpr}{Bot\-Move\-Base\-Opr}; builds operation that may execute. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p\-Code} & std\-::string indicating operation code; must be Bot\-Move\-Base for this to execute \\
+\hline
+{\em p\-Scene\-Number} & integer for scene number to act on; must be within operational parameters to execute \\
+\hline
+{\em p\-Action} & integer for action to take; must be valid action for this to execute Constructor for \hyperlink{classBotMoveBaseOpr}{Bot\-Move\-Base\-Opr}; builds operation that may execute \\
+\hline
+{\em p\-Code} & std\-::string indicating operation code; must be Bot\-Move\-Base for this to execute \\
+\hline
+{\em p\-Frame\-\_\-id} & std\-::string for the move\-\_\-base frame\-\_\-id within which the pose is to be executed \\
+\hline
+{\em p\-X\-Pos} & double pose X position \\
+\hline
+{\em p\-Y\-Pos} & double pose Y position \\
+\hline
+{\em p\-Z\-Pos} & double pose Z position \\
+\hline
+{\em p\-X\-Orient} & double X orientation (Quaternion) \\
+\hline
+{\em p\-Y\-Orient} & double Y orientation (Quaternion) \\
+\hline
+{\em p\-Z\-Orient} & double Z orientation (Quaternion) \\
+\hline
+{\em p\-W\-Orient} & double W orientation (Quaternion) \\
+\hline
+\end{DoxyParams}
+
 
 \subsection{Member Function Documentation}
 \hypertarget{classBotMoveBaseOpr_ad03fb9f3398b557549408752690e7d58}{\index{Bot\-Move\-Base\-Opr@{Bot\-Move\-Base\-Opr}!details@{details}}

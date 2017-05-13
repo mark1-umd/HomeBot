@@ -98,8 +98,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6612fc100361e96ad9dc3310d3033f44"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6612fc100361e96ad9dc3310d3033f44"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>OperationParameters</b> (int doors, int scenes, int shades)</td></tr>
+<tr class="memitem:a7cc8e713b7a6cc12c9eef42c88ec1109"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7cc8e713b7a6cc12c9eef42c88ec1109"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOperationParameters.html#a7cc8e713b7a6cc12c9eef42c88ec1109">OperationParameters</a> ()</td></tr>
+<tr class="memdesc:a7cc8e713b7a6cc12c9eef42c88ec1109"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classOperationParameters.html" title="Holds system parameters used to ensure Operations are built to respect the limits of the system...">OperationParameters</a>; creates an object that is all zeros and so can't be used in a working system. <br/></td></tr>
+<tr class="separator:a7cc8e713b7a6cc12c9eef42c88ec1109"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6612fc100361e96ad9dc3310d3033f44"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOperationParameters.html#a6612fc100361e96ad9dc3310d3033f44">OperationParameters</a> (int doors, int scenes, int shades)</td></tr>
+<tr class="memdesc:a6612fc100361e96ad9dc3310d3033f44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classOperationParameters.html" title="Holds system parameters used to ensure Operations are built to respect the limits of the system...">OperationParameters</a>; creates a useful object (assuming that the parameters are good)  <a href="#a6612fc100361e96ad9dc3310d3033f44">More...</a><br/></td></tr>
 <tr class="separator:a6612fc100361e96ad9dc3310d3033f44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -116,14 +120,57 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>maxShadeNumber</b></td
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Holds system parameters used to ensure Operations are built to respect the limits of the system. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a6612fc100361e96ad9dc3310d3033f44"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">OperationParameters::OperationParameters </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>doors</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>scenes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>shades</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor for <a class="el" href="classOperationParameters.html" title="Holds system parameters used to ensure Operations are built to respect the limits of the system...">OperationParameters</a>; creates a useful object (assuming that the parameters are good) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">doors</td><td>integer representing the number of doors in a Home Automation system; used to validate HADoor operations </td></tr>
+    <tr><td class="paramname">scenes</td><td>integer representing the number of scenes in a Home Automation system; used to validate HAScene operations </td></tr>
+    <tr><td class="paramname">shades</td><td>integer representing the number of shades in a Home Automation system; used to validate HAShade operations </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/homebot/<a class="el" href="OperationParameters_8hpp_source.html">OperationParameters.hpp</a></li>
 <li>src/<a class="el" href="OperationParameters_8cpp.html">OperationParameters.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 12 2017 00:25:43 for Homebot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri May 12 2017 18:11:00 for Homebot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

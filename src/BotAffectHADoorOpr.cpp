@@ -91,8 +91,7 @@ bool BotAffectHADoorOpr::isExecutable(const OperationParameters& opParams) {
     ROS_DEBUG_STREAM(
         "HomeBot-BotAffectHADoorOpr(isExecutable): returning TRUE");
     return true;
-  }
-  else {
+  } else {
     ROS_WARN_STREAM(
         "HomeBot-BotAffectHADoorOpr(isExecutable): Validation failed code '" << code << "', door '" << static_cast<int>(request.doorNumber) << "', and action '" << static_cast<int>(request.action) << "'");
   }

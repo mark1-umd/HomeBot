@@ -13,15 +13,36 @@ An actionlib action server that receives bot behavior actions and carries them o
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{classBotActor_a4eeb9f0ee88968768d7bb9ff5355b2dd}{{\bfseries Bot\-Actor} (\hyperlink{classRepertoire}{Repertoire} \&p\-Repertoire, \hyperlink{classBotOprClients}{Bot\-Opr\-Clients} \&p\-Opr\-Clients)}\label{classBotActor_a4eeb9f0ee88968768d7bb9ff5355b2dd}
-
-\item 
+\hyperlink{classBotActor_a4eeb9f0ee88968768d7bb9ff5355b2dd}{Bot\-Actor} (\hyperlink{classRepertoire}{Repertoire} \&p\-Repertoire, \hyperlink{classBotOprClients}{Bot\-Opr\-Clients} \&p\-Opr\-Clients)
+\begin{DoxyCompactList}\small\item\em Constructor for \hyperlink{classBotActor}{Bot\-Actor}; builds object and starts Action Server with action\-Execute\-C\-B callback. \end{DoxyCompactList}\item 
 void \hyperlink{classBotActor_af0bcbb0676bc52bb16e1274c7398bf09}{action\-Execute\-C\-B} (const homebot\-::\-H\-B\-Behavior\-Goal\-Const\-Ptr \&goal)
 \begin{DoxyCompactList}\small\item\em R\-O\-S Action Protocol execute callback that receives and pursues \hyperlink{classBotBehavior}{Bot\-Behavior} goals. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 An actionlib action server that receives bot behavior actions and carries them out using its repertoire. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classBotActor_a4eeb9f0ee88968768d7bb9ff5355b2dd}{\index{Bot\-Actor@{Bot\-Actor}!Bot\-Actor@{Bot\-Actor}}
+\index{Bot\-Actor@{Bot\-Actor}!BotActor@{Bot\-Actor}}
+\subsubsection[{Bot\-Actor}]{\setlength{\rightskip}{0pt plus 5cm}Bot\-Actor\-::\-Bot\-Actor (
+\begin{DoxyParamCaption}
+\item[{{\bf Repertoire} \&}]{p\-Repertoire, }
+\item[{{\bf Bot\-Opr\-Clients} \&}]{p\-Opr\-Clients}
+\end{DoxyParamCaption}
+)}}\label{classBotActor_a4eeb9f0ee88968768d7bb9ff5355b2dd}
+
+
+Constructor for \hyperlink{classBotActor}{Bot\-Actor}; builds object and starts Action Server with action\-Execute\-C\-B callback. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em p\-Repertoire} & \hyperlink{classRepertoire}{Repertoire} of behaviors for this \hyperlink{classBotActor}{Bot\-Actor} \\
+\hline
+ & {\em p\-Opr\-Clients} & \hyperlink{classBotOprClients}{Bot\-Opr\-Clients} for this \hyperlink{classBotActor}{Bot\-Actor} to use to execute operations \\
+\hline
+\end{DoxyParams}
+
 
 \subsection{Member Function Documentation}
 \hypertarget{classBotActor_af0bcbb0676bc52bb16e1274c7398bf09}{\index{Bot\-Actor@{Bot\-Actor}!action\-Execute\-C\-B@{action\-Execute\-C\-B}}

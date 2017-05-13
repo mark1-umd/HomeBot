@@ -97,8 +97,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4eeb9f0ee88968768d7bb9ff5355b2dd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4eeb9f0ee88968768d7bb9ff5355b2dd"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BotActor</b> (<a class="el" href="classRepertoire.html">Repertoire</a> &amp;pRepertoire, <a class="el" href="classBotOprClients.html">BotOprClients</a> &amp;pOprClients)</td></tr>
+<tr class="memitem:a4eeb9f0ee88968768d7bb9ff5355b2dd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBotActor.html#a4eeb9f0ee88968768d7bb9ff5355b2dd">BotActor</a> (<a class="el" href="classRepertoire.html">Repertoire</a> &amp;pRepertoire, <a class="el" href="classBotOprClients.html">BotOprClients</a> &amp;pOprClients)</td></tr>
+<tr class="memdesc:a4eeb9f0ee88968768d7bb9ff5355b2dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classBotActor.html" title="An actionlib action server that receives bot behavior actions and carries them out using its repertoi...">BotActor</a>; builds object and starts Action Server with actionExecuteCB callback.  <a href="#a4eeb9f0ee88968768d7bb9ff5355b2dd">More...</a><br/></td></tr>
 <tr class="separator:a4eeb9f0ee88968768d7bb9ff5355b2dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0bcbb0676bc52bb16e1274c7398bf09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBotActor.html#af0bcbb0676bc52bb16e1274c7398bf09">actionExecuteCB</a> (const homebot::HBBehaviorGoalConstPtr &amp;goal)</td></tr>
 <tr class="memdesc:af0bcbb0676bc52bb16e1274c7398bf09"><td class="mdescLeft">&#160;</td><td class="mdescRight">ROS Action Protocol execute callback that receives and pursues <a class="el" href="classBotBehavior.html" title="Collection of operations used to perform a behavior. ">BotBehavior</a> goals.  <a href="#af0bcbb0676bc52bb16e1274c7398bf09">More...</a><br/></td></tr>
@@ -106,7 +106,43 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An actionlib action server that receives bot behavior actions and carries them out using its repertoire. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a4eeb9f0ee88968768d7bb9ff5355b2dd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BotActor::BotActor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classRepertoire.html">Repertoire</a> &amp;&#160;</td>
+          <td class="paramname"><em>pRepertoire</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classBotOprClients.html">BotOprClients</a> &amp;&#160;</td>
+          <td class="paramname"><em>pOprClients</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor for <a class="el" href="classBotActor.html" title="An actionlib action server that receives bot behavior actions and carries them out using its repertoi...">BotActor</a>; builds object and starts Action Server with actionExecuteCB callback. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pRepertoire</td><td><a class="el" href="classRepertoire.html" title="A collection of HomeBot service robot behaviors; used by a BotActor to find behaviors to execute...">Repertoire</a> of behaviors for this <a class="el" href="classBotActor.html" title="An actionlib action server that receives bot behavior actions and carries them out using its repertoi...">BotActor</a> </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">pOprClients</td><td><a class="el" href="classBotOprClients.html" title="An object to hold ROS action/service clients needed to perform Bot operations in the HomeBot system...">BotOprClients</a> for this <a class="el" href="classBotActor.html" title="An actionlib action server that receives bot behavior actions and carries them out using its repertoi...">BotActor</a> to use to execute operations </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="af0bcbb0676bc52bb16e1274c7398bf09"></a>
 <div class="memitem">
 <div class="memproto">
@@ -138,7 +174,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 12 2017 00:25:43 for Homebot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri May 12 2017 18:11:00 for Homebot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

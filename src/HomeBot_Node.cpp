@@ -98,12 +98,12 @@ int main(int argc, char **argv) {
       } else if (strcmp(argv[i], "-botType") == 0) {
         // Grab the HomeBot Bot type; should be a string
         botType = argv[i + 1];
-        //Skip the parameter value
+        // Skip the parameter value
         i++;
       } else if (strcmp(argv[i], "-rptFile") == 0) {
         // Grab the repertoire filename; should be a string
         rptFile = argv[i + 1];
-        //Skip the parameter value
+        // Skip the parameter value
         i++;
       }
     }

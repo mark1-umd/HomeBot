@@ -50,8 +50,7 @@ typedef actionlib::SimpleActionClient<homebot::HAHvacAction> Client;
 
 /*******************************************************************************/
 // Set up the HAHvacActionServer  action test using the GoogleTest macros
-TEST (HAHvacActionServer, HAHvacAction) {
-
+TEST(HAHvacActionServer, HAHvacAction) {
   // Set up as an action client
   ros::NodeHandle nh;
   // Create a simple action client; 1st argument is the action name; second is true for no ros::spin()

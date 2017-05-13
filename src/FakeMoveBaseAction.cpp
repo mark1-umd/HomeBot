@@ -53,6 +53,10 @@ FakeMoveBaseAction::FakeMoveBaseAction()
       posX(0.0),          // X coordinate of current base location; starts at 0
       posY(0.0),          // Y coordinate of current base location; starts at 0
       posZ(0.0),          // Z coordinate of current base location; starts at 0
+      orientX(0.0),
+      orientY(0.0),
+      orientZ(0.0),
+      orientW(0.0),
       as(nh, "move_base",
          boost::bind(&FakeMoveBaseAction::actionExecuteCB, this, _1),
          false) {
@@ -70,6 +74,10 @@ FakeMoveBaseAction::FakeMoveBaseAction(double pFBFreq, double pBaseVel)
       posX(0.0),          // X coordinate of current base location; starts at 0
       posY(0.0),          // Y coordinate of current base location; starts at 0
       posZ(0.0),          // Z coordinate of current base location; starts at 0
+      orientX(0.0),
+      orientY(0.0),
+      orientZ(0.0),
+      orientW(0.0),
       as(nh, "move_base",
          boost::bind(&FakeMoveBaseAction::actionExecuteCB, this, _1), false) {
   as.start();

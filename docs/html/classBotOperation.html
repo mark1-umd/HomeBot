@@ -110,11 +110,12 @@ Inheritance diagram for BotOperation:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a05997cf0f5d8b6d8a0621f6ccfd463ae"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a05997cf0f5d8b6d8a0621f6ccfd463ae"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BotOperation</b> (const std::string pRawText)</td></tr>
+<tr class="memitem:ad228493f79c0183fe28477e553bae00c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBotOperation.html#ad228493f79c0183fe28477e553bae00c">BotOperation</a> ()</td></tr>
+<tr class="separator:ad228493f79c0183fe28477e553bae00c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05997cf0f5d8b6d8a0621f6ccfd463ae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBotOperation.html#a05997cf0f5d8b6d8a0621f6ccfd463ae">BotOperation</a> (const std::string pRawText)</td></tr>
+<tr class="memdesc:a05997cf0f5d8b6d8a0621f6ccfd463ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="classBotOperation.html" title="Base class for all operations; used to create new instances of derived classes from text-based source...">BotOperation</a>; creates an instance of the base class that is possibly capable of being transformed into a derived class executable object.  <a href="#a05997cf0f5d8b6d8a0621f6ccfd463ae">More...</a><br/></td></tr>
 <tr class="separator:a05997cf0f5d8b6d8a0621f6ccfd463ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4acc1fc67e0bbbbda2df061c77b67bfa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4acc1fc67e0bbbbda2df061c77b67bfa"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BotOperation</b> (const std::string pRawText, const std::string pCode)</td></tr>
+<tr class="memitem:a4acc1fc67e0bbbbda2df061c77b67bfa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBotOperation.html#a4acc1fc67e0bbbbda2df061c77b67bfa">BotOperation</a> (const std::string pRawText, const std::string pCode)</td></tr>
 <tr class="separator:a4acc1fc67e0bbbbda2df061c77b67bfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a768d7dabd43ccbabb72c4ed10dd98ffa"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBotOperation.html#a768d7dabd43ccbabb72c4ed10dd98ffa">getCode</a> ()</td></tr>
 <tr class="memdesc:a768d7dabd43ccbabb72c4ed10dd98ffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides access to the code in an operation through the base class - primarily for testing purposes.  <a href="#a768d7dabd43ccbabb72c4ed10dd98ffa">More...</a><br/></td></tr>
@@ -143,7 +144,82 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>rawText</b></t
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class for all operations; used to create new instances of derived classes from text-based source. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ad228493f79c0183fe28477e553bae00c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BotOperation::BotOperation </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructor for <a class="el" href="classBotOperation.html" title="Base class for all operations; used to create new instances of derived classes from text-based source...">BotOperation</a>; with no arguments it creates a <a class="el" href="classBotOperation.html" title="Base class for all operations; used to create new instances of derived classes from text-based source...">BotOperation</a> that is a null base object (not executable) </p>
+
+</div>
+</div>
+<a class="anchor" id="a05997cf0f5d8b6d8a0621f6ccfd463ae"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BotOperation::BotOperation </td>
+          <td>(</td>
+          <td class="paramtype">const std::string&#160;</td>
+          <td class="paramname"><em>pRawText</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor for <a class="el" href="classBotOperation.html" title="Base class for all operations; used to create new instances of derived classes from text-based source...">BotOperation</a>; creates an instance of the base class that is possibly capable of being transformed into a derived class executable object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pRawText</td><td>std::string containing a possible operation code and details that could be transformed into an executable operation </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a4acc1fc67e0bbbbda2df061c77b67bfa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">BotOperation::BotOperation </td>
+          <td>(</td>
+          <td class="paramtype">const std::string&#160;</td>
+          <td class="paramname"><em>pRawText</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string&#160;</td>
+          <td class="paramname"><em>pCode</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Constructor for <a class="el" href="classBotOperation.html" title="Base class for all operations; used to create new instances of derived classes from text-based source...">BotOperation</a>; creates an instance of the base class that is possibly capable of being transformed into a derived class object that executable </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pRawText</td><td>std::string containing only the details of the operation specified in the pCode parameter </td></tr>
+    <tr><td class="paramname">pCode</td><td>std::string containing an operation code that may be recognized as a valid operation code during transformation </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="ae1e806e3c0044dc0177e73a7d05711ba"></a>
 <div class="memitem">
 <div class="memproto">
@@ -264,7 +340,7 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>rawText</b></t
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 12 2017 00:25:43 for Homebot by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri May 12 2017 18:11:00 for Homebot by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
